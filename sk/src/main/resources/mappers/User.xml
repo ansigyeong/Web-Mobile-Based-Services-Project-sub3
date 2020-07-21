@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- mappers/User.xml -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="User">
+
+	<insert id="signIn" parameterType="User">
+		insert into user (uid,name,email,pw,img,lang) values
+		(#{uid},#{name},#{email},#{pw},#{img},#{lang})
+	</insert>
+
+
+	<select id="login" resultType="User">
+		select *
+		from user
+		where uid=#{uid} and pw=#{pw}
+	</select>
+
+</mapper>    
+    

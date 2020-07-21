@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- mappers/Question.xml -->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Question">
+
+	<insert id="writeQuestion" parameterType="Question">
+		insert into question (writer,title,contents,lang,create_date) values
+		(#{writer},#{title},#{contents},#{lang},now())
+	</insert>
+
+
+	<select id="questionList" resultType="Question">
+		select *
+		from question
+		order by que_no desc
+	</select>
+
+	<delete id="deleteQuestion">
+		delete from question
+		where que_no=#{que_no}
+	</delete>
+	
+	<update id="modifyQuestion">
+		update question
+		set title=#{title},contents=#{contents}
+		where que_no=#{que_no}
+	</update>
+	
+	<select id="oneQuestion" resultType="Question">
+		select
+		que_no,writer,create_date,title,contents
+		from question
+		where que_no=#{que_no}
+	</select>
+</mapper>    
+    
