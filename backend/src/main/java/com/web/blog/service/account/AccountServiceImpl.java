@@ -8,6 +8,7 @@ import javax.mail.MessagingException;
 
 import com.web.blog.dao.account.AccountDao;
 import com.web.blog.model.user.Account;
+import com.web.blog.model.user.AuthenticationRequest;
 import com.web.blog.model.user.SignupRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +33,13 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     private JavaMailSender mailSender;
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
-        Account account = accountDao.findByEmail(username);
-        try {
-            System.out.println(account);
-        } catch (UsernameNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("User가 db에 없습니다.");
-        }
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
+        AuthenticationRequest user = accountDao.findByUsername(username);
+        
+        System.out.println("사용자 : "+user);
+      
 
-        return new User(account.getEmail(), account.getPw(), account.getAuthorities());
+        return new User(user.getEmail(), user.getPw(), user.getAuthorities());
     }
 
     // 회원가입
@@ -83,6 +81,16 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     @Override
     public int updateAccount(SignupRequest user) {
         return accountDao.updqteAccount(user);
+    }
+
+    @Override
+    public int findByAuthStatus(String username) {
+        return accountDao.findByAuthStatus(username);
+    }
+
+    @Override
+    public AuthenticationRequest findByUsername(String username) {
+        return accountDao.findByUsername(username);
     }
 
 

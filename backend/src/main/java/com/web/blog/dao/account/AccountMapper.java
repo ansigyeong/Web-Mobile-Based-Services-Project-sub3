@@ -3,6 +3,7 @@ package com.web.blog.dao.account;
 import java.util.List;
 
 import com.web.blog.model.user.Account;
+import com.web.blog.model.user.AuthenticationRequest;
 import com.web.blog.model.user.SignupRequest;
 
 import org.apache.ibatis.annotations.Insert;
@@ -24,13 +25,17 @@ public interface AccountMapper {
 
     //로그인
     @Select("select * from user where email = #{email} ")
-    public Account findByEmail(String email);
+    public AuthenticationRequest findByUsername(String email);
     
     
     //관리자가 모든 사용자 조회
     @Select("SELECT * FROM USER where auth = #{account.auth}")
     public List readAllUsers(@Param("account") Account account);
-    
+   
+    //status가 1일때만 로그인 가능
+    @Select("select auth_status from user where email = #{username}")
+    public int findByAuthStatus(String username);
+
     // @Select("select authority from user_auth where ahth_id=#{id}")
     // public Account findRole(String id);
     // @Insert("insert into user_auth(auth_id,authority) values(#{auth_id}, #{authority})")

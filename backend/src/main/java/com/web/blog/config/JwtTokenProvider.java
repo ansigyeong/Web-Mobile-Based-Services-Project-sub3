@@ -6,25 +6,24 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
-import com.web.blog.model.user.Account;
-import com.web.blog.service.account.AccountService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.RequiredArgsConstructor;
 
 
 @Component
 public class JwtTokenProvider {
+   
     @Autowired
-    AccountService accountService;
+    UserDetailsService userDetailsService;
 
     private String secretKey = "qwert12395";
 
@@ -38,9 +37,9 @@ public class JwtTokenProvider {
      }   
 
      // JWT 토큰 생성
-     public String createToken(String userPk, String auth) {
-        Claims claims = Jwts.claims().setSubject(userPk); // JWT payload 에 저장되는 정보단위
-        claims.put("roles", auth); // 정보는 key / value 쌍으로 저장된다.
+     public String createToken(String email, String role) {
+        Claims claims = Jwts.claims().setSubject(email); // JWT payload 에 저장되는 정보단위
+        claims.put("roles", role); // 정보는 key / value 쌍으로 저장된다.
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims) // 정보 저장
@@ -52,9 +51,9 @@ public class JwtTokenProvider {
 
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        Account account = null;
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
         //accountService.loadUserByUsername(this.getUserPk(token));
-        return new UsernamePasswordAuthenticationToken(account, "", account.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }    
 
     // 토큰에서 회원 정보 추출

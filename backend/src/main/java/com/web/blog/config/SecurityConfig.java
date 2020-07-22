@@ -21,7 +21,8 @@ import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
-    
+    @Autowired
+    JwtTokenProvider jwtToken;
 
     @Override
     public void configure(WebSecurity web) throws Exception
@@ -59,13 +60,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .defaultSuccessUrl("/")
                 .permitAll()
             .and()
-            .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-            .and()
-            .exceptionHandling()
-                .accessDeniedPage("/account/login");
+            .addFilterBefore(new JwtAuthFilter(jwtToken), UsernamePasswordAuthenticationFilter.class);
+            // .logout()
+            //     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+            //     .logoutSuccessUrl("/")
+            //     .invalidateHttpSession(true)
+            // .and()
+            // .exceptionHandling()
+            //     .accessDeniedPage("/account/login");
     }
 
     // @Override

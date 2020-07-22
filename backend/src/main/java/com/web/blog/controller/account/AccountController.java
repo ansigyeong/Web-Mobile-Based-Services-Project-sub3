@@ -4,9 +4,10 @@ import java.util.Date;
 import java.util.Map;
 import javax.validation.Valid;
 
-import com.web.blog.dao.account.AccountMapper;
+import com.web.blog.config.JwtTokenProvider;
 import com.web.blog.model.BasicResponse;
 import com.web.blog.model.user.Account;
+import com.web.blog.model.user.AuthenticationRequest;
 import com.web.blog.model.user.SignupRequest;
 import com.web.blog.service.account.AccountService;
 
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.objenesis.ObjenesisException;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,7 +43,9 @@ public class AccountController {
     @Autowired
     AccountService accountService;
     @Autowired
-    AccountMapper accountMapper;
+    JwtTokenProvider jwtToken;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     // @getma
     @GetMapping("/")
@@ -92,15 +97,37 @@ public class AccountController {
 
     }
 
-    
+    // @RequestParam String email, @RequestParam String pw, @RequestParam String userNo
     @GetMapping("account/login")
     @ApiOperation(value="로그인")
-    public Object login(@RequestParam(required = true) final String email, @RequestParam(required = true) final String pw){
+    public Object login(@RequestBody AuthenticationRequest user){
        ResponseEntity response = null;
        System.out.println("로그인 들어옴");
-        //authStatus가 1이어야 로그인 가능(이메일 인증 시도 해야됨)
+       AuthenticationRequest account;
+       String jwt = "";
+     
+       account = accountService.findByUsername(user.getEmail());
+       if (account == null) {
+           System.out.println("가입되지 않은 e-mail입니다.");
+           response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+       } else if (!passwordEncoder.matches(user.getPw(), account.getPw())) {
+           System.out.println("잘못된 비밀번호입니다.");
+           response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+       } else {
+           int cnt = accountService.findByAuthStatus(account.getEmail());// authStatus가 1이어야 로그인 가능(이메일 인증 시도 해야됨)
+           if(cnt == 0){
+               System.out.println("e-mail인증 후 로그인 가능합니다.");
+               response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+           }else{
+               jwt = jwtToken.createToken(account.getEmail(), account.getRole());
+               System.out.println("토큰 생성 : " + jwt);
+               response = new ResponseEntity<>(jwt, HttpStatus.OK);
+           }
+       }
+  
         //로그인 성공 시 토큰 생성해서 같이 주기
-       
+       System.out.println("토큰 :  "+ jwt);
         return response;
     }
 

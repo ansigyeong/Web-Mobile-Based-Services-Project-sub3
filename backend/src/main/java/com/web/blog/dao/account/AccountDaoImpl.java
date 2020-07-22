@@ -1,6 +1,7 @@
 package com.web.blog.dao.account;
 
 import com.web.blog.model.user.Account;
+import com.web.blog.model.user.AuthenticationRequest;
 import com.web.blog.model.user.SignupRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,14 @@ public class AccountDaoImpl implements AccountDao{
     @Autowired
     AccountMapper accountMapper;
 
+    @Override
     public int insertAccount(SignupRequest user){
         return accountMapper.insertAccount(user);
     }
 
-    public Account findByEmail(String username){
-        return accountMapper.findByEmail(username);
+    @Override
+    public AuthenticationRequest findByUsername(String username){
+        return accountMapper.findByUsername(username);
     }
 
     @Override
@@ -24,6 +27,9 @@ public class AccountDaoImpl implements AccountDao{
         return accountMapper.updateAccount(user);
     }
 
+    @Override
+    public int findByAuthStatus(String username) {
+        return accountMapper.findByAuthStatus(username);
+    }
 
-    
 }
