@@ -1,4 +1,4 @@
-package com.web.blog.dao.user;
+package com.web.blog.dao.account;
 
 import java.util.List;
 
@@ -9,13 +9,18 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface AccountMapper {
     
     //회원가입
-    @Insert("insert into user(uid,email,pw,auth) values( #{user.id}, #{user.email}, #{user.pw}, #{user.auth} )")
+    @Insert("insert into user(user_no,name,email,pw,lang,auth_key,create_date) values( #{user.userNo}, #{user.name},#{user.email}, #{user.pw}, #{user.lang}, #{user.authKey} ,#{user.createDate})")
     public int insertAccount(@Param("user") SignupRequest user);
+
+    //email 권한 수정
+    @Update("update user set auth_status = 1 where auth_key = #{user.authKey}")
+    public int updateAccount(@Param("user") SignupRequest user);    
 
     //로그인
     @Select("select * from user where email = #{email} ")
