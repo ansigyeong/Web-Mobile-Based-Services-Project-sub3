@@ -3,6 +3,7 @@ package com.web.blog.dao.user;
 import java.util.List;
 
 import com.web.blog.model.user.Account;
+import com.web.blog.model.user.SignupRequest;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,13 +13,14 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface AccountMapper {
     
+    //회원가입
+    @Insert("insert into user(uid,email,pw,auth) values( #{user.id}, #{user.email}, #{user.pw}, #{user.auth} )")
+    public int insertAccount(@Param("user") SignupRequest user);
+
     //로그인
     @Select("select * from user where email = #{email} ")
     public Account findByEmail(String email);
     
-    //사용자 가입
-    @Insert("insert into user(uid,email,pw,enable,auth) values( #{account.uid}, #{account.email}, #{account.pw}, #{account.enable}, #{account.auth} )")
-    public int insertAccount(@Param("account") Account account);
     
     //관리자가 모든 사용자 조회
     @Select("SELECT * FROM USER where auth = #{account.auth}")

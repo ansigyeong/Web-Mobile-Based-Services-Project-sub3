@@ -1,9 +1,6 @@
 package com.web.blog.controller.account;
-
 import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import com.web.blog.dao.user.AccountMapper;
@@ -16,17 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.objenesis.ObjenesisException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.apache.logging.log4j.util.SystemPropertiesPropertySource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import lombok.RequiredArgsConstructor;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,7 +44,30 @@ public class AccountController {
     @GetMapping("/")
     @ApiOperation(value ="메인")
     public Object home(){
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        // return new ResponseEntity<>(null, HttpStatus.OK);
+        return "test";
+    }
+
+    @PostMapping("account/signup")
+    @ApiOperation(value ="가입하기")
+    public Object signup(@Valid @RequestBody SignupRequest user){
+        System.out.println("가입하기 들어옴");
+        
+        //이메일 형식 안맞을 때
+        //비밀번호 형식 안맞을 때
+        int account = accountService.insertAccount(user);
+        ResponseEntity response = null;
+        
+        if(account == 1){
+            final BasicResponse result = new BasicResponse();
+            result.status = true;
+            result.data = "success";
+            response = new ResponseEntity<>(result, HttpStatus.OK);
+        }else{
+
+            response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
+        }
+        return response;
     }
 
     @GetMapping("account/login")
@@ -68,21 +86,8 @@ public class AccountController {
         return "/adminpage";
     }
 
-    @PostMapping("account/signup")
-    @ApiOperation(value ="가입하기")
-    public Object signup(@RequestBody Account account){
-        System.out.println("가입하기 들어옴");
-        ResponseEntity response = null;
-      //  account.setAuth("ROLE_USER");
-        Account vo = accountService.insertAccount(account);
-        if(vo != null){
-            final BasicResponse result = new BasicResponse();
-            result.status = true;
-            result.data = "success";  
-        }else{
-            response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-        return response;
-    }
+
+
+    
 
 }

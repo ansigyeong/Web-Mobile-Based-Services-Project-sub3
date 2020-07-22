@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.web.blog.dao.user.AccountDao;
 import com.web.blog.model.user.Account;
+import com.web.blog.model.user.SignupRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,13 +37,13 @@ public class AccountService implements UserDetailsService{
         return new User(account.getEmail(), account.getPw(), account.getAuthorities());
     }
 
-    public Account insertAccount(Account account){
-        account.setPw(passwordEncoder.encode(account.getPw()));
-        // List<String> role = new ArrayList<>(); 
-        // role.add("ROLE_USER");
-        account.setAuth("ROLE_USER");
-        System.out.println("비번: " +account.getPw());
-        return accountDao.insertAccount(account);
+    //회원가입
+    public int insertAccount(SignupRequest user){
+        user.setPw(passwordEncoder.encode(user.getPw()));
+        user.setAuth("ROLE_USER");
+
+        System.out.println("비번: " +user.getPw());
+        return accountDao.insertAccount(user);
     }
 
 }
