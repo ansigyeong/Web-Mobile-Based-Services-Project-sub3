@@ -16,24 +16,24 @@
             <div class="col px-0">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-lg-7 text-center pt-lg">
-                        <img src="img/brand/꽃게.png" style="width: 200px;" class="img-fluid">
-                        <p class="lead text-white mt-4 mb-5">개발자 커뮤니티</p>
-                        <div class="btn-wrapper">
+                        <!-- <img src="img/brand/logo.jpg" style="width: 200px;" class="img-fluid"> -->
+                        <!-- <p class="lead text-white mt-4 mb-5">Helllo, Code Sea</p> -->
+                        <!-- <div class="btn-wrapper">
                             <base-button tag="a"
                                          href="https://demos.creative-tim.com/vue-argon-design-system/documentation"
                                          class="mb-3 mb-sm-0"
                                          type="info"
                                          icon="fa fa-code">
-                                Components
+                                진주
                             </base-button>
                             <base-button tag="a"
                                          href="https://www.creative-tim.com/product/vue-argon-design-system"
                                          class="mb-3 mb-sm-0"
                                          type="white"
                                          icon="ni ni-cloud-download-95">
-                                Download Vue
+                                질문하기
                             </base-button>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="row align-items-center justify-content-around stars-and-coded">
