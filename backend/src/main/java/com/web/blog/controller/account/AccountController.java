@@ -6,9 +6,9 @@ import javax.validation.Valid;
 
 import com.web.blog.config.JwtTokenProvider;
 import com.web.blog.model.BasicResponse;
-import com.web.blog.model.user.Account;
-import com.web.blog.model.user.AuthenticationRequest;
-import com.web.blog.model.user.SignupRequest;
+import com.web.blog.model.account.Account;
+import com.web.blog.model.account.AuthenticationRequest;
+import com.web.blog.model.account.SignupRequest;
 import com.web.blog.service.account.AccountService;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.apache.ibatis.annotations.Param;
 import org.apache.logging.log4j.util.SystemPropertiesPropertySource;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -131,11 +132,32 @@ public class AccountController {
         return response;
     }
 
+  
+
+
+    @GetMapping("/account/logout")
+    @ApiOperation(value ="로그아웃")
+    public Object logout(@RequestParam int userNo){
+        int cnt = accountService.deleteAccount(userNo);
+        ResponseEntity response = null;
+
+        if(cnt == 1){
+            final BasicResponse result = new BasicResponse();
+            result.status = true;
+            result.data = "success"; 
+            System.out.println("로그 아웃 성공");
+        }else{
+            System.out.println("로그아웃 실패 ");
+        }
+
+        return response;
+        
+    }
+
     @GetMapping("/admin")
     @ApiOperation(value ="관리자")
     public Object adminPage(Map<String, Object> model) {
         return "/adminpage";
     }
-
 
 }

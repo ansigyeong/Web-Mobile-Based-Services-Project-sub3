@@ -1,8 +1,8 @@
 package com.web.blog.dao.account;
 
-import com.web.blog.model.user.Account;
-import com.web.blog.model.user.AuthenticationRequest;
-import com.web.blog.model.user.SignupRequest;
+import com.web.blog.model.account.Account;
+import com.web.blog.model.account.AuthenticationRequest;
+import com.web.blog.model.account.SignupRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -30,6 +30,11 @@ public class AccountDaoImpl implements AccountDao{
     @Override
     public int findByAuthStatus(String username) {
         return accountMapper.findByAuthStatus(username);
+    }
+
+    @Override
+    public int deleteAccount(int userNo) {
+        return accountMapper.deleteAccount(userNo);
     }
 
 }

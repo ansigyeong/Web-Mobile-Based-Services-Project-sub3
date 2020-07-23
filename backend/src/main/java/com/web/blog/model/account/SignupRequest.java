@@ -1,4 +1,4 @@
-package com.web.blog.model.user;
+package com.web.blog.model.account;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

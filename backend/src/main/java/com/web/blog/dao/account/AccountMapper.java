@@ -2,10 +2,11 @@ package com.web.blog.dao.account;
 
 import java.util.List;
 
-import com.web.blog.model.user.Account;
-import com.web.blog.model.user.AuthenticationRequest;
-import com.web.blog.model.user.SignupRequest;
+import com.web.blog.model.account.Account;
+import com.web.blog.model.account.AuthenticationRequest;
+import com.web.blog.model.account.SignupRequest;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -35,6 +36,10 @@ public interface AccountMapper {
     //status가 1일때만 로그인 가능
     @Select("select auth_status from user where email = #{username}")
     public int findByAuthStatus(String username);
+
+    //회원 탈퇴
+    @Delete("delete from user where user_no = #{userNo} ")
+    public int deleteAccount(int userNo);
 
     // @Select("select authority from user_auth where ahth_id=#{id}")
     // public Account findRole(String id);

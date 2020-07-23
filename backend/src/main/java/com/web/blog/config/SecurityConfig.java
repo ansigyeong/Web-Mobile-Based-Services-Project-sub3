@@ -49,25 +49,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .httpBasic().disable()
         .csrf().disable()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //세션 사용 하지 않음
-        .and()
+        .and() 
         .authorizeRequests() //요청에 대한 사용권한 설정
-        .antMatchers("/admin/**").hasRole("ADMIN")
+        .antMatchers("/admin/**").hasRole("ADMIN") 
         .antMatchers("/user/**").hasAnyRole("USER","ADMIN")
         .antMatchers("/**").permitAll() // 그 외 누구나 접근 가능
+        // .antMatchers("/facebook").hasAnyAuthority(FACEBOOK)
         .and()
-           .formLogin()
-                .loginPage("/account/login")
-                .defaultSuccessUrl("/")
-                .permitAll()
-            .and()
-            .addFilterBefore(new JwtAuthFilter(jwtToken), UsernamePasswordAuthenticationFilter.class);
-            // .logout()
-            //     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            //     .logoutSuccessUrl("/")
-            //     .invalidateHttpSession(true)
-            // .and()
-            // .exceptionHandling()
-            //     .accessDeniedPage("/account/login");
+        .addFilterBefore(new JwtAuthFilter(jwtToken), UsernamePasswordAuthenticationFilter.class);
+            
     }
 
     // @Override

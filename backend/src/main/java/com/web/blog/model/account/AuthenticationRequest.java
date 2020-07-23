@@ -1,4 +1,4 @@
-package com.web.blog.model.user;
+package com.web.blog.model.account;
 
 import java.util.ArrayList;
 import java.util.Collection;
