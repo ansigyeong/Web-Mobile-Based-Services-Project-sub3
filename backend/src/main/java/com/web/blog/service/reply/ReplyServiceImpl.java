@@ -23,9 +23,25 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
-    public List<Reply> replyList() {
-        return replyDao.replyList();
+    public int modifyReply(Reply reply) {
+        return replyDao.modifyReply(reply);
     }
+
+    @Override
+    public int deleteReply(int rpNo) {
+        return replyDao.deleteReply(rpNo);
+    }
+
+    @Override
+    public Reply oneReply(int rpNo) {
+        return replyDao.oneReply(rpNo);
+    }
+
+    @Override
+    public List<Reply> replyList(int queNo) {
+        return replyDao.replyList(queNo);
+    }
+
 
 
 

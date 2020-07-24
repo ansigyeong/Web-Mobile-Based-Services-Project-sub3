@@ -7,9 +7,8 @@ import com.web.blog.model.question.Question;
 
 public interface QuestionDao {
     public int writeQuestion(Question question);
-    // public int deleteQuestion();
-    // public int modifyQuestion();
+    public int modifyQuestion(Question question);
+    public int deleteQuestion(int queNo);
+    public Question oneQuestion(int queNo);
     public List<Question> questionList();
-    // public AuthenticationRequest findByUsername(String username);
-    // public Question findByAuthStatus(String username);
 }

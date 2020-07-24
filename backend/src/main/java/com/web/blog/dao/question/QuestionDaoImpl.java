@@ -24,4 +24,20 @@ public class QuestionDaoImpl implements QuestionDao {
         return questionMapper.questionList();
     }
 
+    @Override
+    public int deleteQuestion(int queNo) {
+        return questionMapper.deleteQuestion(queNo);
+    }
+
+    @Override
+    public Question oneQuestion(int queNo) {
+        return questionMapper.oneQuestion(queNo);
+    }
+
+    @Override
+    public int modifyQuestion(Question question) {
+        return questionMapper.modifyQuestion(question);
+
+    }
+
 }

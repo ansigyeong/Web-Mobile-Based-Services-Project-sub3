@@ -18,8 +18,25 @@ public class ReplyDaoImpl implements ReplyDao {
 	}
 
 	@Override
-	public List<Reply> replyList() {
-		return replyMapper.replyList();
+	public int modifyReply(Reply reply) {
+		return replyMapper.modifyReply(reply);
 	}
+
+	@Override
+	public int deleteReply(int rpNo) {
+		return replyMapper.deleteReply(rpNo);
+	}
+
+	@Override
+	public Reply oneReply(int rpNo) {
+		return replyMapper.oneReply(rpNo);
+	}
+
+	@Override
+	public List<Reply> replyList(int queNo) {
+		return replyMapper.replyList(queNo);
+	}
+
+
 
 }

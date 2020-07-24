@@ -6,7 +6,9 @@ import java.util.List;
 import com.web.blog.config.JwtTokenProvider;
 import com.web.blog.model.BasicResponse;
 import com.web.blog.model.question.Question;
+import com.web.blog.model.reply.Reply;
 import com.web.blog.service.question.QuestionService;
+import com.web.blog.service.reply.ReplyService;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
@@ -33,6 +35,8 @@ public class QnAController {
     @Autowired
     QuestionService questionService;
     @Autowired
+    ReplyService replyService;
+    @Autowired
     JwtTokenProvider jwtToken;
 
     @PostMapping("question/write")
@@ -57,6 +61,27 @@ public class QnAController {
     }
 
 
+    @PostMapping("question/modify")
+    @ApiOperation(value ="질문수정")
+    public Object modify(@RequestBody Question question){ 
+        System.out.println("변경전 : "+ questionService.oneQuestion(question.getQueNo()));
+        int que = questionService.modifyQuestion(question);
+        ResponseEntity response = null;
+        
+        if(que == 1){
+            final BasicResponse result = new BasicResponse();
+            result.status = true;
+            result.data = "success";
+            System.out.println(question.getQueNo()+"번 질문 수정 완료");
+            System.out.println("변경 후 : "+ questionService.oneQuestion(question.getQueNo()));
+            response = new ResponseEntity<>(result, HttpStatus.OK);
+        }else{
+            System.out.println("수정 실패");
+            response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
+        }
+        return response;
+    }
+
     @GetMapping("question/question")
     @ApiOperation(value = "질문목록")
     public Object queList(){
@@ -70,6 +95,104 @@ public class QnAController {
             System.out.println(list);
             response = new ResponseEntity<>(result, HttpStatus.OK);
         } else {
+            response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
+        }
+        return response;
+    }
+
+    @GetMapping("question/deleteQuestion")
+    @ApiOperation(value = "질문삭제")
+    public Object queDelte(int queNo){
+        ResponseEntity response = null;
+        try {
+            questionService.deleteQuestion(queNo);
+            final BasicResponse result = new BasicResponse();
+            result.status = true;
+            result.data = "success";
+            response = new ResponseEntity<>(result, HttpStatus.OK);
+            System.out.println(queNo+"번 질문 삭제 완료");
+        } catch (Exception e){
+            response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
+        }
+        return response;
+    }
+
+    @GetMapping("question/detailQuestion")
+    @ApiOperation(value = "상세질문")
+    public Object queDetail(int queNo){
+        // 리플도 가져와야함
+        Question question = questionService.oneQuestion(queNo);
+        List<Reply> list = replyService.replyList(queNo);
+
+        ResponseEntity response = null;
+        if(question != null){
+            final BasicResponse result = new BasicResponse();
+            result.status = true;
+            result.data = "success";
+            System.out.println(queNo+"번 상세질문 목록");
+            System.out.println(question);
+            System.out.println("답변 목록");
+            System.out.println(list);
+            response = new ResponseEntity<>(result, HttpStatus.OK);
+        } else {
+            response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
+        }
+        return response;
+    }
+
+    @PostMapping("reply/write")
+    @ApiOperation(value ="답변하기")
+    public Object writeReply(@RequestBody Reply reply){ 
+        reply.setCreateDate(new Date());    
+        int rp = replyService.writeReply(reply);
+        ResponseEntity response = null;
+        
+        if(rp == 1){
+            final BasicResponse result = new BasicResponse();
+            result.status = true;
+            result.data = "success";
+            response = new ResponseEntity<>(result, HttpStatus.OK);
+        }else{
+
+            response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
+        }
+        return response;
+    }
+
+
+    @PostMapping("reply/modify")
+    @ApiOperation(value ="질문수정")
+    public Object modify(@RequestBody Reply reply){ 
+        System.out.println("변경전 : "+ replyService.oneReply(reply.getRpNo()));
+        int rp = replyService.modifyReply(reply);
+        ResponseEntity response = null;
+        
+        if(rp == 1){
+            final BasicResponse result = new BasicResponse();
+            result.status = true;
+            result.data = "success";
+            System.out.println(reply.getRpNo()+"번 답변 수정 완료");
+            System.out.println("변경 후 : "+ replyService.oneReply(reply.getRpNo()));
+            response = new ResponseEntity<>(result, HttpStatus.OK);
+        }else{
+            System.out.println("수정 실패");
+            response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
+        }
+        return response;
+    }
+
+    @GetMapping("reply/deleteReply")
+    @ApiOperation(value = "답변삭제")
+    public Object rpDelte(int rpNo){
+        ResponseEntity response = null;
+        try {
+            replyService.deleteReply(rpNo);
+            final BasicResponse result = new BasicResponse();
+            result.status = true;
+            result.data = "success";
+            response = new ResponseEntity<>(result, HttpStatus.OK);
+            System.out.println(rpNo+"번 질문 삭제 완료");
+        } catch (Exception e){
             response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
         }
         return response;
