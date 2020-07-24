@@ -54,14 +54,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .antMatchers("/admin/**").hasRole("ADMIN") 
         .antMatchers("/user/**").hasAnyRole("USER","ADMIN")
         .antMatchers("/**").permitAll() // 그 외 누구나 접근 가능
-        // .antMatchers("/facebook").hasAnyAuthority(FACEBOOK)
+        .antMatchers("/kakao").permitAll()
+        .antMatchers("/facebook").permitAll()
+        .and().oauth2Login()
+        // .antMatchers("/naver").hasRole("NAVER")
         .and()
-        .addFilterBefore(new JwtAuthFilter(jwtToken), UsernamePasswordAuthenticationFilter.class);
-            
+        .addFilterBefore(new JwtAuthFilter(jwtToken), UsernamePasswordAuthenticationFilter.class)
+        // .and()
+        // .oauth2Login()
+        // .userInfoEndpoint().userService(new NaverOAuth2UserService())
+        ;
     }
 
-    // @Override
-    // public void configuration(AuthenticationManagerBuilder auth) throws Exception{
-    //     auth.userDetailsService()
-    // }
+
+    
+   
 }
