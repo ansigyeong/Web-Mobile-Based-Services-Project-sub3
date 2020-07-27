@@ -64,9 +64,40 @@
 2. 회원가입시 임의 auth_key생성, auth_key는 0으로 디비에 방영
 3. 사용자가 입력한 이메일로 관리자 발신의 인증메일 전송(db에 반영한 auth_key 정보 포함
 4. 링크 클릭시 , 파라미터로 받은 auth_key를 확인하여 auth_status업데이터
-  회원가입만 했을 경우 로그인시 이메일 인증 여부 확인 해야함
-  insert into user(name,email,pw,lang,auth_key) values('ssafy','ssafy@ssafy','ssafy','java','key');
+    회원가입만 했을 경우 로그인시 이메일 인증 여부 확인 해야함
+    insert into user(name,email,pw,lang,auth_key) values('ssafy','ssafy@ssafy','ssafy','java','key');
 5. 0.authSataus가 0이면 alert("email인증 후 로그인 하여 주세요")
 
 
 
+---
+
+**ResponseEntity**
+
+ResponseEntity는 @ResponseBody어노테이션과 같은 의미로, ResponseEntity를 return type으로 지정하면 json(default) 또는 xml Format으로 결과를 내려준다.
+
+@ControllerAdvice : 클래스 레벨을 부여하면 컨트롤러 빈을 돕는 빈으로 기능 할 수 있다. 예를 들면 모든 컨트롤러 제어 범위에서 특정 예외가 발생하면 공통적인 처리 로직 작성
+
+@Order - controllerAdvice빈 간의 우선순위를 조정할 수 있다.  **Ordered.HIGHEST_PRECEDENCE** : 최우선 순위
+
+@ExceptionHandler : 특정 예외가 발생 했을 때의 처리 로직 작성 가능
+
+
+
+---
+
+REST API 상태코드
+
+200 OK : 클라이언트의 요청을 서버가 정상적으로 처리했다.
+
+201 Created : 클라이언트의 요청을 서버가 정상적으로 처리했고 새로운 리소스가 생겼다.(Post, put)
+
+204 No Content : 클라이언트의 요청은 정상적, 그러나 컨텐츠 제공을 하지 않는다 (delete)
+
+400 Bad Request : 클라이언트의 요청이 유효하지 않아 더 이상 작업을 진행하지 않는 경우 - 이때 파라미터의 위치(path,query,body),사용자 입력값 에러 이유를 꼭 명시
+
+401 Unauthorized : 클라이언트가 권한이 없어 작업 진행을 할 수 없는 경우 - 비인증 (인증이 안된 상태) : 인증실패
+
+403 Forbidden : 클라이언트가 권한이 없기 때문에 작업을 진행 할 수 없는 경우 : 권한 없음
+
+409 Conflict : 요청에 대한 충돌 발생. post요청 시 이미 존재하는 자원있을때 

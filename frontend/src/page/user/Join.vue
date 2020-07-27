@@ -73,8 +73,8 @@
             join(){
                 console.log("join");
                 axios.post('http://localhost/account/signup',{
-                    email:this.email, pw:this.password,id:'gogosing'
-                    
+                    email:this.email, pw:this.password,
+                    lang: 'c',name:'danbi'
                 })
                 .then(res => {
                     console.log("joinsuccess");

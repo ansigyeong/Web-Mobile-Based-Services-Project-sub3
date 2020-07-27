@@ -59,7 +59,7 @@
                 //백앤드와 로그인 통신하는 부분
             axios.get('http://localhost/account/login', {
                 params:{
-                    email:this.email, password:this.password}
+                    email:this.email, pw:this.password}
             })
             .then(res => {
                 console.log("login success");

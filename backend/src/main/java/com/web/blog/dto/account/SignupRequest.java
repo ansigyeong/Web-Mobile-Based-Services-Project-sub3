@@ -1,4 +1,4 @@
-package com.web.blog.model.account;
+package com.web.blog.dto.account;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -11,10 +11,8 @@ import java.util.Date;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Valid //유효성체크
 @ToString

@@ -1,4 +1,4 @@
-package com.web.blog.model;
+package com.web.blog.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 

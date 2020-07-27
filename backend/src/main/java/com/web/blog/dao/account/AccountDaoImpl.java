@@ -1,8 +1,8 @@
 package com.web.blog.dao.account;
 
-import com.web.blog.model.account.Account;
-import com.web.blog.model.account.AuthenticationRequest;
-import com.web.blog.model.account.SignupRequest;
+import com.web.blog.dto.account.Account;
+import com.web.blog.dto.account.AuthenticationRequest;
+import com.web.blog.dto.account.SignupRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,8 +13,8 @@ public class AccountDaoImpl implements AccountDao{
     AccountMapper accountMapper;
 
     @Override
-    public int insertAccount(SignupRequest user){
-        return accountMapper.insertAccount(user);
+    public void insertAccount(SignupRequest user) {
+       accountMapper.insertAccount(user);
     }
 
     @Override
@@ -23,8 +23,8 @@ public class AccountDaoImpl implements AccountDao{
     }
 
     @Override
-    public int updqteAccount(SignupRequest user) {
-        return accountMapper.updateAccount(user);
+    public void updqteAccount(SignupRequest user) {
+        accountMapper.updateAccount(user);
     }
 
     @Override
@@ -33,8 +33,8 @@ public class AccountDaoImpl implements AccountDao{
     }
 
     @Override
-    public int deleteAccount(int userNo) {
-        return accountMapper.deleteAccount(userNo);
+    public void deleteAccount(int userNo) {
+       accountMapper.deleteAccount(userNo);
     }
 
 }

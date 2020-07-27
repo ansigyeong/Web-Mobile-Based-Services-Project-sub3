@@ -1,4 +1,4 @@
-package com.web.blog.model.account;
+package com.web.blog.dto.account;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +16,10 @@ import lombok.*;
 @Builder
 public class AuthenticationRequest implements UserDetails {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private int userNo;
     private String email;
     private String pw;

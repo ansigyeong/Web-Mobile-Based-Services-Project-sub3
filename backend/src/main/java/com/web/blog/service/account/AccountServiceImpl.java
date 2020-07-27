@@ -1,19 +1,17 @@
 package com.web.blog.service.account;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 import javax.mail.MessagingException;
 
+import com.web.blog.controller.exception.UserAlreadyExistException;
 import com.web.blog.dao.account.AccountDao;
-import com.web.blog.model.account.Account;
-import com.web.blog.model.account.AuthenticationRequest;
-import com.web.blog.model.account.SignupRequest;
+import com.web.blog.dto.account.AuthenticationRequest;
+import com.web.blog.dto.account.SignupRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -43,7 +41,7 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     }
 
     // 회원가입
-    public int insertAccount(SignupRequest user) {
+    public void insertAccount(SignupRequest user){
 
         user.setPw(passwordEncoder.encode(user.getPw())); // 비밀번호 암호화
 
@@ -52,7 +50,12 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
 
         System.out.println("비번: " + user.getPw());
         System.out.println("임의의 eamil 인증키: " + user.getAuthKey());
-        int cnt = accountDao.insertAccount(user);
+        try {
+        accountDao.insertAccount(user);
+            
+        } catch (Exception e) {
+            throw new UserAlreadyExistException("회원가입 되어있는 email주소 입니다.");   
+        }
         MailHandler sendMail;
         // mail전송
         try {
@@ -74,13 +77,12 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
             System.err.println("mail 한글깨짐");
             e.printStackTrace();
         }
-
-        return cnt;
+        return;
     }
 
     @Override
-    public int updateAccount(SignupRequest user) {
-        return accountDao.updqteAccount(user);
+    public void updateAccount(SignupRequest user) {
+        accountDao.updqteAccount(user);
     }
 
     @Override
@@ -94,8 +96,8 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     }
 
     @Override
-    public int deleteAccount(int userNo) {
-        return accountDao.deleteAccount(userNo);
+    public void deleteAccount(int userNo) {
+         accountDao.deleteAccount(userNo);
     }
 
 
