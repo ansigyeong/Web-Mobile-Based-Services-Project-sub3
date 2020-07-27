@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -157,15 +158,6 @@ public class AccountController {
 
         
     // }
-
-    @GetMapping("/kakao/login")
-    @ApiOperation(value = "kakao로그인")
-    public String login(){
-
-        return "login";
-    }
-
-
     @GetMapping("/users")
     @ApiOperation(value = "token확인")
     @ApiImplicitParams({ @ApiImplicitParam(name ="X-AUTH-TOKEN", value="로그인 성공 후 access_token", required = true, paramType = "header")})
@@ -231,5 +223,15 @@ public class AccountController {
             return new ResponseEntity<>(null, HttpStatus.OK);
         }
     }
+    @Value("${spring.url.base}")
+
+    @GetMapping("/kakao")
+    @ApiOperation(value = "kakao로그인")
+    public Object login(@RequestParam("code") String code){
+        System.out.println("code: " +code);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }

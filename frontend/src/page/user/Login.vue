@@ -26,6 +26,9 @@
                     </div>
 
                 </div>
+                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=a02e0d55e3c3e558db7f944f5d746ac1&redirect_uri=http://localhost/kakao&response_type=code">
+                    <img src="src/img/kakao.png">
+                    </a>
             </div>
             
         </div>
