@@ -29,6 +29,12 @@ public interface ReplyMapper {
     @Update("update reply set contents=#{reply.contents} where rpNo=#{reply.rpNo}")
     public int modifyReply(@Param("reply") Reply reply);   
 
-
+    @Select("select count(*) from reply where queNo=#{queNo} order by queNo desc")
+    public Integer replyCount(int queNo);
     
+    @Select("select * from reply where userNo=#{userNo} order by createDate desc ")
+    public List<Reply> myRp(int userNo);
+
+    @Select("select sum(rpLike) from reply where userNo=#{userNo}")
+    public Integer likeCnt(int userNo);
 }

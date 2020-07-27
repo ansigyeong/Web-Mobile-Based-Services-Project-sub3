@@ -37,6 +37,18 @@ public class ReplyDaoImpl implements ReplyDao {
 		return replyMapper.replyList(queNo);
 	}
 
+	@Override
+	public Integer replyCount(int queNo) {
+		return replyMapper.replyCount(queNo);
+	}
 
+	@Override
+	public List<Reply> myRp(int userNo) {
+		return replyMapper.myRp(userNo);
+	}
 
+	@Override
+	public Integer likeCnt(int userNo) {
+		return replyMapper.likeCnt(userNo);
+	}
 }

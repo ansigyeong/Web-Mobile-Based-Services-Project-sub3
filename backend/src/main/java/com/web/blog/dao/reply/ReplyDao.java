@@ -11,4 +11,7 @@ public interface ReplyDao {
     public int deleteReply(int rpNo);
     public Reply oneReply(int rpNo);
     public List<Reply> replyList(int queNo);
+    public Integer replyCount(int queNo);
+    public List<Reply> myRp(int userNo);
+    public Integer likeCnt(int userNo);
 }

@@ -40,4 +40,10 @@ public class QuestionDaoImpl implements QuestionDao {
 
     }
 
+    @Override
+    public List<Question> myQue(int userNo) {
+        return questionMapper.myQue(userNo);
+    }
+
+
 }

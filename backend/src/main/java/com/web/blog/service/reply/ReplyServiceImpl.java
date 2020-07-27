@@ -2,9 +2,7 @@ package com.web.blog.service.reply;
 
 import java.util.List;
 
-import com.web.blog.dao.question.QuestionDao;
 import com.web.blog.dao.reply.ReplyDao;
-import com.web.blog.model.question.Question;
 import com.web.blog.model.reply.Reply;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +40,18 @@ public class ReplyServiceImpl implements ReplyService {
         return replyDao.replyList(queNo);
     }
 
+    @Override
+    public Integer replyCount(int queNo) {
+        return replyDao.replyCount(queNo);
+    }
 
+    @Override
+    public List<Reply> myRp(int userNo) {
+        return replyDao.myRp(userNo);
+    }
 
-
+    @Override
+    public Integer likeCnt(int userNo) {
+        return replyDao.likeCnt(userNo);
+    }
 }

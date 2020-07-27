@@ -1,6 +1,8 @@
 package com.web.blog.controller.account;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import javax.validation.Valid;
 
@@ -8,13 +10,18 @@ import com.web.blog.config.JwtTokenProvider;
 import com.web.blog.model.BasicResponse;
 import com.web.blog.model.account.Account;
 import com.web.blog.model.account.AuthenticationRequest;
+import com.web.blog.model.account.Hof;
 import com.web.blog.model.account.SignupRequest;
 import com.web.blog.service.account.AccountService;
+import com.web.blog.service.question.QuestionService;
+import com.web.blog.service.reply.ReplyService;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.objenesis.ObjenesisException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +53,12 @@ public class AccountController {
     JwtTokenProvider jwtToken;
     @Autowired
     PasswordEncoder passwordEncoder;
-
+    @Autowired
+    QuestionService questionService;
+    @Autowired
+    ReplyService replyService;
+    @Autowired
+    
     // @getma
     @GetMapping("/")
     @ApiOperation(value ="메인")
@@ -125,7 +137,8 @@ public class AccountController {
                response = new ResponseEntity<>(jwt, HttpStatus.OK);
            }
        }
-  
+
+       
         //로그인 성공 시 토큰 생성해서 같이 주기
        System.out.println("토큰 :  "+ jwt);
         return response;
@@ -137,5 +150,36 @@ public class AccountController {
         return "/adminpage";
     }
 
+    @GetMapping("account/hof")
+    @ApiOperation(value = "명예의 전당")
+    public Object hofList(){
+        ResponseEntity response = null;
+        try {
+            ArrayList<Hof> data = new ArrayList<>(); 
+            List<Account> list = accountService.hofList();
+            System.out.println("진입");
+            for(int i = 0; i < list.size(); i++){
+                int userNo = list.get(i).getUserNo();
+                String name = list.get(i).getName();
+                int grade = list.get(i).getGrade();
+                int queCnt = (questionService.myQue(userNo)).size();
+                int rpCnt = (replyService.myRp(userNo)).size();
+                int rpLike = 0;
+                if(rpCnt != 0){
+                    rpLike = replyService.likeCnt(userNo);
+                }
+                data.add(new Hof(userNo, name, grade, queCnt, rpCnt, rpLike));
+            }
+            final BasicResponse result = new BasicResponse();
+            result.status = true;
+            result.data = "success";
+            System.out.println(data);
+            response = new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("실패");
+            response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        return response;
+    }
 
 }

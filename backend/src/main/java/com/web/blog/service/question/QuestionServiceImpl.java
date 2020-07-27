@@ -40,6 +40,11 @@ public class QuestionServiceImpl implements QuestionService {
         return questionDao.modifyQuestion(question);
     }
 
+    @Override
+    public List<Question> myQue(int userNo) {
+        return questionDao.myQue(userNo);
+    }
+
 
 
 }
