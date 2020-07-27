@@ -1,15 +1,13 @@
 package com.web.blog.controller.account;
-
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.Collections;
+import java.security.Principal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.web.blog.config.JwtTokenProvider;
-import com.web.blog.controller.exception.UserAlreadyExistException;
-import com.web.blog.dto.ApiErrorDetail;
 import com.web.blog.dto.BasicResponse;
 import com.web.blog.dto.account.Account;
 import com.web.blog.dto.account.AuthenticationRequest;
@@ -19,24 +17,31 @@ import com.web.blog.service.account.AccountService;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.objenesis.ObjenesisException;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.apache.ibatis.annotations.Param;
-import org.apache.logging.log4j.util.SystemPropertiesPropertySource;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.config.TypeFilterParser;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.Api;
+import io.jsonwebtoken.Header;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
         @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class), // 403error : 서버에 요청 전달되지만,
@@ -86,7 +91,7 @@ public class AccountController {
         System.out.println("email: "+ user.getEmail());
         System.out.println("email 인증키 : "+ user.getAuthKey());
         user.setAuthStatus(1);
-        accountService.updateAccount(user);
+        accountService.updateAuthStatus(user);
         System.out.println("이메일 인증 완료");
         
         final BasicResponse result = new BasicResponse();
@@ -102,68 +107,129 @@ public class AccountController {
     @GetMapping("account/login")
     @ApiOperation(value="로그인")
     public Object login(@RequestParam String email, @RequestParam String pw){
-       ResponseEntity response = null;
+       
        System.out.println("로그인 들어옴");
        AuthenticationRequest account;
        String jwt = "";
      
        account = accountService.findByUsername(email);
+       BasicResponse result = new BasicResponse();
        if (account == null) {
-           ApiErrorDetail errorDetail = new ApiErrorDetail();
-           errorDetail.setMessage("가입되지 않은 e-mail입니다.");
            System.out.println("가입되지 않은 e-mail입니다.");
-           return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+           result.data = "가입 되지 않은 e-mail";
+           result.status = false;
+           return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
        } else if (!passwordEncoder.matches(pw, account.getPw())) {
            System.out.println("잘못된 비밀번호입니다.");
-           response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+           result.data = "잘못된 비밀번호입니다.";
+           return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
        } else {
            int cnt = accountService.findByAuthStatus(account.getEmail());// authStatus가 1이어야 로그인 가능(이메일 인증 시도 해야됨)
            if(cnt == 0){
                System.out.println("e-mail인증 후 로그인 가능합니다.");
-               response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-
+               result.data = "e-mail인증 후 로그인 가능합니다.";
+               result.status = false;
+               return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
            }else{
                jwt = jwtToken.createToken(account.getEmail(), account.getRole());
+               
                System.out.println("토큰 생성 : " + jwt);
-               response = new ResponseEntity<>(jwt, HttpStatus.OK);
+               result.data = "success";
+               result.status = true;
+               Map<String,String> map = new HashMap<>();
+               map.put("X-AUTH-TOKEN", jwt);
+               result.header = map;
+               
+               return new ResponseEntity<>(result, HttpStatus.OK);
            }
        }
   
-        //로그인 성공 시 토큰 생성해서 같이 주기
-       System.out.println("토큰 :  "+ jwt);
-        return response;
-    }
-
-  
-    @GetMapping("/kakao/login")
-    @ApiOperation(value = "kakao로그인")
-    public String login(){
-        return "login";
     }
 
     // @GetMapping("/account/logout")
-    // @ApiOperation(value ="로그아웃")
-    // public Object logout(@RequestParam int userNo){
-    //     accountService.deleteAccount(userNo);
-    //     ResponseEntity response = null;
+    // @ApiOperation(value = "로그아웃")
+    // public Object logout(Principal principal){
+    //     principal = null;
+    //     if(principal == null){
+    //         return new ResponseEntity<>(principal, HttpStatus.OK);
 
-    //     if(cnt == 1){
-    //         final BasicResponse result = new BasicResponse();
-    //         result.status = true;
-    //         result.data = "success"; 
-    //         System.out.println("로그 아웃 성공");
-    //     }else{
-    //         System.out.println("로그아웃 실패 ");
     //     }
 
-    //     return response;
         
     // }
+
+    @GetMapping("/kakao/login")
+    @ApiOperation(value = "kakao로그인")
+    public String login(){
+
+        return "login";
+    }
+
+
+    @GetMapping("/users")
+    @ApiOperation(value = "token확인")
+    @ApiImplicitParams({ @ApiImplicitParam(name ="X-AUTH-TOKEN", value="로그인 성공 후 access_token", required = true, paramType = "header")})
+    public Object AuthPage(Principal principal){
+       BasicResponse result = new BasicResponse();
+    //    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+       
+        if(principal == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }else {
+            //인증 성공 했으니 전달해주면됨.
+            System.out.println("ㅇㅇ : "+ principal.getName());
+            System.out.println(principal);
+            return new ResponseEntity<>( principal , HttpStatus.OK);
+        }
+        
+    }
 
     @GetMapping("/admin")
     @ApiOperation(value ="관리자")
     public Object adminPage(Map<String, Object> model) {
         return "/adminpage";
+    }
+
+    @GetMapping(value = "account/user")
+    @ApiOperation(value = "회원 정보 조회")
+    public Object selectAccount(Principal principal){
+        if(principal == null ){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }else{
+            BasicResponse result = new BasicResponse();
+            Account account = accountService.selectAccount(principal.getName());
+            result.data = account;
+            result.status = true;
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+    }
+
+
+    @PutMapping(value="account/update")
+    @ApiOperation(value = "회원 정보 수정")
+    public Object updateAccount(@RequestBody Account user, Principal principal) {
+        if(principal == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }else{
+            accountService.updateAccount(user);
+            Account account = accountService.selectAccount(user.getEmail());
+            BasicResponse result = new BasicResponse();
+            result.data = account;
+            result.status = true;
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+    }
+
+    @DeleteMapping(value = "account/delete")
+    @ApiOperation(value = "회원 탈퇴")
+    public Object deleteAccount(Principal principal){
+        if(principal == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        }else{
+            accountService.deleteAccount(principal.getName());
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
     }
 
 }

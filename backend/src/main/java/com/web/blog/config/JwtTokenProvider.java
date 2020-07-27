@@ -25,7 +25,7 @@ public class JwtTokenProvider {
     @Autowired
     UserDetailsService userDetailsService;
 
-    private String secretKey = "qwert12395";
+    private String secretKey = "qoreksql";
 
     // 토큰 유효시간 30분
     private long tokenValidTime = 30 * 60 * 1000L;
@@ -42,6 +42,7 @@ public class JwtTokenProvider {
         claims.put("roles", role); // 정보는 key / value 쌍으로 저장된다.
         Date now = new Date();
         return Jwts.builder()
+                .setHeaderParam("typ", "jwt")
                 .setClaims(claims) // 정보 저장
                 .setIssuedAt(now) // 토큰 발행 시간 정보
                 .setExpiration(new Date(now.getTime() + tokenValidTime)) // set Expire Time

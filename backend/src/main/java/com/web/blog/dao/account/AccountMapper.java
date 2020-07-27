@@ -22,7 +22,7 @@ public interface AccountMapper {
 
     //email 권한 수정
     @Update("update user set authStatus = 1 where authKey = #{user.authKey}")
-    public int updateAccount(@Param("user") SignupRequest user);    
+    public int updateAuthStatus(@Param("user") SignupRequest user);    
 
     //로그인
     @Select("select * from user where email = #{email} ")
@@ -37,9 +37,17 @@ public interface AccountMapper {
     @Select("select authStatus from user where email = #{username}")
     public int findByAuthStatus(String username);
 
+    //회원 정보 받아오기
+    @Select("select * from user where email = #{email}")
+    public Account selectAccount(String email);
+    
+    //회원 수정
+    @Update("update user set name=#{user.name}, pw=#{user.pw}, lang=#{user.lang} where email = #{user.email}" )
+    public void updateAccount(@Param("user") Account user); 
+
     //회원 탈퇴
-    @Delete("delete from user where user_no = #{userNo} ")
-    public void deleteAccount(int userNo);
+    @Delete("delete from user where email = #{email} ")
+    public void deleteAccount(String email);
 
     // @Select("select authority from user_auth where ahth_id=#{id}")
     // public Account findRole(String id);

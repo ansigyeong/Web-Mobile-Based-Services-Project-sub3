@@ -1,26 +1,19 @@
 package com.web.blog.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.event.LogoutSuccessEvent;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 // import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import antlr.collections.List;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
 
 
 @EnableWebSecurity
@@ -55,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //세션 사용 하지 않음
         .and() 
         .authorizeRequests() //요청에 대한 사용권한 설정
-        .antMatchers("/admin/**").hasRole("ADMIN") 
+        .antMatchers("/admin/**").hasRole("ADMIN") //403처리됨
         .antMatchers("/user/**").hasAnyRole("USER","ADMIN")
         .antMatchers("/**").permitAll() // 그 외 누구나 접근 가능
         .antMatchers("/kakao").hasRole("KAKAO")
@@ -66,7 +59,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .addFilterBefore(new JwtAuthFilter(jwtToken), UsernamePasswordAuthenticationFilter.class)
         // .and()
         // .oauth2Login()
-        // .userInfoEndpoint().userService(new NaverOAuth2UserService())
         ;
 
     }

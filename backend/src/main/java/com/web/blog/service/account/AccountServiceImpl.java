@@ -7,6 +7,7 @@ import javax.mail.MessagingException;
 
 import com.web.blog.controller.exception.UserAlreadyExistException;
 import com.web.blog.dao.account.AccountDao;
+import com.web.blog.dto.account.Account;
 import com.web.blog.dto.account.AuthenticationRequest;
 import com.web.blog.dto.account.SignupRequest;
 
@@ -31,17 +32,16 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     private JavaMailSender mailSender;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AuthenticationRequest user = accountDao.findByUsername(username);
-        
-        System.out.println("사용자 : "+user);
-      
+
+        System.out.println("사용자 : " + user);
 
         return new User(user.getEmail(), user.getPw(), user.getAuthorities());
     }
 
     // 회원가입
-    public void insertAccount(SignupRequest user){
+    public void insertAccount(SignupRequest user) {
 
         user.setPw(passwordEncoder.encode(user.getPw())); // 비밀번호 암호화
 
@@ -51,10 +51,10 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
         System.out.println("비번: " + user.getPw());
         System.out.println("임의의 eamil 인증키: " + user.getAuthKey());
         try {
-        accountDao.insertAccount(user);
-            
+            accountDao.insertAccount(user);
+
         } catch (Exception e) {
-            throw new UserAlreadyExistException("회원가입 되어있는 email주소 입니다.");   
+            throw new UserAlreadyExistException("회원가입 되어있는 email주소 입니다.");
         }
         MailHandler sendMail;
         // mail전송
@@ -63,10 +63,9 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
             sendMail.setSubject("[바다이야기 회원가입 이메일 인증]");
             sendMail.setText(
                     new StringBuffer().append("<h1>email 인증<h1>").append("<p>아래 링크를 클릭하시면 eamil 인증이 완료 됩니다.<p>")
-                            .append("<a href='http://localhost/account/eamilConfirm?")
-                            .append("&email=").append(user.getEmail())
-                            .append("&authKey=").append(user.getAuthKey()).append("' target='_blenk'>email 인증 확인</a>")
-                            .toString());
+                            .append("<a href='http://localhost/account/eamilConfirm?").append("&email=")
+                            .append(user.getEmail()).append("&authKey=").append(user.getAuthKey())
+                            .append("' target='_blenk'>email 인증 확인</a>").toString());
             sendMail.setFrom("qoreksql456@gamil.com", "addmin");
             sendMail.setTo(user.getEmail());
             sendMail.send();
@@ -81,8 +80,8 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     }
 
     @Override
-    public void updateAccount(SignupRequest user) {
-        accountDao.updqteAccount(user);
+    public void updateAuthStatus(SignupRequest user) {
+        accountDao.updateAuthStatus(user);
     }
 
     @Override
@@ -96,10 +95,19 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     }
 
     @Override
-    public void deleteAccount(int userNo) {
-         accountDao.deleteAccount(userNo);
+    public void deleteAccount(String email) {
+        accountDao.deleteAccount(email);
     }
 
+    @Override
+    public void updateAccount(Account user) {
+        accountDao.updateAccount(user);
+    }
+
+    @Override
+    public Account selectAccount(String email) {
+        return accountDao.selectAccount(email);
+    }
 
 
 }

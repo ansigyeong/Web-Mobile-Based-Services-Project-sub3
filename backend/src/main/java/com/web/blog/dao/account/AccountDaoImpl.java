@@ -23,8 +23,8 @@ public class AccountDaoImpl implements AccountDao{
     }
 
     @Override
-    public void updqteAccount(SignupRequest user) {
-        accountMapper.updateAccount(user);
+    public void updateAuthStatus(SignupRequest user) {
+        accountMapper.updateAuthStatus(user);
     }
 
     @Override
@@ -33,8 +33,18 @@ public class AccountDaoImpl implements AccountDao{
     }
 
     @Override
-    public void deleteAccount(int userNo) {
-       accountMapper.deleteAccount(userNo);
+    public void deleteAccount(String email) {
+       accountMapper.deleteAccount(email);
+    }
+
+    @Override
+    public void updateAccount(Account user) {
+        accountMapper.updateAccount(user);
+    }
+
+    @Override
+    public Account selectAccount(String email) {
+        return accountMapper.selectAccount(email);
     }
 
 }

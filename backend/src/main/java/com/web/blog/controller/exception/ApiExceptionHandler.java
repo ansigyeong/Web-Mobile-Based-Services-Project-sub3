@@ -21,4 +21,6 @@ public class ApiExceptionHandler {
         errorDetail.setCode(1002);
         return new ResponseEntity<>(errorDetail, HttpStatus.CONFLICT);
     }
+
+   
 }
