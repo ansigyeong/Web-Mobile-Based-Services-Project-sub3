@@ -13,7 +13,6 @@ import com.web.blog.config.JwtTokenProvider;
 import com.web.blog.dto.BasicResponse;
 import com.web.blog.dto.account.Account;
 import com.web.blog.dto.account.AuthenticationRequest;
-import com.web.blog.dto.account.SignupRequest;
 import com.web.blog.service.account.AccountService;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -73,30 +72,35 @@ public class AccountController {
 
     @PostMapping("account/signup")
     @ApiOperation(value = "가입하기")
-    public Object signup(@Valid @RequestBody SignupRequest user) {
-        user.setCreateDate(new Date());
-
-        accountService.insertAccount(user);
+    public Object signup(@RequestBody Account user) {
 
         final BasicResponse result = new BasicResponse();
         Map<String,Object> map = new HashMap<>();
-        int cnt = accountService.findByAuthStatus(user.getEmail());// authStatus가 1이어야 로그인 가능(이메일 인증 시도 해야됨)
-        if(cnt == 0 ){
-            System.out.println("e-mail 인증 후 가입이 완료 됩니다.");
-            map.put("msg", "e-mail 인증 후 가입이 완료 됩니다.");
+       Account account = accountService.selectAccount(user.getEmail());
+        if(account == null) {
+            accountService.insertAccount(user);
+            System.out.println("사용자 e-mail로 들어가서 인증해 주세요");
+            map.put("msg", "사용자 e-mail로 들어가서 인증해 주세요");
             result.data = map;
             result.status = false;
-        }else{
+        } else if( account != null && accountService.findByAuthStatus(user.getEmail()) == 0){
+            System.out.println("e-mail 인증 하여야 가입이 완료 됩니다.");
+            map.put("msg", "e-mail 인증 하여야 가입이 완료 됩니다.");
+            result.data = map;
+            result.status = false;
+        }else if(account != null && accountService.findByAuthStatus(user.getEmail()) == 1){
+            System.out.println("회원가입 완료");
             result.data = "success";
             result.status = true;
         }
+        
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("account/eamilConfirm")
     @ApiOperation(value = "이메일 인증하기")
     public Object emailConfirm(@RequestParam String email, @RequestParam String authKey) {
-        SignupRequest user = new SignupRequest();
+        Account user = new Account();
         user.setEmail(email);
         user.setAuthKey(authKey);
         System.out.println("email: " + user.getEmail());
@@ -124,6 +128,7 @@ public class AccountController {
         String jwt = "";
 
         account = accountService.findByUsername(email);
+        
         BasicResponse result = new BasicResponse();
         Map<String, Object> map = new HashMap<>();
 
@@ -138,12 +143,19 @@ public class AccountController {
             result.data = map;
             result.status = false;
         } else if (account != null) {
+            if(accountService.findByAuthStatus(account.getEmail()) == 0){
+                System.out.println("e-mail 인증 한 후 로그인 하여 주세요.");
+                map.put("msg", "e-mail 인증 한 후 로그인 하여 주세요.");
+                result.data = map;
+                result.status = false;
+            }else{
+                jwt = jwtToken.createToken(account.getEmail(), account.getRole());
+                System.out.println("토큰 생성 : " + jwt);
+                map.put("ACCESS-TOKEN", jwt);
+                result.data = map;
+                result.status = true;
 
-            jwt = jwtToken.createToken(account.getEmail(), account.getRole());
-            System.out.println("토큰 생성 : " + jwt);
-            map.put("ACCESS-TOKEN", jwt);
-            result.data = map;
-            result.status = true;
+            }
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
 

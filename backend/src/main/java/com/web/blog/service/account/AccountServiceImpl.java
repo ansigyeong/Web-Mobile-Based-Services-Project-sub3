@@ -1,7 +1,7 @@
 package com.web.blog.service.account;
 
 import java.io.UnsupportedEncodingException;
-
+import java.util.Date;
 
 import javax.mail.MessagingException;
 
@@ -9,7 +9,6 @@ import com.web.blog.controller.exception.UserAlreadyExistException;
 import com.web.blog.dao.account.AccountDao;
 import com.web.blog.dto.account.Account;
 import com.web.blog.dto.account.AuthenticationRequest;
-import com.web.blog.dto.account.SignupRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -41,18 +40,16 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     }
 
     // 회원가입
-    public void insertAccount(SignupRequest user) {
+    public void insertAccount(Account user) {
 
         user.setPw(passwordEncoder.encode(user.getPw())); // 비밀번호 암호화
-
+        user.setCreateDate(new Date());
         String authKey = new TempKey().getKey(50, false); // 임의의 인증키 생성
         user.setAuthKey(authKey);
-
         System.out.println("비번: " + user.getPw());
         System.out.println("임의의 eamil 인증키: " + user.getAuthKey());
         try {
             accountDao.insertAccount(user);
-
         } catch (Exception e) {
             throw new UserAlreadyExistException("회원가입 되어있는 email주소 입니다.");
         }
@@ -80,7 +77,7 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     }
 
     @Override
-    public void updateAuthStatus(SignupRequest user) {
+    public void updateAuthStatus(Account user) {
         accountDao.updateAuthStatus(user);
     }
 
@@ -108,6 +105,8 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     public Account selectAccount(String email) {
         return accountDao.selectAccount(email);
     }
+
+  
 
 
 }

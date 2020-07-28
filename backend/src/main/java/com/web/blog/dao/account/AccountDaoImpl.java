@@ -2,7 +2,6 @@ package com.web.blog.dao.account;
 
 import com.web.blog.dto.account.Account;
 import com.web.blog.dto.account.AuthenticationRequest;
-import com.web.blog.dto.account.SignupRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,7 +12,7 @@ public class AccountDaoImpl implements AccountDao{
     AccountMapper accountMapper;
 
     @Override
-    public void insertAccount(SignupRequest user) {
+    public void insertAccount(Account user) {
        accountMapper.insertAccount(user);
     }
 
@@ -23,7 +22,7 @@ public class AccountDaoImpl implements AccountDao{
     }
 
     @Override
-    public void updateAuthStatus(SignupRequest user) {
+    public void updateAuthStatus(Account user) {
         accountMapper.updateAuthStatus(user);
     }
 
@@ -46,5 +45,7 @@ public class AccountDaoImpl implements AccountDao{
     public Account selectAccount(String email) {
         return accountMapper.selectAccount(email);
     }
+
+   
 
 }
