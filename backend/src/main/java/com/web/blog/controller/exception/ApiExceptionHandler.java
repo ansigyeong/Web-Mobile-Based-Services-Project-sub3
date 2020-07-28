@@ -17,8 +17,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<ApiErrorDetail> handlerUserAlreadyExistException(UserAlreadyExistException info){
         ApiErrorDetail errorDetail = new ApiErrorDetail();
         errorDetail.setTimeStamp(new Date());
-        errorDetail.setMessage(info.getMessage());
-        errorDetail.setCode(1002);
+        errorDetail.setMsg(info.getMessage());
         return new ResponseEntity<>(errorDetail, HttpStatus.CONFLICT);
     }
 
