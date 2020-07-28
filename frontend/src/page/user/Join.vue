@@ -7,7 +7,7 @@
                     <div class="input-wrap">
                         <input v-model="nickName"
                             id="nickname"
-                            placeholder="닉네임을 입력해주세요" type="text"/>
+                            placeholder="이름을 입력해주세요" type="text"/>
                     </div>
 
                     <div class="input-wrap">
@@ -38,16 +38,16 @@
                     </div>
                 </div>
 
-                <label>
+                <!-- <label>
                     <input v-model="isTerm" type="checkbox" id="term"/>
                     <span>약관에 동의합니다</span>
                 </label>
 
-                <span class="go-term">약관 보기</span>
+                <span class="go-term">약관 보기</span> -->
 
                 <button class="btn">
                     <span>
-                        작성완료
+                        회원가입
                     </span>
                 </button>
             </div>
