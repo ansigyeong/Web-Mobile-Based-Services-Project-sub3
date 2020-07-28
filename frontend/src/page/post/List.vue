@@ -1,204 +1,106 @@
 <template>
-    <div class="post">
-        <div class="wrapB">
-            <h2>전체글</h2>
+  <v-card
+    class="mx-auto"
+  >
+    <!-- <v-toolbar
+      color="pink"
+      dark
+    >
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-            <section class="post-list">
-                <div>
-                    <div class="post-card">
-                        <a>
-                            <div :style="{backgroundImage:'url(https://www.ipcc.ch/site/assets/uploads/sites/3/2019/10/img-placeholder.png)'}" class="post-img"/>
-                            
-                            <div class="contents">
-                                <h3>
-                                    제목
-                                </h3>
-                                <p class="content">컨텐츠</p>
-                                <span class="date">2020-06-19ㆍ</span>  
-                                <span class="comment">댓글 0개</span>
-                                
-                            </div>
-                        </a>
+      <v-toolbar-title>Inbox</v-toolbar-title> -->
 
-                        <div class="writer-wrap">
-                            <a>
-                                닉네임
-                            </a>
-                            <span>
-                                ♥ 2
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="post-card">
-                        <a>
-                            <div :style="{backgroundImage:'url(https://www.ipcc.ch/site/assets/uploads/sites/3/2019/10/img-placeholder.png)'}" class="post-img"/>
-                            
-                            <div class="contents">
-                                <h3>
-                                    제목
-                                </h3>
-                                <p class="content">컨텐츠</p>
-                                <span class="date">2020-06-19ㆍ</span>  
-                                <span class="comment">댓글 0개</span>
-                                
-                            </div>
-                        </a>
+      <!-- <v-spacer></v-spacer>
 
-                        <div class="writer-wrap">
-                            <a>
-                                닉네임
-                            </a>
-                            <span>
-                                ♥ 2
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="post-card">
-                        <a>
-                            <div :style="{backgroundImage:'url(https://www.ipcc.ch/site/assets/uploads/sites/3/2019/10/img-placeholder.png)'}" class="post-img"/>
-                            
-                            <div class="contents">
-                                <h3>
-                                    제목
-                                </h3>
-                                <p class="content">컨텐츠</p>
-                                <span class="date">2020-06-19ㆍ</span>  
-                                <span class="comment">댓글 0개</span>
-                                
-                            </div>
-                        </a>
+      <v-btn icon>
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
 
-                        <div class="writer-wrap">
-                            <a>
-                                닉네임
-                            </a>
-                            <span>
-                                ♥ 2
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="post-card">
-                        <a>
-                            <div :style="{backgroundImage:'url(https://www.ipcc.ch/site/assets/uploads/sites/3/2019/10/img-placeholder.png)'}" class="post-img"/>
-                            
-                            <div class="contents">
-                                <h3>
-                                    제목
-                                </h3>
-                                <p class="content">컨텐츠</p>
-                                <span class="date">2020-06-19ㆍ</span>  
-                                <span class="comment">댓글 0개</span>
-                                
-                            </div>
-                        </a>
+      <v-btn icon>
+        <v-icon>mdi-checkbox-marked-circle</v-icon>
+      </v-btn>
+    </v-toolbar> -->
 
-                        <div class="writer-wrap">
-                            <a>
-                                닉네임
-                            </a>
-                            <span>
-                                ♥ 2
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="post-card">
-                        <a>
-                            <div :style="{backgroundImage:'url(https://www.ipcc.ch/site/assets/uploads/sites/3/2019/10/img-placeholder.png)'}" class="post-img"/>
-                            
-                            <div class="contents">
-                                <h3>
-                                    제목
-                                </h3>
-                                <p class="content">컨텐츠</p>
-                                <span class="date">2020-06-19ㆍ</span>  
-                                <span class="comment">댓글 0개</span>
-                                
-                            </div>
-                        </a>
+    <v-list two-line>
+      <v-list-item-group
+        v-model="selected"
+        multiple
+        active-class="pink--text"
+      >
+        <template v-for="(item, index) in items">
+          <v-list-item :key="item.title">
+            <template v-slot:default="{ active, toggle }">
+              <v-list-item-content>
+                <v-list-item-title v-text="item.title"></v-list-item-title>
+                <v-list-item-subtitle class="text--primary" v-text="item.headline"></v-list-item-subtitle>
+                <v-list-item-subtitle v-text="item.subtitle"></v-list-item-subtitle>
+              </v-list-item-content>
 
-                        <div class="writer-wrap">
-                            <a>
-                                닉네임
-                            </a>
-                            <span>
-                                ♥ 2
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="post-card">
-                        <a>
-                            <div :style="{backgroundImage:'url(https://www.ipcc.ch/site/assets/uploads/sites/3/2019/10/img-placeholder.png)'}" class="post-img"/>
-                            
-                            <div class="contents">
-                                <h3>
-                                    제목
-                                </h3>
-                                <p class="content">컨텐츠</p>
-                                <span class="date">2020-06-19ㆍ</span>  
-                                <span class="comment">댓글 0개</span>
-                                
-                            </div>
-                        </a>
+              <v-list-item-action>
+                <v-list-item-action-text v-text="item.action"></v-list-item-action-text>
+                <v-icon
+                  v-if="!active"
+                  color="grey lighten-1"
+                >
+                  star_border
+                </v-icon>
 
-                        <div class="writer-wrap">
-                            <a>
-                                닉네임
-                            </a>
-                            <span>
-                                ♥ 2
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                
-            </section>
+                <v-icon
+                  v-else
+                  color="yellow"
+                >
+                  star
+                </v-icon>
+              </v-list-item-action>
+            </template>
+          </v-list-item>
 
-            <div class="tag-list-wrap">
-                <h4>인기태그</h4>
-                <ul class="tag-list">
-                    <li>
-                        #태그1 (8)
-                    </li> 
-                    <li>
-                        #태그2 (5)
-                    </li> 
-                    <li>
-                        #태그3 (2)
-                    </li> 
-                </ul>
-            </div>
-        </div>
-        
-
-    </div>
+          <v-divider
+            v-if="index + 1 < items.length"
+            :key="index"
+          ></v-divider>
+        </template>
+      </v-list-item-group>
+    </v-list>
+  </v-card>
 </template>
- 
-<script>
-    // import '../../assets/css/post.scss'
 
-    // export default {
-    //     name:"Post",
-    //     components:{
-    //     },
-    //     watch: {
-    //     },
-    //     created() {
-    //     },
-    //     methods: {
-    //     },
-    //     data: () => {
-    //         return {
-    //         }
-    //     }
-    // }
+<script>
+  export default {
+    data: () => ({
+      selected: [2],
+      items: [
+        {
+          action: '15 min',
+          headline: 'Brunch this weekend?',
+          title: 'Ali Connors',
+          subtitle: "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
+        },
+        {
+          action: '2 hr',
+          headline: 'Summer BBQ',
+          title: 'me, Scrott, Jennifer',
+          subtitle: "Wish I could come, but I'm out of town this weekend.",
+        },
+        {
+          action: '6 hr',
+          headline: 'Oui oui',
+          title: 'Sandra Adams',
+          subtitle: 'Do you have Paris recommendations? Have you ever been?',
+        },
+        {
+          action: '12 hr',
+          headline: 'Birthday gift',
+          title: 'Trevor Hansen',
+          subtitle: 'Have any ideas about what we should get Heidi for her birthday?',
+        },
+        {
+          action: '18hr',
+          headline: 'Recipe to try',
+          title: 'Britta Holt',
+          subtitle: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
+        },
+      ],
+    }),
+  }
 </script>

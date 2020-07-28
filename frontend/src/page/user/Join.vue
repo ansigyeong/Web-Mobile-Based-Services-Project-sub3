@@ -1,9 +1,8 @@
 <template>
-    
     <div class="user" id="join"> 
         <div class="wrapC table">
             <div class="middle">
-                <h1>Sign up</h1>
+                <h1>회원가입</h1>
                 <div class="form-wrap">
                     <div class="input-wrap">
                         <input v-model="nickName"
@@ -62,6 +61,7 @@
 
 <script>
     import '../../assets/css/user.scss'
+
     export default {
         components: {
         },

@@ -2,18 +2,17 @@
     <div id="header" v-if="isHeader">
         <h1>
             <router-link v-bind:to="{name:constants.URL_TYPE.POST.MAIN}">
-                Hello, Code_Sea!
+                SS_log
             </router-link>
         </h1>
         <div class="right">
-            <!-- <div class="search-input">
+            <div class="search-input">
                 <i class="fas fa-search"></i>
                 <input v-model="keyword" type="text"/>
-            </div> -->
-            <!-- <button>Search</button>      -->
+            </div> 
             
             <router-link v-bind:to="{name:constants.URL_TYPE.USER.LOGIN}" class="login-btn">
-                Login 
+                로그인 
             </router-link>  
             
         </div>  

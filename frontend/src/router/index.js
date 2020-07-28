@@ -26,10 +26,10 @@ export default new Router({
       component: Join
     },
     // 포스트
-    // { 
-    //   path: '/',
-    //   name: constants.URL_TYPE.POST.MAIN,
-    //   component: List,
-    // },
+    { 
+      path: '/',
+      name: constants.URL_TYPE.POST.MAIN,
+      component: List,
+    },
   ]
 })

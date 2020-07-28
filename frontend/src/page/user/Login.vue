@@ -2,7 +2,7 @@
     <div class="user" id="login">
         <div class="wrapC table">
             <div class="middle">
-                <h1>Hello, Code_Sea!</h1>
+                <h1>SS_log</h1>
                 <div class="input-wrap">
                     <input v-model="email"
                         id="email" 
@@ -15,13 +15,13 @@
                         placeholder="영문, 숫자 혼용 8자 이상"/>
                 </div>
                 <button class="btn btn--back btn--login">
-                    Sign In
+                    로그인 하기
                 </button>
                 <div class="add-option">
                     <div class="wrap">
                         <p>아직 회원이 아니신가요?</p>
                         <router-link v-bind:to="{name:constants.URL_TYPE.USER.JOIN}" class="btn--text">
-                            Sign Up
+                            회원가입
                         </router-link>
                     </div>
 
