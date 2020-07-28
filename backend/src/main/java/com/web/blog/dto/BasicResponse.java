@@ -10,6 +10,6 @@ public class BasicResponse {
     @ApiModelProperty(value = "object", position = 3)
     public Object object;
     @ApiModelProperty(value = "header" ,position = 4)
-    public Object header;
+    public Object headers;
 
 }

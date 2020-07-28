@@ -60,7 +60,7 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
         // mail전송
         try {
             sendMail = new MailHandler(mailSender);
-            sendMail.setSubject("[바다이야기 회원가입 이메일 인증]");
+            sendMail.setSubject("[Hello Code_Sea 회원가입 이메일 인증]");
             sendMail.setText(
                     new StringBuffer().append("<h1>email 인증<h1>").append("<p>아래 링크를 클릭하시면 eamil 인증이 완료 됩니다.<p>")
                             .append("<a href='http://localhost/account/eamilConfirm?").append("&email=")

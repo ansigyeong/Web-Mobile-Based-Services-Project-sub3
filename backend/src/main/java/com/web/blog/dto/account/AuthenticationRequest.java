@@ -24,7 +24,7 @@ public class AuthenticationRequest implements UserDetails {
     private String email;
     private String pw;
     private String role;
-    
+    private int authStatus;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();

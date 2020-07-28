@@ -54,9 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .antMatchers("/**").permitAll() // 그 외 누구나 접근 가능
         .antMatchers("/kakao").hasRole("KAKAO")
         .antMatchers("/facebook").hasRole("FACKBOOK")
-        // .and()
-        // .oauth2Login()
         .and()
+        // .oauth2Login()
+        // .and()
         .addFilterBefore(new JwtAuthFilter(jwtToken), UsernamePasswordAuthenticationFilter.class)
         // .and()
         // .oauth2Login()

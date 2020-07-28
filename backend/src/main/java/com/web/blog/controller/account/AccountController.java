@@ -2,6 +2,7 @@ package com.web.blog.controller.account;
 import java.security.Principal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import com.web.blog.service.account.AccountService;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.web.server.ServerHttpSecurity.HttpsRedirectSpec;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -73,7 +75,7 @@ public class AccountController {
     @ApiOperation(value = "가입하기")
     public Object signup(@Valid @RequestBody SignupRequest user) {
         user.setCreateDate(new Date());
-                
+
         accountService.insertAccount(user);
       
         final BasicResponse result = new BasicResponse();
@@ -124,26 +126,30 @@ public class AccountController {
            System.out.println("잘못된 비밀번호입니다.");
            result.data = "잘못된 비밀번호입니다.";
            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-       } else {
-           int cnt = accountService.findByAuthStatus(account.getEmail());// authStatus가 1이어야 로그인 가능(이메일 인증 시도 해야됨)
-           if(cnt == 0){
-               System.out.println("e-mail인증 후 로그인 가능합니다.");
-               result.data = "e-mail인증 후 로그인 가능합니다.";
-               result.status = false;
-               return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-           }else{
-               jwt = jwtToken.createToken(account.getEmail(), account.getRole());
-               
-               System.out.println("토큰 생성 : " + jwt);
-               result.data = "success";
-               result.status = true;
-               Map<String,String> map = new HashMap<>();
-               map.put("X-AUTH-TOKEN", jwt);
-               result.header = map;
-               
-               return new ResponseEntity<>(result, HttpStatus.OK);
-           }
-       }
+       } else if(account != null){
+            String gmail = account.getEmail();
+            
+                int cnt = accountService.findByAuthStatus(account.getEmail());// authStatus가 1이어야 로그인 가능(이메일 인증 시도 해야됨)
+                if(cnt == 0){
+                    System.out.println("e-mail인증 후 로그인 가능합니다.");
+                    result.data = "e-mail인증 후 로그인 가능합니다.";
+                    result.status = false;                           
+                    return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+                }else{
+                    jwt = jwtToken.createToken(account.getEmail(), account.getRole());
+                    
+                    System.out.println("토큰 생성 : " + jwt);
+                    result.data = "success";
+                    result.status = true;
+                    Map<String,String> map = new HashMap<>();
+                    map.put("X-AUTH-TOKEN", jwt);
+                    result.headers = map;
+                    return new ResponseEntity<>(result,HttpStatus.OK);
+                }
+         
+
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
   
     }
 
@@ -160,12 +166,12 @@ public class AccountController {
     // }
     @GetMapping("/users")
     @ApiOperation(value = "token확인")
-    @ApiImplicitParams({ @ApiImplicitParam(name ="X-AUTH-TOKEN", value="로그인 성공 후 access_token", required = true, paramType = "header")})
+    @ApiImplicitParams({ @ApiImplicitParam(name ="ACCESS-TOKEN", value="로그인 성공 후 access_token", required = true, paramType = "header")})
     public Object AuthPage(Principal principal){
        BasicResponse result = new BasicResponse();
     //    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
        
-        if(principal == null){
+        if(principal == null){ 
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }else {
             //인증 성공 했으니 전달해주면됨.
@@ -181,10 +187,11 @@ public class AccountController {
     public Object adminPage(Map<String, Object> model) {
         return "/adminpage";
     }
-
+    
     @GetMapping(value = "account/user")
     @ApiOperation(value = "회원 정보 조회")
     public Object selectAccount(Principal principal){
+        
         if(principal == null ){
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }else{
@@ -192,9 +199,9 @@ public class AccountController {
             Account account = accountService.selectAccount(principal.getName());
             result.data = account;
             result.status = true;
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return new ResponseEntity<>(result, HttpStatus.OK); 
         }
-    }
+    } 
 
 
     @PutMapping(value="account/update")
@@ -223,7 +230,7 @@ public class AccountController {
             return new ResponseEntity<>(null, HttpStatus.OK);
         }
     }
-    @Value("${spring.url.base}")
+    // @Value("${spring.url.base}")
 
     @GetMapping("/kakao")
     @ApiOperation(value = "kakao로그인")
