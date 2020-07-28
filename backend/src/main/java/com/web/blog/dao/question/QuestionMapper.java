@@ -31,6 +31,9 @@ public interface QuestionMapper {
     @Update("update question set title=#{question.title}, contents=#{question.contents}, lang=#{question.lang} where queNo=#{question.queNo}")
     public int modifyQuestion(@Param("question") Question question);    
 
+    @Select("select * from question where lang=#{lang} order by queNo desc ")
+    public List<Question> detailList(String lang);
+
     @Select("select * from question where userNo=#{userNo} order by queNo desc ")
     public List<Question> myQue(int userNo);
 }

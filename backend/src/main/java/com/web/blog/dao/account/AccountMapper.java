@@ -38,7 +38,10 @@ public interface AccountMapper {
 
     @Select("select * from user order by grade limit 3")
     public List<Account> hofList();
-    
+
+    @Select("select * from user where userNo=#{userNo}")
+    public Account search(int userNo);
+
     // @Select("select authority from user_auth where ahth_id=#{id}")
     // public Account findRole(String id);
     // @Insert("insert into user_auth(auth_id,authority) values(#{auth_id}, #{authority})")

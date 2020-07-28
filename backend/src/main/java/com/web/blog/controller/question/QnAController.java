@@ -1,13 +1,15 @@
 package com.web.blog.controller.question;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import com.web.blog.config.JwtTokenProvider;
 import com.web.blog.model.BasicResponse;
 import com.web.blog.model.account.Account;
 import com.web.blog.model.cart.Cart;
+import com.web.blog.model.question.QueView;
 import com.web.blog.model.question.Question;
 import com.web.blog.model.reply.Reply;
 import com.web.blog.service.cart.CartService;
@@ -50,19 +52,15 @@ public class QnAController {
     @PostMapping("question/write")
     @ApiOperation(value ="질문하기")
     public Object write(@RequestBody Question question){ 
-        question.setCreateDate(new Date());    
-        System.out.println("dd: "+question.getCreateDate());   
-        int que = questionService.writeQuestion(question);
-        // user_no을 가져온다.
         ResponseEntity response = null;
-        
-        if(que == 1){
+        try {
+            question.setCreateDate(new Date());    
+            questionService.writeQuestion(question);
             final BasicResponse result = new BasicResponse();
             result.status = true;
-            result.data = "success";
+            result.data = "write success";
             response = new ResponseEntity<>(result, HttpStatus.OK);
-        }else{
-
+        } catch (Exception e) {
             response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
         }
         return response;
@@ -72,50 +70,41 @@ public class QnAController {
     @PostMapping("question/modify")
     @ApiOperation(value ="질문수정")
     public Object modify(@RequestBody Question question){ 
-        System.out.println("변경전 : "+ questionService.oneQuestion(question.getQueNo()));
-        int que = questionService.modifyQuestion(question);
         ResponseEntity response = null;
-        
-        if(que == 1){
+        try {
+            questionService.modifyQuestion(question);
             final BasicResponse result = new BasicResponse();
             result.status = true;
-            result.data = "success";
-            System.out.println(question.getQueNo()+"번 질문 수정 완료");
-            System.out.println("변경 후 : "+ questionService.oneQuestion(question.getQueNo()));
+            result.data = "modify success";
             response = new ResponseEntity<>(result, HttpStatus.OK);
-        }else{
-            System.out.println("수정 실패");
+        } catch (Exception e) {
             response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
-        }
+        }        
         return response;
     }
 
     @GetMapping("question/question")
     @ApiOperation(value = "질문목록")
     public Object queList(){
-        //
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Account account = (Account) auth.getPrincipal();
-        System.out.println("account : "+ account);
-
-        //
-        List<Question> list = questionService.questionList();
-        // 댓글갯수가져오기
-        ArrayList<Integer> listCnt = new ArrayList<>();
-        for(int i = 0; i < list.size(); i++){
-            listCnt.add(replyService.replyCount(list.get(i).getQueNo()));
-        }
-        ///////////
         ResponseEntity response = null;
-        if(list.size() > 0){
+        try {
+            List<Question> list = questionService.questionList();
+            ArrayList<QueView> queList = new ArrayList<>();
+            for(int i = 0; i < list.size(); i++){
+                QueView qv = new QueView(list.get(i).getQueNo(),list.get(i).getLang(),list.get(i).getTitle(),
+                list.get(i).getContents(),list.get(i).getCreateDate(), list.get(i).getUserNo(), replyService.replyCount(list.get(i).getQueNo()));
+                queList.add(qv);
+            }
             final BasicResponse result = new BasicResponse();
+            Map<String, Object> map = new HashMap<>();
+            map.put("list", queList);
+            result.data = map;
             result.status = true;
-            result.data = "success";
-            System.out.println("list :"+list);
-            System.out.println("cnt :"+listCnt);
             response = new ResponseEntity<>(result, HttpStatus.OK);
-        } else {
+
+        } catch (Exception e) {
             response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
+
         }
         return response;
     }
@@ -127,9 +116,10 @@ public class QnAController {
         try {
             List<Question> list = questionService.myQue(userNo);
             final BasicResponse result = new BasicResponse();
+            Map<String, Object> map = new HashMap<>();
+            map.put("list", list);
+            result.data = map;
             result.status = true;
-            result.data = "success";
-            System.out.println("list :"+list);
             response = new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
             response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
@@ -144,9 +134,10 @@ public class QnAController {
         try {
             List<Reply> list = replyService.myRp(userNo);
             final BasicResponse result = new BasicResponse();
+            Map<String, Object> map = new HashMap<>();
+            map.put("list", list);
+            result.data = map;
             result.status = true;
-            result.data = "success";
-            System.out.println("list :"+list);
             response = new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
             response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
@@ -162,9 +153,8 @@ public class QnAController {
             questionService.deleteQuestion(queNo);
             final BasicResponse result = new BasicResponse();
             result.status = true;
-            result.data = "success";
+            result.data = "deleteQuestion success";
             response = new ResponseEntity<>(result, HttpStatus.OK);
-            System.out.println(queNo+"번 질문 삭제 완료");
         } catch (Exception e){
             response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
         }
@@ -174,40 +164,35 @@ public class QnAController {
     @GetMapping("question/detailQuestion")
     @ApiOperation(value = "상세질문")
     public Object queDetail(int queNo){
-        // 리플도 가져와야함
-        Question question = questionService.oneQuestion(queNo);
-        List<Reply> list = replyService.replyList(queNo);
-
         ResponseEntity response = null;
-        if(question != null){
+        try {
+            Question question = questionService.oneQuestion(queNo);
+            List<Reply> list = replyService.replyList(queNo);
             final BasicResponse result = new BasicResponse();
+            Map<String, Object> map = new HashMap<>();
+            map.put("list", list);
+            map.put("question", question);
+            result.data = map;
             result.status = true;
-            result.data = "success";
-            System.out.println(queNo+"번 상세질문 목록");
-            System.out.println(question);
-            System.out.println("답변 목록");
-            System.out.println(list);
             response = new ResponseEntity<>(result, HttpStatus.OK);
-        } else {
+        } catch (Exception e) {
             response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
         }
         return response;
     }
 
     @PostMapping("reply/write")
-    @ApiOperation(value ="답변하기")
+    @ApiOperation(value ="댓글달기")
     public Object writeReply(@RequestBody Reply reply){ 
-        reply.setCreateDate(new Date());    
-        int rp = replyService.writeReply(reply);
         ResponseEntity response = null;
-        
-        if(rp == 1){
+        try {
+            reply.setCreateDate(new Date());    
+            replyService.writeReply(reply);
             final BasicResponse result = new BasicResponse();
             result.status = true;
-            result.data = "success";
+            result.data = "writeReply success";
             response = new ResponseEntity<>(result, HttpStatus.OK);
-        }else{
-
+        } catch (Exception e) {
             response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
         }
         return response;
@@ -215,59 +200,74 @@ public class QnAController {
 
 
     @PostMapping("reply/modify")
-    @ApiOperation(value ="질문수정")
+    @ApiOperation(value ="댓글수정")
     public Object modify(@RequestBody Reply reply){ 
-        System.out.println("변경전 : "+ replyService.oneReply(reply.getRpNo()));
-        int rp = replyService.modifyReply(reply);
         ResponseEntity response = null;
-        
-        if(rp == 1){
+        try {
+            replyService.modifyReply(reply);
             final BasicResponse result = new BasicResponse();
             result.status = true;
-            result.data = "success";
-            System.out.println(reply.getRpNo()+"번 답변 수정 완료");
-            System.out.println("변경 후 : "+ replyService.oneReply(reply.getRpNo()));
+            result.data = "modifyReply success";
             response = new ResponseEntity<>(result, HttpStatus.OK);
-        }else{
-            System.out.println("수정 실패");
+        } catch (Exception e) {
             response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
         }
         return response;
     }
 
     @GetMapping("reply/deleteReply")
-    @ApiOperation(value = "답변삭제")
+    @ApiOperation(value = "댓글삭제")
     public Object rpDelte(int rpNo){
         ResponseEntity response = null;
         try {
             replyService.deleteReply(rpNo);
             final BasicResponse result = new BasicResponse();
             result.status = true;
-            result.data = "success";
+            result.data = "delteReply success";
             response = new ResponseEntity<>(result, HttpStatus.OK);
-            System.out.println(rpNo+"번 질문 삭제 완료");
         } catch (Exception e){
             response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
         }
         return response;
     }
 
-    
+    @GetMapping("question/detailList")
+    @ApiOperation(value = "상세질문목록")
+    public Object detailList(String lang){
+        
+        ResponseEntity response = null;
+        try {
+            List<Question> list = questionService.detailList(lang);
+            ArrayList<QueView> queList = new ArrayList<>();
+            for(int i = 0; i < list.size(); i++){
+                QueView qv = new QueView(list.get(i).getQueNo(),list.get(i).getLang(),list.get(i).getTitle(),
+                list.get(i).getContents(),list.get(i).getCreateDate(), list.get(i).getUserNo(), replyService.replyCount(list.get(i).getQueNo()));
+                queList.add(qv);
+            }
+            final BasicResponse result = new BasicResponse();
+            Map<String, Object> map = new HashMap<>();
+            map.put("list", queList);
+            result.data = map;
+            result.status = true;
+            response = new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
+        }
+        return response;
+    }
+
+
     @PostMapping("cart/regist")
     @ApiOperation(value ="찜등록")
     public Object regist(@RequestBody Cart cart){ 
-           
-        int ct = cartService.registCart(cart);
-        // user_no을 가져온다.
         ResponseEntity response = null;
-        
-        if(ct == 1){
-            System.out.println("찜등록완료");
+        try {
+            cartService.registCart(cart);
             final BasicResponse result = new BasicResponse();
             result.status = true;
-            result.data = "success";
+            result.data = "regist success";
             response = new ResponseEntity<>(result, HttpStatus.OK);
-        }else{
+        } catch (Exception e) {
             response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
         }
         return response;
@@ -281,9 +281,8 @@ public class QnAController {
             cartService.deleteCart(queNo);
             final BasicResponse result = new BasicResponse();
             result.status = true;
-            result.data = "success";
+            result.data = "delte success";
             response = new ResponseEntity<>(result, HttpStatus.OK);
-            System.out.println(queNo+"번 질문 찜 삭제 완료");
         } catch (Exception e){
             response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
         }
@@ -293,14 +292,13 @@ public class QnAController {
     @GetMapping("cart/list")
     @ApiOperation(value = "찜목록")
     public Object List(int userNo){
-        List<Integer> cartList = cartService.cartList(userNo);
         ResponseEntity response = null;
-        System.out.println(cartList);
         ArrayList<Question> cList = new ArrayList<>();
         ArrayList<Question> cppList = new ArrayList<>();
         ArrayList<Question> javaList = new ArrayList<>();
         ArrayList<Question> pyList = new ArrayList<>();
         try {
+            List<Integer> cartList = cartService.cartList(userNo);
             for(int i = 0; i < cartList.size(); i++){
                 Question q = questionService.oneQuestion(cartList.get(i));
                 System.out.println(q);
@@ -315,9 +313,13 @@ public class QnAController {
                 } 
             }
             final BasicResponse result = new BasicResponse();
+            Map<String, Object> map = new HashMap<>();
+            map.put("c", cList);
+            map.put("cpp",cppList);
+            map.put("java", javaList);
+            map.put("python", pyList);
+            result.data = map;
             result.status = true;
-            result.data = "success";
-            System.out.println("c :"+cList+"c++ :"+cppList+"java :"+javaList+"python :"+pyList);
             response = new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
             response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);

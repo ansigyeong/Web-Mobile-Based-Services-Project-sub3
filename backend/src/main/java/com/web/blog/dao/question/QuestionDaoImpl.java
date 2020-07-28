@@ -45,5 +45,10 @@ public class QuestionDaoImpl implements QuestionDao {
         return questionMapper.myQue(userNo);
     }
 
+    @Override
+    public List<Question> detailList(String lang) {
+        return questionMapper.detailList(lang);
+    }
+
 
 }

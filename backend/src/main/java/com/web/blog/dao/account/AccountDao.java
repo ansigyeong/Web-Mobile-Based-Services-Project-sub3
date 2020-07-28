@@ -13,4 +13,5 @@ public interface AccountDao {
     public AuthenticationRequest findByUsername(String username);
     public int findByAuthStatus(String username);
     public List<Account> hofList();
+    public Account search(int userNo);
 }

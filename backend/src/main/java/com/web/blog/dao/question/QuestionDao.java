@@ -11,5 +11,6 @@ public interface QuestionDao {
     public int deleteQuestion(int queNo);
     public Question oneQuestion(int queNo);
     public List<Question> questionList();
+    public List<Question> detailList(String lang);
     public List<Question> myQue(int userNo);
 }

@@ -2,6 +2,7 @@ package com.web.blog.controller.account;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.validation.Valid;
@@ -12,7 +13,11 @@ import com.web.blog.model.account.Account;
 import com.web.blog.model.account.AuthenticationRequest;
 import com.web.blog.model.account.Hof;
 import com.web.blog.model.account.SignupRequest;
+import com.web.blog.model.follow.Follow;
+import com.web.blog.model.question.Question;
+import com.web.blog.model.reply.Reply;
 import com.web.blog.service.account.AccountService;
+import com.web.blog.service.follow.FollowService;
 import com.web.blog.service.question.QuestionService;
 import com.web.blog.service.reply.ReplyService;
 
@@ -58,6 +63,7 @@ public class AccountController {
     @Autowired
     ReplyService replyService;
     @Autowired
+    FollowService followService;
     
     // @getma
     @GetMapping("/")
@@ -150,6 +156,45 @@ public class AccountController {
         return "/adminpage";
     }
 
+
+    // 내 정보  // Account가져오고 follower랑 following 가져오고 질문 답변
+    @GetMapping("account/profile")
+    @ApiOperation(value = "프로필")
+    public Object profile(int userNo){
+        ResponseEntity response = null;
+        try {
+            Account user = accountService.search(userNo);
+            List<Question> myque = questionService.myQue(userNo);
+            List<Reply> myrp = replyService.myRp(userNo);
+            List<Integer> list1 = followService.followerList(userNo);
+            List<Integer> list2 = followService.followingList(userNo);
+            ArrayList<Account> followerList = new ArrayList<>();
+            ArrayList<Account> followingList = new ArrayList<>();
+            for(int i = 0; i < list1.size(); i++){
+                followerList.add(accountService.search(list1.get(i)));
+            }
+            for(int i = 0; i < list2.size(); i++){
+                followingList.add(accountService.search(list2.get(i)));
+            }
+            final BasicResponse result = new BasicResponse();
+            Map<String, Object> map = new HashMap<>();
+            map.put("user", user);
+            map.put("myque", myque);
+            map.put("myrp", myrp);
+            map.put("followerList", followerList);
+            map.put("followingList", followingList);
+            result.data = map;
+            result.status = true;
+            response = new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("실패");
+            response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        return response;
+    }
+
+
+    // 명전
     @GetMapping("account/hof")
     @ApiOperation(value = "명예의 전당")
     public Object hofList(){
@@ -157,7 +202,6 @@ public class AccountController {
         try {
             ArrayList<Hof> data = new ArrayList<>(); 
             List<Account> list = accountService.hofList();
-            System.out.println("진입");
             for(int i = 0; i < list.size(); i++){
                 int userNo = list.get(i).getUserNo();
                 String name = list.get(i).getName();
@@ -171,9 +215,10 @@ public class AccountController {
                 data.add(new Hof(userNo, name, grade, queCnt, rpCnt, rpLike));
             }
             final BasicResponse result = new BasicResponse();
+            Map<String, Object> map = new HashMap<>();
+            map.put("data", data);
+            result.data = map;
             result.status = true;
-            result.data = "success";
-            System.out.println(data);
             response = new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("실패");
@@ -182,4 +227,110 @@ public class AccountController {
         return response;
     }
 
+    @GetMapping("account/mygrade")
+    @ApiOperation(value = "내 등급")
+    public Object myGrade(int userNo){
+        ResponseEntity response = null;
+        try {
+            Account user = accountService.search(userNo);
+            String name = user.getName();
+            int grade = user.getGrade();
+            int queCnt = (questionService.myQue(userNo)).size();
+            int rpCnt = (replyService.myRp(userNo)).size();
+            int rpLike = 0;
+            if(rpCnt != 0){
+                rpLike = replyService.likeCnt(userNo);
+            }
+            Hof hof = new Hof(userNo, name, grade, queCnt, rpCnt, rpLike);
+            
+            final BasicResponse result = new BasicResponse();
+            Map<String, Object> map = new HashMap<>();
+            map.put("hof", hof);
+            result.data = map;
+            result.status = true;
+            response = new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("실패");
+            response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        return response;
+    }
+
+    // 팔로우
+
+    @PostMapping("follow/regist")
+    @ApiOperation(value ="팔로우하기")
+    public Object regist(@RequestBody Follow follow){ 
+        ResponseEntity response = null;
+        try {
+            followService.regist(follow); 
+            final BasicResponse result = new BasicResponse();
+            result.status = true;
+            result.data = "follow success";
+            response = new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
+        }
+        return response;
+    }
+
+    @GetMapping("follow/delete")
+    @ApiOperation(value = "팔로잉삭제")
+    public Object delte(int userNo, int followingNo){
+        ResponseEntity response = null;
+        try {
+            followService.delete(userNo, followingNo);
+            final BasicResponse result = new BasicResponse();
+            result.status = true;
+            result.data = "delete success";
+            response = new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e){
+            response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
+        }
+        return response;
+    }
+
+    @GetMapping("follow/follower")
+    @ApiOperation(value = "내팔로워목록")
+    public Object myFollower(int userNo){
+        ResponseEntity response = null;
+        try {
+            List<Integer> list = followService.followerList(userNo);
+            ArrayList<Account> userList = new ArrayList<>();
+            for(int i = 0; i < list.size(); i++){
+                userList.add(accountService.search(list.get(i)));
+            }
+            final BasicResponse result = new BasicResponse();
+            Map<String, Object> map = new HashMap<>();
+            map.put("followerList", userList);
+            result.data = map;
+            result.status = true;
+            response = new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
+        }        
+        return response;
+    }
+
+    @GetMapping("follow/following")
+    @ApiOperation(value = "내팔로잉목록")
+    public Object myFollowing(int userNo){
+        ResponseEntity response = null;
+        try {
+            List<Integer> list = followService.followingList(userNo);
+            ArrayList<Account> userList = new ArrayList<>();
+            for(int i = 0; i < list.size(); i++){
+                userList.add(accountService.search(list.get(i)));
+            }
+            final BasicResponse result = new BasicResponse();
+            Map<String, Object> map = new HashMap<>();
+            map.put("followingList", userList);
+            result.data = map;
+            result.status = true;
+            response = new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
+        }        
+        return response;
+    }
 }

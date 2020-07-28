@@ -39,4 +39,9 @@ public class AccountDaoImpl implements AccountDao {
         return accountMapper.hofList();
     }
 
+    @Override
+    public Account search(int userNo) {
+        return accountMapper.search(userNo);
+    }
+
 }

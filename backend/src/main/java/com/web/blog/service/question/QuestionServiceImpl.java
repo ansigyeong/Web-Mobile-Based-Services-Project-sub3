@@ -45,6 +45,11 @@ public class QuestionServiceImpl implements QuestionService {
         return questionDao.myQue(userNo);
     }
 
+    @Override
+    public List<Question> detailList(String lang) {
+        return questionDao.detailList(lang);
+    }
+
 
 
 }

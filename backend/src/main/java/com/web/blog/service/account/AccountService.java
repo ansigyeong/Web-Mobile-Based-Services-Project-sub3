@@ -12,4 +12,6 @@ public interface AccountService {
     public int findByAuthStatus(String username);
     public AuthenticationRequest findByUsername(String username);
     public List<Account> hofList();
+    public Account search(int userNo);
+
 }

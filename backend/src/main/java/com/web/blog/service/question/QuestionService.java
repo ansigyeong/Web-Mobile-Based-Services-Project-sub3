@@ -11,4 +11,6 @@ public interface QuestionService {
     public int modifyQuestion(Question question);
     public Question oneQuestion(int queNo);
     public List<Question> myQue(int userNo);
+    public List<Question> detailList(String lang);
+
 }

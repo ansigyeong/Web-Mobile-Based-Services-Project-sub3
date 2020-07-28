@@ -98,6 +98,11 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
         return accountDao.hofList();
     }
 
+    @Override
+    public Account search(int userNo) {
+        return accountDao.search(userNo);
+    }
+
 
 
 }
