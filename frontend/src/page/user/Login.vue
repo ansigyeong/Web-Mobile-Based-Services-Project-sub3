@@ -2,7 +2,7 @@
     <div class="user" id="login">
         <div class="wrapC table">
             <div class="middle">
-                <h1>SS_log</h1>
+                <h1>로그인</h1>
                 <div class="input-wrap">
                     <input v-model="email"
                         id="email" 

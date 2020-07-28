@@ -1,65 +1,36 @@
 <template>
   <div id="app">
-    <Header :isHeader="isHeader"/>
+    <div id="nav">
+      <router-link to="/askquestion">Ask Question</router-link> |
+      <router-link to="/list">List</router-link> |
+      <router-link to="/bookmark">bookmark</router-link> |
+      <router-link to="/fame">Fame</router-link> |
+      <router-link to="/login">Login</router-link> |
+      <router-link to="/join">Join</router-link>
+    </div>
     <router-view/>
   </div>
 </template>
 
-<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>  
-<script> 
-import './assets/css/style.scss' 
-import Header from './components/common/Header.vue'
-import constants from './lib/constants' 
-
-export default {
-  name: 'App',
-  components: { 
-    Header
-  },
-  created() {
-      let url = this.$route.name;
-
-      this.checkUrl(url);
-  },
-  watch: {
-      $route (to){
-
-          this.checkUrl(to.name);
-      }
-  },
-  methods : {
-      checkUrl(url) { 
-
-          let array = [
-              constants.URL_TYPE.USER.LOGIN,
-              constants.URL_TYPE.USER.JOIN,
-          ];
-
-          let isHeader = true;
-          array.map(path => {
-              if (url === path)
-                  isHeader = false;
-          })
-          this.isHeader = isHeader;
-
-      },
-  },
-  data: function () {
-        return {
-            isHeader: true,
-            constants
-        } 
-    }
-}
-</script>
-
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; 
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+#nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 </style>

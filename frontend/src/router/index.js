@@ -1,35 +1,53 @@
 import Vue from 'vue'
-import Router from 'vue-router'
-
-import constants from '../lib/constants'
-
-// 유저
-import Login from '../page/user/Login.vue'
+import VueRouter from 'vue-router'
+// import Home from '../views/Home.vue'
+// import Header from '../components/common/Header.vue'
 import Join from '../page/user/Join.vue'
-
-// 포스트
+import Login from '../page/user/Login.vue'
 import List from '../page/post/List.vue'
- 
-Vue.use(Router) 
- 
-export default new Router({
-  routes: [   
-    // 로그인/가입
-    { 
-      path: '/user/login',
-      name: constants.URL_TYPE.USER.LOGIN,
-      component: Login
-    },
-    {
-      path: '/user/join',
-      name: constants.URL_TYPE.USER.JOIN,
-      component: Join
-    },
-    // 포스트
-    { 
-      path: '/',
-      name: constants.URL_TYPE.POST.MAIN,
-      component: List,
-    },
-  ]
+import Fame from '../page/post/Fame.vue'
+import Bookmark from '../page/post/Bookmark.vue'
+import AskQuestion from '../page/post/AskQuestion.vue'
+
+Vue.use(VueRouter)
+
+  const routes = [
+  {
+    path: '/join',
+    name: 'Join',
+    component: Join
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/list',
+    name: 'List',
+    component: List
+  },
+  {
+    path: '/fame',
+    name: 'Fame',
+    component: Fame
+  },
+  {
+    path: '/bookmark',
+    name: 'Bookmark',
+    component: Bookmark
+  },
+  {
+    path: '/askquestion',
+    name: 'AskQuestion',
+    component: AskQuestion
+  },
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
 })
+
+export default router
