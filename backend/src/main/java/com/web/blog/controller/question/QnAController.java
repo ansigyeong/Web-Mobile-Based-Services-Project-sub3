@@ -1,4 +1,5 @@
 package com.web.blog.controller.question;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import com.web.blog.dto.cart.Cart;
 import com.web.blog.dto.question.QueView;
 import com.web.blog.dto.question.Question;
 import com.web.blog.dto.reply.Reply;
+import com.web.blog.service.account.AccountService;
 import com.web.blog.service.cart.CartService;
 import com.web.blog.service.question.QuestionService;
 import com.web.blog.service.reply.ReplyService;
@@ -48,13 +50,18 @@ public class QnAController {
     JwtTokenProvider jwtToken;
     @Autowired
     CartService cartService;
+    @Autowired
+    AccountService accountService;
 
     @PostMapping("question/write")
     @ApiOperation(value ="질문하기")
-    public Object write(@RequestBody Question question){ 
+    public Object write(@RequestBody Question question, Principal principal){ 
         ResponseEntity response = null;
         try {
-            question.setCreateDate(new Date());    
+            Account account = accountService.findByToken(principal.getName());
+            int userNo = account.getUserNo();
+            question.setCreateDate(new Date());   
+            question.setUserNo(userNo); 
             questionService.writeQuestion(question);
             final BasicResponse result = new BasicResponse();
             result.status = true;
@@ -72,6 +79,7 @@ public class QnAController {
     public Object modify(@RequestBody Question question){ 
         ResponseEntity response = null;
         try {
+            
             questionService.modifyQuestion(question);
             final BasicResponse result = new BasicResponse();
             result.status = true;
@@ -111,9 +119,11 @@ public class QnAController {
 
     @GetMapping("question/myQue")
     @ApiOperation(value = "내질문목록")
-    public Object myQue(int userNo){
+    public Object myQue(Principal principal){
         ResponseEntity response = null;
         try {
+            Account account = accountService.findByToken(principal.getName());
+            int userNo = account.getUserNo();
             List<Question> list = questionService.myQue(userNo);
             final BasicResponse result = new BasicResponse();
             Map<String, Object> map = new HashMap<>();
@@ -129,9 +139,11 @@ public class QnAController {
 
     @GetMapping("question/myRp")
     @ApiOperation(value = "내답변목록")
-    public Object myRp(int userNo){
+    public Object myRp(Principal principal){
         ResponseEntity response = null;
         try {
+            Account account = accountService.findByToken(principal.getName());
+            int userNo = account.getUserNo();
             List<Reply> list = replyService.myRp(userNo);
             final BasicResponse result = new BasicResponse();
             Map<String, Object> map = new HashMap<>();
@@ -183,9 +195,12 @@ public class QnAController {
 
     @PostMapping("reply/write")
     @ApiOperation(value ="댓글달기")
-    public Object writeReply(@RequestBody Reply reply){ 
+    public Object writeReply(@RequestBody Reply reply, Principal principal){ 
         ResponseEntity response = null;
         try {
+            Account account = accountService.findByToken(principal.getName());
+            int userNo = account.getUserNo();
+            reply.setUserNo(userNo);
             reply.setCreateDate(new Date());    
             replyService.writeReply(reply);
             final BasicResponse result = new BasicResponse();
@@ -259,9 +274,12 @@ public class QnAController {
 
     @PostMapping("cart/regist")
     @ApiOperation(value ="찜등록")
-    public Object regist(@RequestBody Cart cart){ 
+    public Object regist(@RequestBody Cart cart, Principal principal){ 
         ResponseEntity response = null;
         try {
+            Account account = accountService.findByToken(principal.getName());
+            int userNo = account.getUserNo();
+            cart.setUserNo(userNo);
             cartService.registCart(cart);
             final BasicResponse result = new BasicResponse();
             result.status = true;
@@ -291,13 +309,15 @@ public class QnAController {
 
     @GetMapping("cart/list")
     @ApiOperation(value = "찜목록")
-    public Object List(int userNo){
+    public Object List(Principal principal){
         ResponseEntity response = null;
         ArrayList<Question> cList = new ArrayList<>();
         ArrayList<Question> cppList = new ArrayList<>();
         ArrayList<Question> javaList = new ArrayList<>();
         ArrayList<Question> pyList = new ArrayList<>();
         try {
+            Account account = accountService.findByToken(principal.getName());
+            int userNo = account.getUserNo();
             List<Integer> cartList = cartService.cartList(userNo);
             for(int i = 0; i < cartList.size(); i++){
                 Question q = questionService.oneQuestion(cartList.get(i));
