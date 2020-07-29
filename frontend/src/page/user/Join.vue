@@ -37,37 +37,26 @@
                             </span>
                     </div>
                 </div>
-
-                <!-- <label>
-                    <input v-model="isTerm" type="checkbox" id="term"/>
-                    <span>약관에 동의합니다</span>
-                </label>
-
-                <span class="go-term">약관 보기</span> -->
-
+                <Language />
                 <button class="btn">
                     <span>
                         회원가입
                     </span>
                 </button>
             </div>
-
-
         </div> 
-        
-
     </div>
 </template>
 
 <script>
     import '../../assets/css/user.scss'
+    import Language from '../../components/Language.vue'
 
     export default {
         components: {
+            Language,
         },
         created(){
-
-
         },
         methods: {
         },
