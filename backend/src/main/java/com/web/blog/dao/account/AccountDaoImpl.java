@@ -1,5 +1,7 @@
 package com.web.blog.dao.account;
 
+import java.util.List;
+
 import com.web.blog.dto.account.Account;
 import com.web.blog.dto.account.AuthenticationRequest;
 
@@ -11,7 +13,6 @@ public class AccountDaoImpl implements AccountDao{
     @Autowired
     AccountMapper accountMapper;
 
-    @Override
     public void insertAccount(Account user) {
        accountMapper.insertAccount(user);
     }
@@ -21,7 +22,6 @@ public class AccountDaoImpl implements AccountDao{
         return accountMapper.findByUsername(username);
     }
 
-    @Override
     public void updateAuthStatus(Account user) {
         accountMapper.updateAuthStatus(user);
     }
@@ -32,6 +32,15 @@ public class AccountDaoImpl implements AccountDao{
     }
 
     @Override
+    public List<Account> hofList() {
+        return accountMapper.hofList();
+    }
+
+    @Override
+    public Account search(int userNo) {
+        return accountMapper.search(userNo);
+    }
+
     public void deleteAccount(String email) {
        accountMapper.deleteAccount(email);
     }

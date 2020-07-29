@@ -1,10 +1,13 @@
 package com.web.blog.service.account;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.mail.MessagingException;
 
+import com.web.blog.dao.account.AccountDao;
+import java.util.Date;
 import com.web.blog.controller.exception.UserAlreadyExistException;
 import com.web.blog.dao.account.AccountDao;
 import com.web.blog.dto.account.Account;
@@ -40,6 +43,7 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     }
 
     // 회원가입
+<<<<<<< backend/src/main/java/com/web/blog/service/account/AccountServiceImpl.java
     public void insertAccount(Account user) {
 
         user.setPw(passwordEncoder.encode(user.getPw())); // 비밀번호 암호화
@@ -73,7 +77,8 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
             System.err.println("mail 한글깨짐");
             e.printStackTrace();
         }
-        return;
+
+        return cnt;
     }
 
     @Override
@@ -92,6 +97,15 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     }
 
     @Override
+    public List<Account> hofList() {
+        return accountDao.hofList();
+    }
+
+    @Override
+    public Account search(int userNo) {
+        return accountDao.search(userNo);
+    }
+
     public void deleteAccount(String email) {
         accountDao.deleteAccount(email);
     }
@@ -107,6 +121,5 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     }
 
   
-
 
 }

@@ -1,5 +1,5 @@
 package com.web.blog.service.account;
-
+import java.util.List;
 import com.web.blog.dto.account.Account;
 import com.web.blog.dto.account.AuthenticationRequest;
 
@@ -11,4 +11,6 @@ public interface AccountService {
     public void deleteAccount(String email);
     public void updateAccount(Account user);
     public Account selectAccount(String email);
+    public List<Account> hofList();
+    public Account search(int userNo);
 }
