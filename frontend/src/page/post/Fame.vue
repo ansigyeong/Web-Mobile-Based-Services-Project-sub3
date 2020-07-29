@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>명예의 전당</h1>
     <v-card
       class="mx-auto"
       max-width="434"
@@ -125,3 +126,18 @@
     </v-card>
   </div>
 </template>
+
+<style>
+  /* #div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  } */
+   .v-card {
+    display: block;
+    vertical-align: center;
+    top:50%; left:30%; 
+    margin-top:50px; 
+    margin-left:50px;    
+  } 
+</style>

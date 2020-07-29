@@ -1,5 +1,5 @@
 <template>
-  <v-card flat>
+  <v-card>
     <v-snackbar
       v-model="snackbar"
       absolute
@@ -118,5 +118,11 @@
 </script>
 
 <style>
-
+  .v-snackbar {
+    display: block;
+    vertical-align: center;
+    top:50%; left:30%; 
+    margin-top:50px; 
+    margin-left:50px; 
+  }
 </style>

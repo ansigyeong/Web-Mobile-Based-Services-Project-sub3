@@ -3,8 +3,11 @@
     <div id="nav">
       <router-link to="/askquestion">Ask Question</router-link> |
       <router-link to="/list">List</router-link> |
+      <router-link to="/detail">Detail</router-link> |
       <router-link to="/bookmark">bookmark</router-link> |
       <router-link to="/fame">Fame</router-link> |
+      <router-link to="/record">My Record</router-link> |
+      <router-link to="/profile">My Profile</router-link> |
       <router-link to="/login">Login</router-link> |
       <router-link to="/join">Join</router-link>
     </div>
