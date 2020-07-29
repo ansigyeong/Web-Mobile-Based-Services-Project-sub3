@@ -1,8 +1,6 @@
 package com.web.blog.dao.reply;
-
 import java.util.List;
-
-import com.web.blog.model.reply.Reply;
+import com.web.blog.dto.reply.Reply;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;

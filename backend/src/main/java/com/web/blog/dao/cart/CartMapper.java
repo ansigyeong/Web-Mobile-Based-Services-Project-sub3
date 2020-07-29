@@ -3,7 +3,7 @@ package com.web.blog.dao.cart;
 
 import java.util.List;
 
-import com.web.blog.model.cart.Cart;
+import com.web.blog.dto.cart.Cart;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;

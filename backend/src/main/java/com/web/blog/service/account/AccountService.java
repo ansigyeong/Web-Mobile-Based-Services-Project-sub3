@@ -13,4 +13,5 @@ public interface AccountService {
     public Account selectAccount(String email);
     public List<Account> hofList();
     public Account search(int userNo);
+    public Account findByToken(String token);
 }

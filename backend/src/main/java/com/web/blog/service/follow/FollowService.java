@@ -2,7 +2,7 @@ package com.web.blog.service.follow;
 
 import java.util.List;
 
-import com.web.blog.model.follow.Follow;
+import com.web.blog.dto.follow.Follow;
 
 public interface FollowService {
     public int regist(Follow follow);

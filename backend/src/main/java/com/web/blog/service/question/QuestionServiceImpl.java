@@ -3,7 +3,7 @@ package com.web.blog.service.question;
 import java.util.List;
 
 import com.web.blog.dao.question.QuestionDao;
-import com.web.blog.model.question.Question;
+import com.web.blog.dto.question.Question;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

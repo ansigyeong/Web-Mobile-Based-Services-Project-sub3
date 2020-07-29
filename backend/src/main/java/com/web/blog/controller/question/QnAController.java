@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.web.blog.config.JwtTokenProvider;
-import com.web.blog.model.BasicResponse;
-import com.web.blog.model.account.Account;
-import com.web.blog.model.cart.Cart;
-import com.web.blog.model.question.QueView;
-import com.web.blog.model.question.Question;
-import com.web.blog.model.reply.Reply;
+import com.web.blog.dto.BasicResponse;
+import com.web.blog.dto.account.Account;
+import com.web.blog.dto.cart.Cart;
+import com.web.blog.dto.question.QueView;
+import com.web.blog.dto.question.Question;
+import com.web.blog.dto.reply.Reply;
 import com.web.blog.service.cart.CartService;
 import com.web.blog.service.question.QuestionService;
 import com.web.blog.service.reply.ReplyService;

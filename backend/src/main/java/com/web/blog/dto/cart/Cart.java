@@ -1,4 +1,4 @@
-package com.web.blog.model.cart;
+package com.web.blog.dto.cart;
 
 
 import lombok.AllArgsConstructor;

@@ -2,7 +2,7 @@ package com.web.blog.dao.cart;
 
 import java.util.List;
 
-import com.web.blog.model.cart.Cart;
+import com.web.blog.dto.cart.Cart;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

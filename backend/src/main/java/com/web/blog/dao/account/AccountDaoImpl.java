@@ -55,6 +55,11 @@ public class AccountDaoImpl implements AccountDao{
         return accountMapper.selectAccount(email);
     }
 
+    @Override
+    public Account findByToken(String token) {
+        return accountMapper.findByToken(token);
+    }
+
    
 
 }

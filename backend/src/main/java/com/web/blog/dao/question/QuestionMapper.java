@@ -2,7 +2,7 @@ package com.web.blog.dao.question;
 
 import java.util.List;
 
-import com.web.blog.model.question.Question;
+import com.web.blog.dto.question.Question;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;

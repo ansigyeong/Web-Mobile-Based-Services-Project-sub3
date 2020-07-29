@@ -1,4 +1,4 @@
-package com.web.blog.model.question;
+package com.web.blog.dto.reply;
 
 import java.util.Date;
 
@@ -10,12 +10,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class QueView  {
-    private int queNo;
-    private String lang;
-    private String title;
+public class Reply  {
+    private int rpNo;
     private String contents;
+    private int rpLike;
     private Date createDate;
+    private int queNo;
     private int userNo;
-    private int rpCnt;
 }

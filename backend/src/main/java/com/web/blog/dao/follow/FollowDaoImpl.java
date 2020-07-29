@@ -2,8 +2,8 @@ package com.web.blog.dao.follow;
 
 import java.util.List;
 
-import com.web.blog.model.cart.Cart;
-import com.web.blog.model.follow.Follow;
+import com.web.blog.dto.cart.Cart;
+import com.web.blog.dto.follow.Follow;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

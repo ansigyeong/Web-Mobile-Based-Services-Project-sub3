@@ -1,8 +1,8 @@
 package com.web.blog.dao.account;
 
 import java.util.List;
-import com.web.blog.model.account.Account;
-import com.web.blog.model.account.AuthenticationRequest;
+import com.web.blog.dto.account.Account;
+import com.web.blog.dto.account.AuthenticationRequest;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Update;
 @Mapper
 public interface AccountMapper {
     
-
+    //회원가입
     @Insert("insert into user(name,email,pw,lang,authKey,createDate) values( #{user.name},#{user.email}, #{user.pw}, #{user.lang}, #{user.authKey} ,#{user.createDate})")
     public void insertAccount(@Param("user") Account user);
 
@@ -25,13 +25,15 @@ public interface AccountMapper {
     @Select("select * from user where email = #{email} ")
     public AuthenticationRequest findByUsername(String email);
 
+    //명전
     @Select("select * from user order by grade limit 3")
     public List<Account> hofList();
 
+    //모든 회원정보 조회
     @Select("select * from user where userNo=#{userNo}")
     public Account search(int userNo);
-
-
+    
+    //메일 인증
     @Select("select authStatus from user where email = #{username}")
     public int findByAuthStatus(String username);
 
@@ -46,6 +48,8 @@ public interface AccountMapper {
     //회원 탈퇴
     @Delete("delete from user where email = #{email} ")
     public void deleteAccount(String email);
-
     
+    //토큰안의 user계정 이용해서 찾기
+    @Select("select userNo from user where email = #{token}")
+    public Account findByToken(String token);
 }

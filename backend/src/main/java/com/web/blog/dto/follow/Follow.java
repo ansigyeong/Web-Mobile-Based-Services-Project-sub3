@@ -1,4 +1,4 @@
-package com.web.blog.model.follow;
+package com.web.blog.dto.follow;
 
 
 import lombok.AllArgsConstructor;

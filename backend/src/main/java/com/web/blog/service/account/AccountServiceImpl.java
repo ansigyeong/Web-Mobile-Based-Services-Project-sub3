@@ -23,6 +23,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.AllArgsConstructor;
+
 @Transactional
 @Service
 public class AccountServiceImpl implements UserDetailsService, AccountService {
@@ -43,7 +45,6 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     }
 
     // 회원가입
-<<<<<<< backend/src/main/java/com/web/blog/service/account/AccountServiceImpl.java
     public void insertAccount(Account user) {
 
         user.setPw(passwordEncoder.encode(user.getPw())); // 비밀번호 암호화
@@ -78,7 +79,7 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
             e.printStackTrace();
         }
 
-        return cnt;
+        return;
     }
 
     @Override
@@ -118,6 +119,11 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     @Override
     public Account selectAccount(String email) {
         return accountDao.selectAccount(email);
+    }
+
+    @Override
+    public Account findByToken(String token) {
+        return accountDao.findByToken(token);
     }
 
   

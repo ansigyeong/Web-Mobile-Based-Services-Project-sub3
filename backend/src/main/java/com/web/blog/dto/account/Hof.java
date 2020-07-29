@@ -1,4 +1,4 @@
-package com.web.blog.model.account;
+package com.web.blog.dto.account;
 
 
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.web.blog.model.question;
+package com.web.blog.dto.question;
 
 import java.util.Date;
 
