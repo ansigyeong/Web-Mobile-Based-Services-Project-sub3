@@ -237,7 +237,6 @@ public class AccountController {
                 result.status = true;
                 response = new ResponseEntity<>(result, HttpStatus.OK);
             } catch (Exception e) {
-                System.out.println("실패");
                 response = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             }
             return response;
@@ -247,13 +246,18 @@ public class AccountController {
     // 팔로우
     @PostMapping("follow/regist")
     @ApiOperation(value = "팔로우하기")
-    public Object regist(@RequestBody Follow follow, Principal principal) {
+    public Object regist(@RequestBody int followingNo, Principal principal) {
         if (principal == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         } else {
 
             ResponseEntity response = null;
             try {
+                Account account = accountService.findByToken(principal.getName());
+                int userNo = account.getUserNo();
+                Follow follow = new Follow();
+                follow.setUserNo(userNo);
+                follow.setFollowingNo(followingNo);
                 followService.regist(follow);
                 final BasicResponse result = new BasicResponse();
                 result.status = true;
