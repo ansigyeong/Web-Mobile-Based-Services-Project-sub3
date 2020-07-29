@@ -7,13 +7,14 @@ import java.util.List;
 import javax.mail.MessagingException;
 
 import com.web.blog.dao.account.AccountDao;
-import com.web.blog.model.account.Account;
-import com.web.blog.model.account.AuthenticationRequest;
-import com.web.blog.model.account.SignupRequest;
+import java.util.Date;
+import com.web.blog.controller.exception.UserAlreadyExistException;
+import com.web.blog.dao.account.AccountDao;
+import com.web.blog.dto.account.Account;
+import com.web.blog.dto.account.AuthenticationRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,37 +34,39 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     private JavaMailSender mailSender;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AuthenticationRequest user = accountDao.findByUsername(username);
-        
-        System.out.println("사용자 : "+user);
-      
+
+        System.out.println("사용자 : " + user);
 
         return new User(user.getEmail(), user.getPw(), user.getAuthorities());
     }
 
     // 회원가입
-    public int insertAccount(SignupRequest user) {
+<<<<<<< backend/src/main/java/com/web/blog/service/account/AccountServiceImpl.java
+    public void insertAccount(Account user) {
 
         user.setPw(passwordEncoder.encode(user.getPw())); // 비밀번호 암호화
-
+        user.setCreateDate(new Date());
         String authKey = new TempKey().getKey(50, false); // 임의의 인증키 생성
         user.setAuthKey(authKey);
-
         System.out.println("비번: " + user.getPw());
         System.out.println("임의의 eamil 인증키: " + user.getAuthKey());
-        int cnt = accountDao.insertAccount(user);
+        try {
+            accountDao.insertAccount(user);
+        } catch (Exception e) {
+            throw new UserAlreadyExistException("회원가입 되어있는 email주소 입니다.");
+        }
         MailHandler sendMail;
         // mail전송
         try {
             sendMail = new MailHandler(mailSender);
-            sendMail.setSubject("[바다이야기 회원가입 이메일 인증]");
+            sendMail.setSubject("[Hello Code_Sea 회원가입 이메일 인증]");
             sendMail.setText(
                     new StringBuffer().append("<h1>email 인증<h1>").append("<p>아래 링크를 클릭하시면 eamil 인증이 완료 됩니다.<p>")
-                            .append("<a href='http://localhost/account/eamilConfirm?")
-                            .append("&email=").append(user.getEmail())
-                            .append("&authKey=").append(user.getAuthKey()).append("' target='_blenk'>email 인증 확인</a>")
-                            .toString());
+                            .append("<a href='http://localhost/account/eamilConfirm?").append("&email=")
+                            .append(user.getEmail()).append("&authKey=").append(user.getAuthKey())
+                            .append("' target='_blenk'>email 인증 확인</a>").toString());
             sendMail.setFrom("qoreksql456@gamil.com", "addmin");
             sendMail.setTo(user.getEmail());
             sendMail.send();
@@ -79,8 +82,8 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     }
 
     @Override
-    public int updateAccount(SignupRequest user) {
-        return accountDao.updqteAccount(user);
+    public void updateAuthStatus(Account user) {
+        accountDao.updateAuthStatus(user);
     }
 
     @Override
@@ -103,6 +106,20 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
         return accountDao.search(userNo);
     }
 
+    public void deleteAccount(String email) {
+        accountDao.deleteAccount(email);
+    }
 
+    @Override
+    public void updateAccount(Account user) {
+        accountDao.updateAccount(user);
+    }
+
+    @Override
+    public Account selectAccount(String email) {
+        return accountDao.selectAccount(email);
+    }
+
+  
 
 }

@@ -2,31 +2,28 @@ package com.web.blog.dao.account;
 
 import java.util.List;
 
-import com.web.blog.model.account.Account;
-import com.web.blog.model.account.AuthenticationRequest;
-import com.web.blog.model.account.SignupRequest;
+import com.web.blog.dto.account.Account;
+import com.web.blog.dto.account.AuthenticationRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class AccountDaoImpl implements AccountDao {
+public class AccountDaoImpl implements AccountDao{
     @Autowired
     AccountMapper accountMapper;
 
-    @Override
-    public int insertAccount(SignupRequest user) {
-        return accountMapper.insertAccount(user);
+    public void insertAccount(Account user) {
+       accountMapper.insertAccount(user);
     }
 
     @Override
-    public AuthenticationRequest findByUsername(String username) {
+    public AuthenticationRequest findByUsername(String username){
         return accountMapper.findByUsername(username);
     }
 
-    @Override
-    public int updqteAccount(SignupRequest user) {
-        return accountMapper.updateAccount(user);
+    public void updateAuthStatus(Account user) {
+        accountMapper.updateAuthStatus(user);
     }
 
     @Override
@@ -43,5 +40,21 @@ public class AccountDaoImpl implements AccountDao {
     public Account search(int userNo) {
         return accountMapper.search(userNo);
     }
+
+    public void deleteAccount(String email) {
+       accountMapper.deleteAccount(email);
+    }
+
+    @Override
+    public void updateAccount(Account user) {
+        accountMapper.updateAccount(user);
+    }
+
+    @Override
+    public Account selectAccount(String email) {
+        return accountMapper.selectAccount(email);
+    }
+
+   
 
 }

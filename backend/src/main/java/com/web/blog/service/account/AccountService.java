@@ -1,17 +1,16 @@
 package com.web.blog.service.account;
-
 import java.util.List;
-
-import com.web.blog.model.account.Account;
-import com.web.blog.model.account.AuthenticationRequest;
-import com.web.blog.model.account.SignupRequest;
+import com.web.blog.dto.account.Account;
+import com.web.blog.dto.account.AuthenticationRequest;
 
 public interface AccountService {
-    public int insertAccount(SignupRequest user);
-    public int updateAccount(SignupRequest user);
+    public void insertAccount(Account user);
+    public void updateAuthStatus(Account user);
     public int findByAuthStatus(String username);
     public AuthenticationRequest findByUsername(String username);
+    public void deleteAccount(String email);
+    public void updateAccount(Account user);
+    public Account selectAccount(String email);
     public List<Account> hofList();
     public Account search(int userNo);
-
 }

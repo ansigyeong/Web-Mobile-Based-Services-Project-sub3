@@ -2,23 +2,21 @@ package com.web.blog.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.event.LogoutSuccessEvent;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+// import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import lombok.RequiredArgsConstructor;
 
 
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
@@ -49,29 +47,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .httpBasic().disable()
         .csrf().disable()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //세션 사용 하지 않음
-        .and()
+        .and() 
         .authorizeRequests() //요청에 대한 사용권한 설정
-        .antMatchers("/admin/**").hasRole("ADMIN")
+        .antMatchers("/admin/**").hasRole("ADMIN") //403처리됨
         .antMatchers("/user/**").hasAnyRole("USER","ADMIN")
         .antMatchers("/**").permitAll() // 그 외 누구나 접근 가능
+        .antMatchers("/kakao").hasRole("KAKAO")
+        .antMatchers("/facebook").hasRole("FACKBOOK")
         .and()
-           .formLogin()
-                .loginPage("/account/login")
-                .defaultSuccessUrl("/")
-                .permitAll()
-            .and()
-            .addFilterBefore(new JwtAuthFilter(jwtToken), UsernamePasswordAuthenticationFilter.class);
-            // .logout()
-            //     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            //     .logoutSuccessUrl("/")
-            //     .invalidateHttpSession(true)
-            // .and()
-            // .exceptionHandling()
-            //     .accessDeniedPage("/account/login");
-    }
+        // .oauth2Login()
+        // .and()
+        .addFilterBefore(new JwtAuthFilter(jwtToken), UsernamePasswordAuthenticationFilter.class)
+        // .and()
+        // .oauth2Login()
+        ;
 
-    // @Override
-    // public void configuration(AuthenticationManagerBuilder auth) throws Exception{
-    //     auth.userDetailsService()
+    }
+    
+    // @Bean
+    // public ClientRegistrationRepository clientRegistrationRepository(OAuth2ClientProperties oAuth2ClientProperties,
+    // @Value("${custom.oauth2.kakao.client-id}") String kakaoClientId,
+    // @Value("${custom.oauth2.kakao.client-secret}") String kakaoClientSecret  
+    // ){
+    //     List<Clientregistrati>
     // }
+
+
+   
 }
