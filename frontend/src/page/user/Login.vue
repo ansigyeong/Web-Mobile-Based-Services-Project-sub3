@@ -34,7 +34,7 @@
 </template>
 
 <script>
-    import '../../assets/css/user.scss'
+    // import '../../assets/css/user.scss'
     import constants from '../../lib/constants'
     import axois from 'axios'
 

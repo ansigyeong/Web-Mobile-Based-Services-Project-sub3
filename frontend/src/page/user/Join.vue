@@ -49,7 +49,7 @@
 </template>
 
 <script>
-    import '../../assets/css/user.scss'
+    // import '../../assets/css/user.scss'
     import Language from '../../components/Language.vue'
 
     export default {

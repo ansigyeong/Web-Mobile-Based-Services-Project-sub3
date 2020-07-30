@@ -1,13 +1,25 @@
 <template>
-  <div id="app">
-    <Header :isHeader="isHeader"/>
+  <v-app>
+    <v-app-bar
+      app
+      flat
+    >
+    <Header/>
+    
+    </v-app-bar>
+  
+    <v-content>
+      <v-container fluid>
     <router-view/>
-  </div>
+      </v-container>
+    </v-content>
+    <v-footer app></v-footer>
+  </v-app>
 </template>
 
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>  
 <script> 
-import './assets/css/style.scss' 
+// import './assets/css/style.scss' 
 import Header from './components/common/Header.vue'
 import constants from './lib/constants' 
 
@@ -17,32 +29,15 @@ export default {
     Header
   },
   created() {
-      let url = this.$route.name;
-
-      this.checkUrl(url);
+     
   },
   watch: {
-      $route (to){
-
-          this.checkUrl(to.name);
-      }
+     
   },
   methods : {
-      checkUrl(url) { 
+      
 
-          let array = [
-              constants.URL_TYPE.USER.LOGIN,
-              constants.URL_TYPE.USER.JOIN,
-          ];
-
-          let isHeader = true;
-          array.map(path => {
-              if (url === path)
-                  isHeader = false;
-          })
-          this.isHeader = isHeader;
-
-      },
+    
   },
   data: function () {
         return {

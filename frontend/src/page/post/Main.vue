@@ -11,13 +11,14 @@
         md="6"
         class="my-4"
         >
+        
         <v-card color="grey lighten-4" flat height="200px">
             <v-toolbar :color="bar.class" :dark="bar.dark">
             <v-app-bar-nav-icon></v-app-bar-nav-icon>
             <v-toolbar-title>Title</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn icon>
-                <v-icon>mdi-magnify</v-icon>
+                <v-icon>mdi-magni   fy</v-icon>
             </v-btn>
             <v-btn icon>
                 <v-icon>mdi-heart</v-icon>
@@ -30,13 +31,11 @@
         </v-col>
     </v-row>
 
-
-
   </div>
 </template>
 
 <script>
-    import '../../assets/css/post.scss'
+    // import '../../assets/css/post.scss'
 
     
     export default {
@@ -56,8 +55,6 @@
         }
     }
 
-
-    
 </script>
 
 <style>
