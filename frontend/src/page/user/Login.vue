@@ -38,6 +38,7 @@
     import constants from '../../lib/constants'
     
     export default {
+        name: 'Login',
         components: {
         },
         created(){

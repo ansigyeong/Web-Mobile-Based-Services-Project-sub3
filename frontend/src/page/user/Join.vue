@@ -53,6 +53,7 @@
     import Language from '../../components/Language.vue'
 
     export default {
+        name: 'Join',
         components: {
             Language,
         },

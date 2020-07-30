@@ -9,7 +9,7 @@
       <div class="comment-list-item-button">
         <v-btn variant="info">수정</v-btn>
         <v-btn variant="info">삭제</v-btn>
-        <v-btn variant="info" @click="subCommentToggle">덧글 달기</v-btn>
+        <v-btn variant="info" @click="subCommentToggle">댓글 달기</v-btn>
       </div>
     </div>
     <template v-if="subCommentCreateToggle">
@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import data from "@/data";
 import CommentCreate from "./CommentCreate";
 
 export default {

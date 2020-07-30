@@ -15,17 +15,19 @@
       ></v-autocomplete>
       <v-divider></v-divider>
       <v-text-field
+        v-model="inputTitle"
         label="제목을 입력해주세요"
         single-line
+        maxlength="200"
         full-width
         hide-details
       ></v-text-field>
       <v-divider></v-divider>
       <v-textarea
-        v-model="title"
+        v-model="inputContext"
         label="내용을 입력해주세요"
         counter
-        maxlength="120"
+        maxlength="2000"
         full-width
         single-line
       ></v-textarea>

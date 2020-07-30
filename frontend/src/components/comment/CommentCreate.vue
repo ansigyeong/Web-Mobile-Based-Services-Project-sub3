@@ -4,7 +4,7 @@
       <v-form-textarea
         id="textarea"
         v-model="context"
-        :placeholder="isSubComment ? '덧글에 덧글을 달아주세요~!' : '코멘트를 달아주세요~!'"
+        :placeholder="isSubComment ? '댓글에 댓글을 달아주세요~!' : '코멘트를 달아주세요~!'"
         rows="3"
         max-rows="6"
       ></v-form-textarea>
@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import data from "@/data";
 
 export default {
   name: "CommentCreate",

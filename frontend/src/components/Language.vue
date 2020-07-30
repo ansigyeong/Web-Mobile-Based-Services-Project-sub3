@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row align="center">
-      <v-col class="d-flex" cols="12" sm="6">
+      <v-col class="d-flex" cols="12">
         <v-select
           label="언어를 선택해주세요"
           :items="items"
