@@ -1,11 +1,9 @@
 <template> 
 	<div class="container">
 		<v-form>
-			<v-container> 
-				<v-row> 제목 | {{ questionTitle }} </v-row> 
-				<v-row> 내용 | {{ questionContext }} </v-row> 
-				<!-- <v-row> <v-btn block outlined color="blue" @click="listClick"> 목록 </v-btn> </v-row>  -->
-			</v-container> 
+			제목 | <v-row>{{ questionTitle }} </v-row> 
+			내용 | <v-row> {{ questionContext }} </v-row> 
+			<!-- <v-row> <v-btn block outlined color="blue" @click="listClick"> 목록 </v-btn> </v-row>  -->
 		</v-form> 
 	</div>
 </template> 

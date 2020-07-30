@@ -1,5 +1,7 @@
 <template>
-  <h1>My Page</h1>
+  <div>
+    <h1>My Profile</h1>
+  </div>
 </template>
 
 <script>
