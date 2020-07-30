@@ -1,5 +1,5 @@
 <template>
-  <div class="container commentlist">
+  <div>
     <div :key="item.comment_id" v-for="item in comments">
       <CommentListItem :commentObj="item"></CommentListItem>
     </div>
@@ -8,7 +8,6 @@
 </template>
 
 <script>
-// import data from "@/data";
 import CommentListItem from "./CommentListItem";
 import CommentCreate from "./CommentCreate";
 
@@ -39,9 +38,4 @@ export default {
 </script>
 
 <style>
-.commentlist {
-  border: 3px solid gray;
-    margin: 3px;
-    padding: 3px;
-}
 </style>

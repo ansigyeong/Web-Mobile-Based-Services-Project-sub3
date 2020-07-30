@@ -1,17 +1,17 @@
 <template>
   <div class="comment-create">
-    <v-input-group :prepend="name" class="mt-3">
-      <v-form-textarea
+    <b-input-group :prepend="name" class="mt-3">
+      <b-form-textarea
         id="textarea"
         v-model="context"
-        :placeholder="isSubComment ? '댓글에 댓글을 달아주세요~!' : '코멘트를 달아주세요~!'"
+        :placeholder="isSubComment ? '이 답변에 의견을 제시해주세요' : '답변을 작성해 주세요'"
         rows="3"
         max-rows="6"
-      ></v-form-textarea>
-      <v-input-group-append>
-        <v-btn variant="info" @click="isSubComment ? createSubComment() : createComment()">작성하기</v-btn>
-      </v-input-group-append>
-    </v-input-group>
+      ></b-form-textarea>
+      <b-input-group-append>
+        <b-button variant="outline-primary" @click="isSubComment ? createSubComment() : createComment()">답변 등록</b-button>
+      </b-input-group-append>
+    </b-input-group>
   </div>
 </template>
 
@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      name: "인성",
+      name: "",
       context: ""
     };
   },

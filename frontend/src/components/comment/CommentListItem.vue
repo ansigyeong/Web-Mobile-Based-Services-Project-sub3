@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <div class="comment-list-item">
       <div class="comment-list-item-name">
         <div>{{name}}</div>
@@ -7,9 +7,9 @@
       </div>
       <div class="comment-list-item-context">{{commentObj.context}}</div>
       <div class="comment-list-item-button">
-        <v-btn variant="info">수정</v-btn>
-        <v-btn variant="info">삭제</v-btn>
-        <v-btn variant="info" @click="subCommentToggle">댓글 달기</v-btn>
+        <b-button variant="outline-info">수정</b-button>
+        <b-button variant="outline-info">삭제</b-button>
+        <b-button variant="outline-info" @click="subCommentToggle">답변 작성하기</b-button>
       </div>
     </div>
     <template v-if="subCommentCreateToggle">
@@ -32,8 +32,8 @@
         </div>
         <div class="comment-list-item-context">{{item.context}}</div>
         <div class="comment-list-item-button">
-          <v-btn variant="info">수정</v-btn>
-          <v-btn variant="info">삭제</v-btn>
+          <b-button variant="info">수정</b-button>
+          <b-button variant="info">삭제</b-button>
         </div>
       </div>
     </template>
