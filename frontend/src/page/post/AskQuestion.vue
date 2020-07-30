@@ -1,19 +1,8 @@
 <template>
   <div class="container">
-    <v-form>
-      <v-autocomplete
-        v-model="selected"
-        :items="['Trevor Handsen', 'Alex Nelson']"
-        chips
-        label="언어를 선택해주세요"
-        full-width
-        hide-details
-        hide-no-data
-        hide-selected
-        multiple
-        single-line
-      ></v-autocomplete>
       <v-divider></v-divider>
+    <v-form>
+      <Language/>
       <v-text-field
         label="제목을 입력해주세요"
         single-line
@@ -30,7 +19,7 @@
         single-line
       ></v-textarea>
       <v-card-actions>
-        <v-btn text>Cancel</v-btn>
+        <v-btn type="reset">Cancel</v-btn>
         <v-spacer></v-spacer>
         <v-slide-x-reverse-transition>
           <v-tooltip
@@ -51,14 +40,19 @@
             <span>Refresh form</span>
           </v-tooltip>
         </v-slide-x-reverse-transition>
-        <v-btn color="primary" text @click="submit">Submit</v-btn>
+        <v-btn  text @click="submit">Submit</v-btn>
       </v-card-actions>
     </v-form>
   </div>
 </template>
 
 <script>
+  import Language from "../../components/Language.vue"
+
   export default {
+    components: {
+      Language
+    },
     data () {
       return {
         selected: ['Python'],
@@ -73,6 +67,9 @@
       color () {
         return ['error', 'warning', 'success'][Math.floor(this.progress / 40)]
       },
+      method: {
+       
+      }
     },
   }
 </script>

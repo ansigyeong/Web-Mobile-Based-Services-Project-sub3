@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import Home from '../views/Home.vue'
-// import Header from '../components/common/Header.vue'
+import Header from '../components/common/Header.vue'
 import Join from '../page/user/Join.vue'
 import Login from '../page/user/Login.vue'
 import Profile from '../page/user/Profile.vue'
@@ -14,11 +14,14 @@ import AskQuestion from '../page/post/AskQuestion.vue'
 import Main from '../page/post/Main.vue'
 
 Vue.use(VueRouter)
-
-
-
   const routes = [
+    {
+      path: '/',
+      namd: 'Main',
+      component: Main
+    },
   {
+
     path: '/main',
     name: 'Main',
     component: Main

@@ -62,9 +62,9 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
     
-    // Request의 Header에서 token 값을 가져옵니다. "ACCESS-TOKEN" : "TOKEN값'
+    // Request의 Header에서 token 값을 가져옵니다. "token" : "TOKEN값'
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("ACCESS-TOKEN");
+        return request.getHeader("token");
     }
 
     // 토큰의 유효성 + 만료일자 확인

@@ -79,9 +79,9 @@ public class AccountController {
         final BasicResponse result = new BasicResponse();
         Map<String, Object> map = new HashMap<>();
         Account account = accountService.selectAccount(user.getEmail());
+        accountService.insertAccount(user);
         result.data = "success";
         result.status = true;
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -120,7 +120,7 @@ public class AccountController {
             } else {
                 jwt = jwtToken.createToken(account.getEmail(), account.getRole());
                 System.out.println("토큰 생성 : " + jwt);
-                map.put("ACCESS-TOKEN", jwt);
+                map.put("token", jwt);
                 result.data = map;
                 result.status = true;
 
@@ -349,6 +349,8 @@ public class AccountController {
         }
     }
 
+    @GetMapping("account/eamilConfirm")
+    @ApiOperation(value ="e-mail인증")
     public Object emailConfirm(@RequestParam String email, @RequestParam String authKey) {
         Account user = new Account();
         user.setEmail(email);

@@ -14,7 +14,7 @@
                         id="password"
                         placeholder="영문, 숫자 혼용 8자 이상"/>
                 </div>
-                <button class="btn btn--back btn--login">
+                <button class="btn btn--back btn--login" @click="login">
                     로그인 하기
                 </button>
                 <div class="add-option">
@@ -36,7 +36,8 @@
 <script>
     import '../../assets/css/user.scss'
     import constants from '../../lib/constants'
-    
+    import axois from 'axios'
+
     export default {
         components: {
         },
@@ -45,6 +46,19 @@
         watch: {
         },
         methods: {
+            login(){
+                axois
+                .get( 'http://localhost/account/login',{
+                    params: {email:this.email, pw:this.password}
+                })
+                .then( res =>{
+                    console.log("로그인 성공");
+                    console.log(res.data)
+                })
+                .catch(res => {
+                    console.log("fail");
+                })
+            }
         },
         data: () => {
             return {

@@ -1,21 +1,27 @@
 <template>
-  <v-container fluid>
-    <v-row align="center">
+    <v-container fluid>
+ 
       <v-col class="d-flex" cols="12" sm="6">
         <v-select
-          label="언어를 선택해주세요"
           :items="items"
+          label="Standard"
+          dense
         ></v-select>
       </v-col>
-    </v-row>
   </v-container>
+ 
 </template>
 
 <script>
   export default {
     name: "Language",
-    data: () => ({
-      items: ['C', 'C++', 'Java', 'Python'],
+  data: () => ({
+      items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
     }),
+ 
+  
   }
 </script>
+<style scoped>
+
+</style>
