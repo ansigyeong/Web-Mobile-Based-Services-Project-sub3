@@ -6,11 +6,12 @@ import Join from '../page/user/Join.vue'
 import Login from '../page/user/Login.vue'
 import Profile from '../page/user/Profile.vue'
 import Record from '../page/user/Record.vue'
-import List from '../page/post/List.vue'
-import Detail from '../page/post/Detail.vue'
 import Fame from '../page/post/Fame.vue'
-import Bookmark from '../page/post/Bookmark.vue'
 import AskQuestion from '../page/post/AskQuestion.vue'
+import Detail from '../page/post/Detail.vue'
+import List from '../page/post/List.vue'
+import Bookmark from '../page/post/Bookmark.vue'
+// import { component } from 'vue/types/umd'
 
 Vue.use(VueRouter)
 
@@ -36,9 +37,14 @@ Vue.use(VueRouter)
     component: Record
   },
   {
-    path: '/list',
-    name: 'List',
-    component: List
+    path: '/fame',
+    name: 'Fame',
+    component: Fame
+  },
+  {
+    path: '/askquestion',
+    name: 'AskQuestion',
+    component: AskQuestion
   },
   {
     path: '/detail',
@@ -46,19 +52,14 @@ Vue.use(VueRouter)
     component: Detail
   },
   {
-    path: '/fame',
-    name: 'Fame',
-    component: Fame
+    path: '/list',
+    name: 'List',
+    component: List
   },
   {
     path: '/bookmark',
     name: 'Bookmark',
     component: Bookmark
-  },
-  {
-    path: '/askquestion',
-    name: 'AskQuestion',
-    component: AskQuestion
   },
 ]
 

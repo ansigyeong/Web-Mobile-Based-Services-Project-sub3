@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h1>명예의 전당</h1>
     <v-card
       class="mx-auto"
