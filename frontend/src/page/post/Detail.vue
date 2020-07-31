@@ -18,12 +18,10 @@ import axios from 'axios'
             } 
         },
         created() {
+            console.log(this.$store.state.token)
             this.queNo = this.$store.state.queNo
             console.log(this.queNo)
             this.getdetail()
-            console.log('hi')
-            console.log(this.title)
-            console.log(this.items)
         },
         methods: {
             getdetail() {
@@ -53,7 +51,7 @@ import axios from 'axios'
                         queNo: this.queNo,
                     }, 
                     headers:{
-                        token : this.$store.state.token
+                        'ACCESS-TOKEN' : this.$store.state.token
                     }
                 })
                 .then((response) => {

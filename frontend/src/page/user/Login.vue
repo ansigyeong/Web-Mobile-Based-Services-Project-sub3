@@ -55,7 +55,8 @@
                 })
                 .then((response) => {
                     if (response.data.status) {
-                        this.$cookies.set('auth-token', response.data.data.token)
+                        console.log(response.data.data["ACCESS-TOKEN"])
+                        this.$cookies.set('auth-token', response.data.data["ACCESS-TOKEN"])
                         alert('로그인 되었습니다.')
                         this.$store.commit('checkToken',this.$cookies.get('auth-token'))
                         this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
