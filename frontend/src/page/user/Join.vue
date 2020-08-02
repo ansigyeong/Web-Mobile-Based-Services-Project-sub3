@@ -37,7 +37,7 @@
                             </span>
                     </div>
                 </div>
-                <Language />
+                
                 <button class="btn">
                     <span>
                         회원가입
@@ -50,11 +50,10 @@
 
 <script>
     // import '../../assets/css/user.scss'
-    import Language from '../../components/Language.vue'
 
     export default {
         components: {
-            Language,
+           
         },
         created(){
         },

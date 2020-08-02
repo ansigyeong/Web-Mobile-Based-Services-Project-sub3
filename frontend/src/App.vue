@@ -1,18 +1,12 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      flat
-    >
+
     <Header/>
     
-    </v-app-bar>
   
-    <v-content>
-      <v-container fluid>
+    
     <router-view/>
-      </v-container>
-    </v-content>
+  
     <v-footer app></v-footer>
   </v-app>
 </template>
@@ -55,6 +49,6 @@ export default {
   -moz-osx-font-smoothing: grayscale; 
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 60px; */
 }
 </style>

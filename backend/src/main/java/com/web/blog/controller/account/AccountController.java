@@ -78,7 +78,6 @@ public class AccountController {
 
         final BasicResponse result = new BasicResponse();
         Map<String, Object> map = new HashMap<>();
-        Account account = accountService.selectAccount(user.getEmail());
         accountService.insertAccount(user);
         result.data = "success";
         result.status = true;
@@ -364,7 +363,7 @@ public class AccountController {
         result.status = true;
         result.data = "success";
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return "인증이 완료되었습니다.";
 
     }
 

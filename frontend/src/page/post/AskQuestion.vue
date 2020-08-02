@@ -2,7 +2,6 @@
   <div class="container">
       <v-divider></v-divider>
     <v-form>
-      <Language/>
       <v-text-field
         label="제목을 입력해주세요"
         single-line
@@ -47,11 +46,10 @@
 </template>
 
 <script>
-  import Language from "../../components/Language.vue"
 
   export default {
     components: {
-      Language
+     
     },
     data () {
       return {

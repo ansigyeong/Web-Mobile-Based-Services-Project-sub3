@@ -23,7 +23,7 @@
         <v-icon>mdi-checkbox-marked-circle</v-icon>
       </v-btn>
     </v-toolbar> -->
-    <language/>
+  
     <v-list two-line>
       <v-list-item-group
         v-model="selected"
@@ -69,10 +69,10 @@
 </template>
 
 <script>
-  import language from '../../components/Language.vue';
+  // import language from '../../components/Language.vue';
   export default {
     components: {
-      language
+      
     },
     created(){
       console.log()
