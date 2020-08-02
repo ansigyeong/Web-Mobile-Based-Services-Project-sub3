@@ -50,7 +50,7 @@
       submit() {
         let config = {
           headers: {
-            token: this.$store.state.token
+            "ACCESS-TOKEN": this.$store.state.token
           }
         }
         let body = {

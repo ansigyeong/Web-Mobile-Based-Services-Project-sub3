@@ -76,7 +76,6 @@ public class QnAController {
         return response;
     }
 
-
     @PostMapping("question/modify")
     @ApiOperation(value ="질문수정")
     public Object modify(@RequestBody Question question, Principal principal){ 
@@ -86,11 +85,14 @@ public class QnAController {
             int userNo = account.getUserNo();
             final BasicResponse result = new BasicResponse();
             result.status = true;
-            if(userNo == question.getUserNo()) {
+            Question q = questionService.oneQuestion(question.getQueNo());
+
+            if(userNo == q.getUserNo()) {
                 questionService.modifyQuestion(question);
                 result.data = "modify success";
             } else {
                 result.data = "user fail";
+                result.status = false;
             }
             response = new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
@@ -199,6 +201,7 @@ public class QnAController {
                 result.data = "deleteQuestion success";
             } else {
                 result.data = "user fail";
+                result.status = false;
             }
             response = new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e){
@@ -265,13 +268,15 @@ public class QnAController {
         try {
             Account account = accountService.findByToken(principal.getName());
             int userNo = account.getUserNo();
+            Reply rp = replyService.oneReply(reply.getRpNo());
             final BasicResponse result = new BasicResponse();
             result.status = true;
-            if(reply.getUserNo() == userNo){
+            if(rp.getUserNo() == userNo){
                 replyService.modifyReply(reply);
                 result.data = "modifyReply success";
             } else {
                 result.data = "user fail";
+                result.status = false;
             }
             response = new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
@@ -295,6 +300,7 @@ public class QnAController {
                 result.data = "delteReply success";
             } else {
                 result.data = "user fail";
+                result.status = false;
             }
             response = new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e){
@@ -305,11 +311,12 @@ public class QnAController {
 
     @PostMapping("reply/like")
     @ApiOperation(value ="댓글 좋아요")
-    public Object likeReply(int rpNo, Principal principal){ 
+    public Object likeReply(@RequestBody Rplike rplike, Principal principal){ 
         ResponseEntity response = null;
         try {
             Account account = accountService.findByToken(principal.getName());
             int userNo = account.getUserNo();
+            int rpNo = rplike.getRpNo();
             Rplike ck = replyService.check(userNo, rpNo);
             if(ck != null) {
                 replyService.delete(userNo, rpNo);
@@ -357,21 +364,20 @@ public class QnAController {
 
     @PostMapping("cart/regist")
     @ApiOperation(value ="찜등록")
-    public Object regist(@RequestBody int queNo , Principal principal){ 
+    public Object regist(@RequestBody Cart cart , Principal principal){ 
         ResponseEntity response = null;
         try {
-            Cart cart = new Cart();
             Account account = accountService.findByToken(principal.getName());
             int userNo = account.getUserNo();
             cart.setUserNo(userNo);
-            cart.setQueNo(queNo);
+            cart.setQueNo(cart.getQueNo());
             cartService.registCart(cart);
             final BasicResponse result = new BasicResponse();
             result.status = true;
             result.data = "regist success";
             response = new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
-            response = new ResponseEntity<>( null,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>( null,HttpStatus.UNAUTHORIZED);
         }
         return response;
     }

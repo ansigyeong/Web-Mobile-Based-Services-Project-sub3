@@ -78,10 +78,9 @@ public class AccountController {
 
         final BasicResponse result = new BasicResponse();
         Map<String, Object> map = new HashMap<>();
-        Account account = accountService.selectAccount(user.getEmail());
+        accountService.insertAccount(user);
         result.data = "success";
         result.status = true;
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

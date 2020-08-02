@@ -11,6 +11,7 @@ import AskQuestion from '../page/post/AskQuestion.vue'
 import Detail from '../page/post/Detail.vue'
 import List from '../page/post/List.vue'
 import Bookmark from '../page/post/Bookmark.vue'
+import UpdateQuestion from '../page/post/UpdateQuestion.vue'
 // import { component } from 'vue/types/umd'
 
 Vue.use(VueRouter)
@@ -47,7 +48,7 @@ Vue.use(VueRouter)
     component: AskQuestion
   },
   {
-    path: '/detail',
+    path: '/detail/:queNo',
     name: 'Detail',
     component: Detail
   },
@@ -61,6 +62,11 @@ Vue.use(VueRouter)
     name: 'Bookmark',
     component: Bookmark
   },
+  {
+    path: '/updatequestion/:queNo',
+    name: 'UpdateQuestion',
+    component: UpdateQuestion
+  }
 ]
 
 const router = new VueRouter({

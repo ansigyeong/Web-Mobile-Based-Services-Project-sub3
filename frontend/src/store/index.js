@@ -9,7 +9,7 @@ export default new Vuex.Store({
     base_url: 'http://localhost',
     token: null,
     islogin: false,
-    queNo: null
+    updatebox: null
   },
   // state 를 (가공해서)가져올 함수들. ===computed  
   getters: {},
@@ -25,8 +25,8 @@ export default new Vuex.Store({
     checklogin: function(state, flag){
       state.islogin = flag;
     },
-    checkqueNo: function(state, queNo){
-      state.queNo = queNo;
+    updateinfo: function(state, box){
+      state.updatebox = box
     }
   },
   // 범용적인 함수들. mutations에 정의한 함수를 actions에서 실행 가능.

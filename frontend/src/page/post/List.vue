@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <b-table :items="data" :fields="fields" striped responsive="sm">
       <slot></slot>
       <template v-slot:cell(actions)="row">
@@ -34,9 +34,7 @@ import axios from 'axios'
         })
       },
       detail(queNo) {
-        this.$store.commit('checkqueNo',queNo)
-        console.log(this.$store.state.queNo)
-        this.$router.push('/detail')
+        this.$router.push('/detail/'+queNo)
       }
     },
     created() {
