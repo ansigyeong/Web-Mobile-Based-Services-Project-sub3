@@ -1,19 +1,35 @@
 <template>
   <div>
     <v-navigation-drawer v-model="drawer" app clipped  dark temporary >
-      <v-list>
-      <v-list-tile v-for="item in items" :key="item.title" >
-        <v-list-tile-action>
-          <v-icon>{{ item }}</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>{{ item }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+        <v-list>
+      <v-list-group
+        v-for="item in nav_items"
+        :key="item.title"
+        v-model="item.active"
+        :prepend-icon="item.action"
+        no-action
+      >
+        <template v-slot:activator>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title"></v-list-item-title>
+          </v-list-item-content>
+        </template>
+
+        <v-list-item
+          v-for="subItem in item.items"
+          :key="subItem.title"
+          @click="none"
+        >
+          <v-list-item-content>
+            <v-list-item-title v-text="subItem.title"></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
     </v-list>
     </v-navigation-drawer>
-    <v-app-bar flat="flat" height="103%">
 
+    <v-app-bar flat="flat" height="103%" >
+      
         <v-app-bar-nav-icon @click="drawer = !drawer" />
       
             <router-link to="/main">
@@ -62,19 +78,76 @@
             ],
             item: '',
             search: '',
-            drawer: false
-
+            drawer: false,
+            nav_items: [
+          {
+            action: 'local_activity',
+            title: 'Attractions',
+            items: [
+              { title: 'List Item' },
+            ],
+          },
+          {
+            action: 'restaurant',
+            title: 'Dining',
+            active: true,
+            items: [
+              { title: 'Breakfast & brunch' },
+              { title: 'New American' },
+              { title: 'Sushi' },
+            ],
+          },
+          {
+            action: 'school',
+            title: 'Education',
+            items: [
+              { title: 'List Item' },
+            ],
+          },
+          {
+            action: 'directions_run',
+            title: 'Family',
+            items: [
+              { title: 'List Item' },
+            ],
+          },
+          {
+            action: 'healing',
+            title: 'Health',
+            items: [
+              { title: 'List Item' },
+            ],
+          },
+          {
+            action: 'content_cut',
+            title: 'Office',
+            items: [
+              { title: 'List Item' },
+            ],
+          },
+          {
+            action: 'local_offer',
+            title: 'Promotions',
+            items: [
+              { title: 'List Item' },
+            ],
+          },
+        ],
+        nav_item: 1,
         })
     }
 </script>
 <style >
+
     .v-toolbar__content,.v-navigation-drawer__content{
-      background-color: #F0F8FF;
+      background-color: #e9e3b0fd;
+      
     }
-  .v-list-tile{
-    color:red;
-  }
-    .logo {
+/* 
+  .theme--dark.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled){
+    color : black;
+  } */
+  .logo {
         /* padding-top: 10px; */
         padding-left: 20px;
         height: 70px;
