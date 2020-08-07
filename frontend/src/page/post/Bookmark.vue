@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+      <h1>찜 목록</h1>
       <h2>CPP</h2>
         <b-table :items="cpp" :fields="fields" striped responsive="sm">
         <slot></slot>

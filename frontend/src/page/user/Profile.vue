@@ -56,23 +56,22 @@
 
       </div>
 
-
         <carousel :per-page="1" :navigate-to="someLocalProperty" :mouse-drag="false">
             <slide>
-              <div v-for="(item,index) in follower.slice(0,4)"  :key="index">
-                <div class="followpfs">
-                  <a href=""><img class="followpf" src="../../assets/img/lv1.png" alt=""></a>
-                  <a href=""><p>{{item.name}}</p></a>
-                </div>
-              </div>                       
+              <div class="followpfs">
+                <div v-for="(item,index) in follower.slice(0,5)" :key="index">
+                    <a href="" @click="userdetail(item.userNo)"><img class="followpf" :src="getimage(item.grade)" alt=""></a>
+                    <a href="" @click="userdetail(item.userNo)"><p>{{item.name}}</p></a>
+                </div>       
+              </div>   
             </slide>
-            <slide v-if="follow.length > 3">
-              <div v-for="(item,index) in follower.slice(4,8)"  :key="index">
-                <div class="followpfs">
-                  <a href=""><img class="followpf" src="../../assets/img/lv1.png" alt=""></a>
-                  <a href=""><p>{{item.name}}</p></a>
-                </div>
-              </div>                             
+            <slide v-if="follow.length > 4">
+              <div class="followpfs">
+                <div v-for="(item,index) in follower.slice(5,10)" :key="index">
+                    <a href="" @click="userdetail(item.userNo)"><img class="followpf" :src="getimage(item.grade)" alt=""></a>
+                    <a href="" @click="userdetail(item.userNo)"><p>{{item.name}}</p></a>
+                </div>               
+              </div>              
             </slide>        
         </carousel>
 
@@ -110,18 +109,18 @@
  
         <carousel :per-page="1" :navigate-to="someLocalProperty" :mouse-drag="false">
             <slide>
-              <div v-for="(item,index) in following.slice(0,4)"  :key="index">
-                <div class="followpfs">
-                  <a href=""><img class="followpf" src="../../assets/img/lv1.png" alt=""></a>
-                  <a href=""><p>{{item.name}}</p></a>
+              <div class="followpfs">
+                <div v-for="(item,index) in following.slice(0,5)"  :key="index">
+                  <a href="" @click="userdetail(item.userNo)"><img class="followpf" :src="getimage(item.grade)" alt=""></a>
+                  <a href="" @click="userdetail(item.userNo)"><p>{{item.name}}</p></a>
                 </div>
               </div>                       
             </slide>
-            <slide v-if="following.length > 3">
-              <div v-for="(item,index) in following.slice(4,8)"  :key="index">
-                <div class="followpfs">
-                  <a href=""><img class="followpf" src="../../assets/img/lv1.png" alt=""></a>
-                  <a href=""><p>{{item.name}}</p></a>
+            <slide v-if="following.length > 5">
+              <div class="followpfs">
+                <div v-for="(item,index) in following.slice(5,10)"  :key="index">
+                  <a href="" @click="userdetail(item.userNo)"><img class="followpf" :src="getimage(item.grade)" alt=""></a>
+                  <a href="" @click="userdetail(item.userNo)"><p>{{item.name}}</p></a>
                 </div>
               </div>                             
             </slide>        
@@ -300,8 +299,15 @@ import { Carousel, Slide } from 'vue-carousel'
         else {
           return 6
         }
+      },
+      getimage(grade){
+        return require('../../assets/img/lv'+this.level(grade)+'.png')
+      },
+      userdetail(userNo){
+        this.$router.push('/profile/'+userNo)
       }
       },
+
     beforeRouteUpdate (to, from, next){
         this.getlist(to.params.userNo);
         next();
