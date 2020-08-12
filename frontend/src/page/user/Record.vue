@@ -7,11 +7,12 @@
           <slide :index="n-1">
             <span v-if="n-1 == 0">
               <div class="crs-bx" style="border: solid 7px #ffd700;">
+                <h5><strong>현재 등급</strong></h5>
                 <img class="grade-img" :src="require('../../assets/img/lv'+remainder(level(user.grade)+n-1)+'.png')"/>
                 <div class="text-box">
-                  <h2>현재 등급</h2>
+                  <h2><strong>LV. {{remainder(level(user.grade)+n-1)+1}}</strong></h2>
                   <h3>{{animal(remainder(level(user.grade)+n-1))}}</h3>
-                  <h4>현재 점수: {{user.grade}}점</h4>
+                  <h5>{{user.grade}}점</h5>
                   <h4>답변 수: {{user.rpCnt}}개</h4>
                   <h4>좋아요 수: {{user.rpLike}}개</h4>
                 </div>
@@ -21,14 +22,11 @@
               <div class="crs-bx">
                 <img class="grade-img" :src="require('../../assets/img/lv'+remainder(level(user.grade)+n-1)+'.png')"/>
                 <div class="text-box">
-                  <span v-if="n-1==1">
-                    <h2>다음 등급</h2>
-                  </span>
-                  <span v-else-if="n-1==6">
-                    <h2>이전 등급</h2>
-                  </span>
-                  <h2>LV. {{remainder(level(user.grade)+n-1)+1}}</h2>
+                  <br/>
+                  <h2><strong>LV. {{remainder(level(user.grade)+n-1)+1}}</strong></h2>
+                  <br/>
                   <h3>{{animal(remainder(level(user.grade)+n-1))}}</h3>
+                  <br/>
                   <h3>{{boundary[remainder(level(user.grade)+n-1)]}}</h3>
                 </div>
               </div>
