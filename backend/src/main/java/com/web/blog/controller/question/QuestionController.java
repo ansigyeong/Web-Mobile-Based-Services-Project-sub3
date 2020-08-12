@@ -17,8 +17,11 @@ import com.web.blog.dto.question.Search;
 import com.web.blog.dto.reply.Reply;
 import com.web.blog.dto.reply.Rp;
 import com.web.blog.dto.rplike.Rplike;
+import com.web.blog.dto.tag.QueTag;
+import com.web.blog.dto.tag.Tag;
 import com.web.blog.service.account.AccountService;
 import com.web.blog.service.question.QuestionService;
+import com.web.blog.service.quetag.QueTagService;
 import com.web.blog.service.reply.ReplyService;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +54,8 @@ public class QuestionController {
     ReplyService replyService;
     @Autowired
     AccountService accountService;
+    @Autowired
+    QueTagService quetagService;
 
     @PostMapping("question")
     @ApiOperation(value ="질문등록")
@@ -67,6 +72,22 @@ public class QuestionController {
             question.setUserNo(userNo);
             questionService.writeQuestion(question);
             accountService.grade(userNo, accountService.search(userNo).getGrade()+10);
+
+            /////////////////////
+            ArrayList<String> tag = new ArrayList<>();
+            if(question.getFirstTag()!=null)    tag.add(question.getFirstTag());
+            if(question.getSecondTag()!=null)   tag.add(question.getSecondTag());
+            if(question.getThirdTag()!=null)    tag.add(question.getThirdTag());
+
+            for(int i = 0; i < tag.size(); i++){
+                int TagNo = 0;
+                if(quetagService.searchTagName(tag.get(i))==null){
+                    quetagService.registTag(tag.get(i));
+                }
+                TagNo = quetagService.searchTagName(tag.get(i)).getTagNo();
+                quetagService.registQueTag(questionService.myQue(userNo).get(0).getQueNo(),TagNo);
+            }
+            /////////////////////
             result.status = true;
             result.data = "write success";
         } catch (Exception e) {
@@ -135,20 +156,38 @@ public class QuestionController {
         System.out.println(search);
         String lang = search.getLang();
         List<Question> list;
-        if(search.getKeyword()!=null){
-            String keyword = search.getKeyword();
-            list = questionService.searchQue(lang, keyword);
+        if(lang.equals("all")){
+            if(search.getKeyword()!=null){
+                String keyword = search.getKeyword();
+                list = questionService.allsearchQue(keyword);
+            } else { 
+                list = questionService.allquestionList();
+            }    
         } else {
-            list = questionService.questionList(lang);
+            if(search.getKeyword()!=null){
+                String keyword = search.getKeyword();
+                list = questionService.searchQue(lang, keyword);
+            } else { 
+                list = questionService.questionList(lang);
+            }
         }
         try {
             ArrayList<QueView> queList = new ArrayList<>();
             for(int i = 0; i < list.size(); i++){
                 SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String st = transFormat.format(list.get(i).getCreateDate());
+                List<QueTag> qtlist = quetagService.QueTagList(list.get(i).getQueNo());
+                String a=""; 
+                String b=""; 
+                String c="";
+                for(int j = 0; j < qtlist.size(); j++){
+                    if(j==0) a = quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
+                    if(j==1) b = quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
+                    if(j==2) c= quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
+                }
                 QueView qv = new QueView(list.get(i).getQueNo(),list.get(i).getLang(),list.get(i).getTitle(),
                          list.get(i).getContents(),st, list.get(i).getUserNo()
-                         , replyService.replyCount(list.get(i).getQueNo()), accountService.search(list.get(i).getUserNo()).getName());
+                         , replyService.replyCount(list.get(i).getQueNo()), accountService.search(list.get(i).getUserNo()).getName(),a,b,c);
                 queList.add(qv);
             }
             if(search.getType()==1){

@@ -13,4 +13,6 @@ public interface QuestionDao {
     public List<Question> questionList(String lang);
     public List<Question> myQue(int userNo);
     public List<Question> searchQue(String lang, String keyword);
+    public List<Question> allquestionList();
+    public List<Question> allsearchQue(String keyword);
 }

@@ -50,6 +50,16 @@ public class QuestionServiceImpl implements QuestionService {
         return questionDao.searchQue(lang, keyword);
     }
 
+    @Override
+    public List<Question> allquestionList() {
+        return questionDao.allquestionList();
+    }
+
+    @Override
+    public List<Question> allsearchQue(String keyword) {
+        return questionDao.allsearchQue(keyword);
+    }
+
 
 
 }

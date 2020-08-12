@@ -36,4 +36,10 @@ public interface QuestionMapper {
 
     @Select("select * from question where lang=#{lang} and (title like concat('%',#{keyword},'%') or contents like concat('%',#{keyword},'%')) order by createDate desc ")
     public List<Question> searchQue(String lang, String keyword);
+
+    @Select("select * from question order by createDate desc ")
+    public List<Question> allquestionList();
+
+    @Select("select * from question where title like concat('%',#{keyword},'%') or contents like concat('%',#{keyword},'%') order by createDate desc ")
+    public List<Question> allsearchQue(String keyword);
 }

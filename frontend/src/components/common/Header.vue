@@ -72,10 +72,10 @@
                       </v-select>
                     </v-col>
                     <v-col cols="7">
-                      <v-text-field v-model="keyword" label="검색어 입력" clear-icon light hide-details flat height=50 single-line="single-line" @keyup.enter="moveList('/list/', item+'/',keyword)"></v-text-field>
+                      <v-text-field v-model="keyword" label="검색어 입력" clear-icon light hide-details flat height=50 single-line="single-line" @keyup.enter="moveList2('/list/', item+'/',keyword)"></v-text-field>
                     </v-col>
                     <div style="padding-top:10px">
-                    <v-btn icon large height=60 width=60 @click="moveList('/list/', item+'/', keyword)"><v-icon>mdi-magnify</v-icon></v-btn>
+                    <v-btn icon large height=60 width=60 @click="moveList2('/list/', item+'/', keyword)"><v-icon>mdi-magnify</v-icon></v-btn>
                     </div>
                   </v-row>
                 </div>
@@ -118,7 +118,18 @@
             this.$router.push(path)
           },
           moveList(path, lang, keyword){
+            console.log(this.item)
+            console.log(this.keyword)
             this.$router.push(path+lang+keyword); 
+          },
+          moveList2(path, lang, keyword){
+            console.log(this.item)
+            console.log(this.keyword)
+            if(this.item==''){
+              alert('언어를 선택하세요')
+            } else if(this.keyword==''){
+              alert('검색어를 입력하세요')
+            } else this.$router.push(path+lang+keyword); 
           },
           logout() {
             this.$cookies.remove('auth-token')

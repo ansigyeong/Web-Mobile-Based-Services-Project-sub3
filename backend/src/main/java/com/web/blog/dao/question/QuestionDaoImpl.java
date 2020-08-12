@@ -50,5 +50,15 @@ public class QuestionDaoImpl implements QuestionDao {
         return questionMapper.searchQue(lang, keyword);
     }
 
+    @Override
+    public List<Question> allquestionList() {
+        return questionMapper.allquestionList();
+    }
+
+    @Override
+    public List<Question> allsearchQue(String keyword) {
+        return questionMapper.allsearchQue(keyword);
+    }
+
 
 }

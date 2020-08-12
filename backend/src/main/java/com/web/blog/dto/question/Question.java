@@ -17,4 +17,9 @@ public class Question  {
     private String contents;
     private Date createDate;
     private int userNo;
+
+    private String name;
+    private String firstTag;
+    private String secondTag;
+    private String thirdTag;
 }
