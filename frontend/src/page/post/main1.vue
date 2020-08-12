@@ -141,7 +141,7 @@
     }
   .markBBB {
     border: 2px solid thin;
-    margin-top: 70px;
+    /* margin-top: 70px; */
   }
   .container{
     padding-left: 20px;
