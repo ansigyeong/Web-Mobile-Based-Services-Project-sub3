@@ -283,4 +283,50 @@ public class QuestionController {
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
+    @GetMapping("tagList")
+    @ApiOperation(value = "태그질문리스트")
+    public Object tagqueList(int type, String tag){
+        final BasicResponse result = new BasicResponse();
+
+        try {
+            ArrayList<QueView> queList = new ArrayList<>();
+            List<QueTag> quetaglist = quetagService.tagNoList(quetagService.searchTagName(tag).getTagNo());
+            for(int i = 0; i < quetaglist.size(); i++){
+                Question q = questionService.oneQuestion(quetaglist.get(i).getQueNo());
+                SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String st = transFormat.format(q.getCreateDate());
+                List<QueTag> qtlist = quetagService.QueTagList(q.getQueNo());
+                String a=""; 
+                String b=""; 
+                String c="";
+                for(int j = 0; j < qtlist.size(); j++){
+                    if(j==0) a = quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
+                    if(j==1) b = quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
+                    if(j==2) c= quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
+                }
+                QueView qv = new QueView(q.getQueNo(),q.getLang(),q.getTitle(),
+                         q.getContents(),st, q.getUserNo()
+                         , replyService.replyCount(q.getQueNo()), accountService.search(q.getUserNo()).getName(),a,b,c);
+                queList.add(qv);
+            }
+            
+            if(type==1){
+                Collections.sort(queList, new Comparator<QueView>(){
+
+                    @Override
+                    public int compare(QueView o1, QueView o2) {
+                        return o2.getRpCnt()-o1.getRpCnt();
+                    }
+                    
+                });
+            }
+            Map<String, Object> map = new HashMap<>();
+            map.put("list", queList);
+            result.data = map;
+            result.status = true;
+        } catch (Exception e) {
+            result.data = "fail";
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }

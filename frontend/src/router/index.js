@@ -12,6 +12,7 @@ import Bookmark from '../page/post/Bookmark.vue'
 import UpdateQuestion from '../page/post/UpdateQuestion.vue'
 import Test from '../page/post/test.vue'
 import Main from '../page/post/main.vue'
+import TagList from '../page/post/TagList.vue'
 
 Vue.use(VueRouter)
 
@@ -75,6 +76,11 @@ Vue.use(VueRouter)
     path: '/',
     name: 'Main',
     component: Main
+  },
+  {
+    path: '/taglist/:tag',
+    name: 'TagList',
+    component: TagList
   }
 ]
 

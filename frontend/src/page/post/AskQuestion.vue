@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <h1>질문하기</h1>
-    <b-form-select v-model="lang" :options="options"></b-form-select>
     <v-form>
       <v-text-field v-model="title"
         label="제목을 입력해주세요"
@@ -9,6 +8,26 @@
         full-width
         hide-details
       ></v-text-field>
+      
+     <div>
+        <v-row rows="1">
+          <v-col cols="4" >
+           <b-form-select v-model="lang" :options="options" ></b-form-select>
+          </v-col>
+          <v-col cols="8" >
+            <v-combobox
+              v-model="tags"
+              :items="tagList"
+              item-text="name"
+              label="태그 입력"
+              multiple
+              hint="최대 3개의 태그를 입력하세요"
+              chips
+              class="p-0 m-0"
+            ></v-combobox>
+          </v-col>
+        </v-row>
+      </div>
       <v-divider></v-divider>
     <div>
       <editor api-key="vem3wnp12tvfllgyuf92uzd6e04f9ddz4ke9mzv8uh71ctgq" :init="{
@@ -52,11 +71,14 @@ import Editor from '@tinymce/tinymce-vue'
         { value: 'c', text: 'C' },
         { value: 'cpp', text: 'C++' },
         { value: 'java', text: 'Java' },
-        { value: 'python', text: 'Python' }],
+        { value: 'python', text: 'Python' },
+        { value: 'etc', text: 'Etc'}],
         editorText: 'This is initialValue.',
         editorOptions: {
           hideModeSwitch: true
-        }
+        },
+        tags: [],
+        tagList: []
       }
     },
     methods: {
@@ -69,10 +91,49 @@ import Editor from '@tinymce/tinymce-vue'
             "ACCESS-TOKEN": this.$store.state.token
           }
         }
-        let body = {
-          contents: this.contents,
-          title: this.title,
-          lang: this.lang,
+        let i = 0
+        let fT = '~'
+        let sT = '~'
+        let tT = '~'
+        
+        for(let tag of this.tags){
+          console.log(tag)
+          if(i==0)  fT = tag
+          if(i==1)  sT = tag
+          if(i==2)  tT = tag
+          i++
+        }
+        let body = {}
+        if(fT=='~'){
+          body = {
+            contents: this.$refs.editor.invoke("getMarkdown"),
+            title: this.title,
+            lang: this.lang,
+          }
+        } else if(sT=='~'){
+          body = {
+            contents: this.$refs.editor.invoke("getMarkdown"),
+            title: this.title,
+            lang: this.lang,
+            firstTag : fT
+          }
+        } else if(tT=='~'){
+          body = {
+            contents: this.$refs.editor.invoke("getMarkdown"),
+            title: this.title,
+            lang: this.lang,
+            firstTag : fT,
+            secondTag : sT
+          }
+        } else {
+          body = {
+            contents: this.$refs.editor.invoke("getMarkdown"),
+            title: this.title,
+            lang: this.lang,
+            firstTag : fT,
+            secondTag : sT,
+            thirdTag : tT
+          }
         }
         axios.post(this.$store.state.base_url + '/question', body, config)
         .then((response) => {
@@ -90,6 +151,13 @@ import Editor from '@tinymce/tinymce-vue'
       },
       color () {
         return ['error', 'warning', 'success'][Math.floor(this.progress / 40)]
+      },
+    },
+    watch: {
+      tags (val) {
+        if (val.length > 3) {
+          this.$nextTick(() => this.tags.pop())
+        }
       },
     },
   }
