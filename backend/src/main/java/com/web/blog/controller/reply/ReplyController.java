@@ -49,7 +49,6 @@ public class ReplyController {
             Account account = accountService.findByToken(principal.getName());
             int userNo = account.getUserNo();
             reply.setUserNo(userNo);
-            reply.setCreateDate(new Date());    
             replyService.writeReply(reply);
             accountService.grade(userNo, accountService.search(userNo).getGrade()+10);
             result.status = true;

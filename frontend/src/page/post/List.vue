@@ -18,7 +18,6 @@
       <div class="stats">
         <h6 style="text-size:small;">답글수</h6>
         <div class="like">
-          <!-- <p >답글수</p> -->
           <strong>{{item.rpCnt}}</strong>
           <span>개</span>
           </div>
@@ -32,35 +31,14 @@
           <a class="post-tag" @click="moveTagList('/taglist/', item.tag3)" v-if="item.tag3!=''">{{item.tag3}}</a>
           </div>
         <div class="others">
-          <!-- <span class="lang">{{item.lang}}</span> -->
           <a @click="userdetail(item.userNo)" class="writer">{{item.name}}</a>
           <span class="date">{{item.createDate}}</span>
           </div>
       </div>
     </div>
-    <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        align="center"
-      ></b-pagination>
+    
     </template>
 
-
-    <!-- <b-table :items="data" :fields="fields" :per-page="perPage" :current-page="currentPage" striped responsive="sm">
-      <slot></slot>
-      
-      <template v-slot:cell(useractions)="row">
-        <a size="sm" @click="userdetail(row.item.userNo)" class="mr-1">
-          {{row.item.name}}
-        </a>
-      </template>
-      <template v-slot:cell(actions)="row">
-        <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1">
-          상세보기
-        </b-button>
-      </template>
-    </b-table> -->
   </div>
 </template>
 
@@ -69,8 +47,6 @@ import axios from 'axios'
   export default {
     data(){
       return {
-        currentPage:1,
-        perPage:10,
         type: 0,
         data: null,
         fields: [{key:'rpCnt', label:'답글 수'},
@@ -124,18 +100,7 @@ import axios from 'axios'
         this.getlist(to.params.lang, to.params.keyword);
         next();
     },
-    computed:{
-      data(){
-        const items = this.$store.getters.loadedData
-        return items.slice(
-          (this.currentPage - 1) * this.perPage,
-          this.currentPage * this.perPage
-        )
-      },
-      rows(){
-        return this.data.length;
-      }
-    }
+
   }
 </script>
 

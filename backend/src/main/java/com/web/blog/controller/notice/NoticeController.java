@@ -126,6 +126,9 @@ public class NoticeController {
         final BasicResponse result = new BasicResponse();
         try {
             List<Notice> list = noticeService.noticeList();
+            for(int i=0; i < list.size(); i++){
+                list.get(i).setCreateDate(list.get(i).getCreateDate().substring(0, 10));
+            }
             Map<String, Object> map = new HashMap<>();
             map.put("list", list);
             result.data = map;

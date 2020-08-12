@@ -48,7 +48,6 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
     public void insertAccount(Account user) {
 
         user.setPw(passwordEncoder.encode(user.getPw())); // 비밀번호 암호화
-        user.setCreateDate(new Date());
         String authKey = new TempKey().getKey(50, false); // 임의의 인증키 생성
         user.setAuthKey(authKey);
         System.out.println("비번: " + user.getPw());
