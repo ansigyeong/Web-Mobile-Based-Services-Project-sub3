@@ -153,7 +153,7 @@
         },
         data: () => ({
             items: [
-                'c', 'cpp', 'java', 'python' , 
+                'c', 'cpp', 'java', 'python', 'all', 
             ],
             item: '',
             search: '',
@@ -162,7 +162,7 @@
               fame:   { path: '/fame', title: '명예의 전당', icon: 'fas fa-trophy' },
               bookmark:    { path: '/bookmark', title: '찜하기', icon: 'fas fa-bookmark' },
               ask: {path: '/askquestion', title: '질문하기', icon:'ar fa-gem'},
-              que: {  title: 'Question', icon: 'mdi-account'  , lang: [{title : 'c'} ,{title : 'cpp'},{title : 'java'},{title : 'python'} ] },
+              que: {  title: 'Question', icon: 'mdi-account'  , lang: [{title : 'c'} ,{title : 'cpp'},{title : 'java'},{title : 'python'} ,{title : 'all'}] },
               // myrecord : {path : '/record' , title : '내기록' , icon : 'mdi-account'},
            
         })
