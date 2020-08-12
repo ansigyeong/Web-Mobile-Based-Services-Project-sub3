@@ -52,7 +52,10 @@ public class QueTagDaoImpl implements QueTagDao {
         return tagMapper.QueTagList(queNo);
     }
 
-
+    @Override
+    public List<QueTag> tagNoList(int tagNo) {
+        return tagMapper.tagNoList(tagNo);
+    }
 
 
 }

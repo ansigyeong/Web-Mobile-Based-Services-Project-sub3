@@ -36,4 +36,7 @@ public interface QueTagMapper {
     
     @Select("select * from quetag where queNo=#{queNo}")
     public List<QueTag> QueTagList(int queNo);
+    
+    @Select("select * from quetag where tagNo=#{tagNo}")
+    public List<QueTag> tagNoList(int tagNo);
 }
