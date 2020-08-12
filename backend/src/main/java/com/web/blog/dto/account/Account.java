@@ -21,5 +21,5 @@ public class Account  {
     private String role;
     private String authKey;
     private int authStatus;
-    private Date createDate;
+    private String createDate;
 }

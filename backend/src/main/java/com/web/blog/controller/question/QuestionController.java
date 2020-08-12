@@ -68,7 +68,6 @@ public class QuestionController {
         try {
             Account account = accountService.findByToken(principal.getName());
             int userNo = account.getUserNo();
-            question.setCreateDate(new Date());   
             question.setUserNo(userNo);
             questionService.writeQuestion(question);
             accountService.grade(userNo, accountService.search(userNo).getGrade()+10);
@@ -174,8 +173,6 @@ public class QuestionController {
         try {
             ArrayList<QueView> queList = new ArrayList<>();
             for(int i = 0; i < list.size(); i++){
-                SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String st = transFormat.format(list.get(i).getCreateDate());
                 List<QueTag> qtlist = quetagService.QueTagList(list.get(i).getQueNo());
                 String a=""; 
                 String b=""; 
@@ -186,7 +183,7 @@ public class QuestionController {
                     if(j==2) c= quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
                 }
                 QueView qv = new QueView(list.get(i).getQueNo(),list.get(i).getLang(),list.get(i).getTitle(),
-                         list.get(i).getContents(),st, list.get(i).getUserNo()
+                         list.get(i).getContents(),list.get(i).getCreateDate(), list.get(i).getUserNo()
                          , replyService.replyCount(list.get(i).getQueNo()), accountService.search(list.get(i).getUserNo()).getName(),a,b,c);
                 queList.add(qv);
             }
@@ -215,17 +212,14 @@ public class QuestionController {
     @ApiOperation(value = "상세질문")
     public Object queDetail(int queNo, int type, Principal principal){
         if(principal == null){
-            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Question question = questionService.oneQuestion(queNo);
-            String queDate = transFormat.format(question.getCreateDate());
             List<Reply> list = replyService.replyList(queNo);
             ArrayList<Rp> rpList = new ArrayList<>();
             for(int i = 0; i < list.size(); i++){
                 Rp rp = new Rp();
                 Reply reply = list.get(i);
-                String st = transFormat.format(reply.getCreateDate());
                 Account ac = accountService.search(reply.getUserNo());
-                rp = new Rp(reply.getRpNo(), reply.getContents(), reply.getRpLike(), st, reply.getQueNo(), ac.getName(),"비로그인", reply.getUserNo());
+                rp = new Rp(reply.getRpNo(), reply.getContents(), reply.getRpLike(), reply.getCreateDate(), reply.getQueNo(), ac.getName(),"비로그인", reply.getUserNo());
                 rpList.add(rp);
             }
             if(type==1){
@@ -239,7 +233,6 @@ public class QuestionController {
             Account user = accountService.search(question.getUserNo());
             final BasicResponse result = new BasicResponse();
             Map<String, Object> map = new HashMap<>();
-            map.put("queDate",queDate);
             map.put("user", user);
             map.put("rpList", rpList);
             map.put("question", question);
@@ -255,13 +248,11 @@ public class QuestionController {
             for(int i = 0; i < list.size(); i++){
                 Rp rp = new Rp();
                 Reply reply = list.get(i);
-                SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String st = transFormat.format(reply.getCreateDate());
                 Rplike ck = replyService.check(userNo, reply.getRpNo());
                 String exist = "좋아요";
                 if(ck != null)   exist = "좋아요취소";  
                 Account ac = accountService.search(reply.getUserNo());
-                rp = new Rp(reply.getRpNo(), reply.getContents(), reply.getRpLike(), st, reply.getQueNo(), ac.getName(), exist, reply.getUserNo());
+                rp = new Rp(reply.getRpNo(), reply.getContents(), reply.getRpLike(), reply.getCreateDate(), reply.getQueNo(), ac.getName(), exist, reply.getUserNo());
                 rpList.add(rp);
             }
             if(type==1){
@@ -293,8 +284,6 @@ public class QuestionController {
             List<QueTag> quetaglist = quetagService.tagNoList(quetagService.searchTagName(tag).getTagNo());
             for(int i = 0; i < quetaglist.size(); i++){
                 Question q = questionService.oneQuestion(quetaglist.get(i).getQueNo());
-                SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String st = transFormat.format(q.getCreateDate());
                 List<QueTag> qtlist = quetagService.QueTagList(q.getQueNo());
                 String a=""; 
                 String b=""; 
@@ -305,7 +294,7 @@ public class QuestionController {
                     if(j==2) c= quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
                 }
                 QueView qv = new QueView(q.getQueNo(),q.getLang(),q.getTitle(),
-                         q.getContents(),st, q.getUserNo()
+                         q.getContents(),q.getCreateDate(), q.getUserNo()
                          , replyService.replyCount(q.getQueNo()), accountService.search(q.getUserNo()).getName(),a,b,c);
                 queList.add(qv);
             }

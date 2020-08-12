@@ -72,8 +72,15 @@ public class InfoController {
         try {
             Hof hof = new Hof();
             Account user = accountService.search(userNo);
+            // user.setCreateDate(user.getCreateDate().substring(0, 10));
             List<Question> myque = questionService.myQue(userNo);
+            // for(int i=0;i<myque.size();i++){
+            //     myque.get(i).setCreateDate(myque.get(i).getCreateDate().substring(0, 10));
+            // }
             List<Reply> myrp = replyService.myRp(userNo);
+            // for(int i=0;i<myrp.size();i++){
+            //     myrp.get(i).setCreateDate(myrp.get(i).getCreateDate().substring(0, 10));
+            // }
             List<Integer> list1 = followService.followerList(userNo);
             List<Integer> list2 = followService.followingList(userNo);
             List<Account> hofList = accountService.hofList();

@@ -15,7 +15,7 @@ public class Question  {
     private String lang;
     private String title;
     private String contents;
-    private Date createDate;
+    private String createDate;
     private int userNo;
 
     private String name;

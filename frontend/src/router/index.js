@@ -13,6 +13,8 @@ import UpdateQuestion from '../page/post/UpdateQuestion.vue'
 import Test from '../page/post/test.vue'
 import Main from '../page/post/main.vue'
 import TagList from '../page/post/TagList.vue'
+import Notice from '../page/post/Notice.vue'
+import NoticeDetail from '../page/post/NoticeDetail.vue'
 
 Vue.use(VueRouter)
 
@@ -81,6 +83,16 @@ Vue.use(VueRouter)
     path: '/taglist/:tag',
     name: 'TagList',
     component: TagList
+  },
+  {
+    path: '/notice',
+    name: 'Notice',
+    component: Notice
+  },
+  {
+    path: '/noticedetail/:noticeNo',
+    name: 'NoticeDetail',
+    component: NoticeDetail
   }
 ]
 
