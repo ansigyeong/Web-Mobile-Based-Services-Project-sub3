@@ -1,150 +1,152 @@
 <template>
-<div id="main_vue" class="container">
-        <!-- 언어 별 카드 -->
-    <img class="main_logo" src="@/assets/img/hello_logo.png" >
+<!-- 1 -->
+  <div style="padding-top: 50px;">
+    <b-carousel
+      id="carousel-1"
+      v-model="slide"
+      :interval="4000"
+      controls
+      indicators
+      background="#ababab"
+      img-width="1024"
+      img-height="480"
+      style="text-shadow: 1px 1px 2px #333;"
+      @sliding-start="onSlideStart"
+      @sliding-end="onSlideEnd"
+      
+    >
+      <!-- Text slides with image -->
+      <b-carousel-slide
+        caption="First slide"
+        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+        img-src="https://picsum.photos/1024/480/?image=52"
+      ></b-carousel-slide>
 
-        <!-- <div>  
-            <h1 class="title">For developers, by developers</h1>
-                <h1 slot="header">Canyons</h1>
-                <p slot="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-        </div> -->
+      <!-- Slides with custom text -->
+      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
+        <h1>Hello world!</h1>
+      </b-carousel-slide>
 
-        <div class="mt-10 lan_card" >
-            <div class="row">
-                <div class="col-md-3" v-for="(item,index) in all" :key="index">
-                    <div class="card" :class="'mark'+item.category"><img class="card-img-top" :src="item.imgSrc" @click="moveList('/list/', item.lang)"/>
-                        <div class="card-body">
-                            <h5 class="card-title" :class="'mark'+item.categorye">{{ item.title }}</h5>
-                            <p class="card-text">{{ item.description }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 배너 -->
+      <!-- Slides with image only -->
+      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
 
-        <!-- 푸터 -->
+      <!-- Slides with img slot -->
+      <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
+      <b-carousel-slide>
+        <template v-slot:img>
+          <img
+            class="d-block img-fluid w-100"
+            width="1024"
+            height="480"
+            src="https://picsum.photos/1024/480/?image=55"
+            alt="image slot"
+          >
+        </template>
+      </b-carousel-slide>
 
-</div>
+      <!-- Slide with blank fluid image to maintain slide aspect ratio -->
+      <!-- <b-carousel-slide caption="Blank Image" img-blank img-alt="Blank image">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eros felis, tincidunt
+          a tincidunt eget, convallis vel est. Ut pellentesque ut lacus vel interdum.
+        </p>
+      </b-carousel-slide> -->
+    </b-carousel>
+
+<!-- 2 -->
+    <b-carousel
+      id="carousel-1"
+      img-width="1024"
+      img-height="480"
+      style="text-shadow: 1px 1px 2px #333;"
+
+    >
+      <!-- Text slides with image -->
+      <b-carousel-slide
+        img-src="https://im5.ezgif.com/tmp/ezgif-5-1238766f947b.png"
+      ><RecordCarousel /></b-carousel-slide>
+
+    </b-carousel>
+
+<!-- 3 -->
+    <b-carousel
+      id="carousel-1"
+      img-width="1024"
+      img-height="480"
+      style="text-shadow: 1px 1px 2px #333;"
+
+    >
+      <!-- Text slides with image -->
+      <b-carousel-slide
+        caption="First slide"
+        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+        img-src="https://picsum.photos/1024/480/?image=52"
+      ></b-carousel-slide>
+
+    </b-carousel>
+
+<!-- 4 -->
+    <b-carousel
+      id="carousel-1"
+      img-width="1024"
+      img-height="480"
+      style="text-shadow: 1px 1px 2px #333;"
+
+    >
+      <!-- Text slides with image -->
+      <b-carousel-slide
+        caption="First slide"
+        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+        img-src="https://picsum.photos/1024/480/?image=52"
+      ></b-carousel-slide>
+
+    </b-carousel>
+
+
+<!-- 5 -->
+    <b-carousel
+      id="carousel-1"
+      img-width="1024"
+      img-height="480"
+      style="text-shadow: 1px 1px 2px #333;"
+
+    >
+      <!-- Text slides with image -->
+      <b-carousel-slide
+        caption="First slide"
+        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+        img-src="https://picsum.photos/1024/480/?image=52"
+      ></b-carousel-slide>
+
+    </b-carousel>
+
+  </div>
+
+
+
+
 </template>
 
-
-
 <script>
-    // import '../../assets/css/post.scss'
+  import RecordCarousel from '../../components/common/RecordCarousel.vue'
 
-    export default {
-        name:"Main",
-        components:{
-
-        },
-        watch: {
-        },
-        created() {
-        },
-        methods: {
-           moveList(path, lang){
-            console.log(lang)
-            this.$router.push(path+lang); 
-          }
-        },
-        data() {
-            return {
-                all: [
-                {
-                    category: "AAA",
-                    lang: "c",
-                    imgSrc: require("../../assets/img/C.png"),
-                    description:
-                    "C"
-                },
-                {
-                    category: "BBB",
-                    lang: "cpp",
-                    imgSrc: require("../../assets/img/cpp.png"),
-                    description:
-                    "C++"
-                },
-                {
-                    category: "AAA",
-                    lang: "java",
-                    imgSrc: require("../../assets/img/JAVA.png"),
-                    description:
-                    "JAVA"
-                },
-                {
-                    category: "BBB",
-                    lang: "python",
-                    imgSrc: require("../../assets/img/Python.png"),
-                    description:
-                    "PYTHON"
-                }
-                ]
-            }
-        }
+  export default {
+    data() {
+      return {
+        slide: 0,
+        sliding: null
+      }
+    },
+    components: {
+      RecordCarousel,
+    },
+    methods: {
+      onSlideStart(slide) {
+        this.sliding = true
+      },
+      onSlideEnd(slide) {
+        this.sliding = false
+      }
     }
-
+  }
 </script>
-
-
-
-<style scoped>
-.main_logo {
-        padding-top: 100px;
-    }
-  .card-img-top {
-    padding-right: 10px;
-    padding-left: 10px;
-    padding-top: 10px;
-  }
-  .data {
-    margin-top: 0.6em;
-    color: #81878b;
-  }
-  .data li {
-    width: 32%;
-    text-align: center;
-    display: inline-block;
-    font-size: 1.5em;
-    font-family: "Lato";
-    border-right: solid 1px #bdc3c7;
-  }
-  .data li:last-child {
-    border: none;
-  }
-  .data li span {
-    display: block;
-    text-transform: uppercase;
-    font-family: "Quicksand";
-    font-size: 0.5em;
-    margin-top: 0.6em;
-    font-weight: 700;
-  }
-  .box {
-    display: -webkit-inline-box;
-    display: inline-flex;
-    border: 1px solid #666;
-    width: 100px;
-    height: 100px;
-  }
-  .card-title {
-    padding: 0.8rem 1rem;
-    color: #000;
-  }
-  .card {
-    border: 2px solid thin;
-  }
-  .card:hover
-   {
-    box-shadow: 0 0 11px rgba(33,33,33,.2); 
-    }
-  .markBBB {
-    border: 2px solid thin;
-    margin-top: 70px;
-  }
-  .container{
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-</style>
