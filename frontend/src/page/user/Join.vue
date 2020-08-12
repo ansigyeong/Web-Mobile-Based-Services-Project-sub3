@@ -1,105 +1,53 @@
 <template>
-    <div class="user container" id="join"> 
-        <div class="wrapC table">
-            <h1 style="padding-top: 30px;">회원가입</h1>
-                    <div class="middle">
-                        <div class="form-wrap">
-                            <span v-if="isname">  
-                                <div class="input-wrap">
-                                <label class="label" for="name">이름</label>
-                                <input v-model="name" id="name" class="true"
-                                    placeholder="이름을 입력해주세요" type="text"
-                                    style="border: 1px solid #035AA6;" @input="isName(name)"/>
-                                </div>
-                            </span>
-                            <span v-else>
-                                <div class="input-wrap">
-                                <label class="label" for="name">이름</label>
-                                <input v-model="name" id="name" class="false"
-                                    placeholder="이름을 입력해주세요" type="text"
-                                    style="border: 1px solid red;" @input="isName(name)"/>
-                                <p class="warn" style="margin-bottom:0;"><small>이름을 입력해 주세요.</small></p>
-                                </div>
-                            </span>
+   	<div calss="container" style="margin-top: 150px;">
+		<div id="signup-box">
+			<div class="left" style="border-top: solid 5px #33b5e5;">
+				<h1>회원가입</h1>
 
-                            <span v-if="isemail">  
-                                <div class="input-wrap">
-                                <label class="label" for="email">E-mail</label>
-                                <input v-model="email" id="email" class="true"
-                                    placeholder="이메일을 입력해주세요" type="text"
-                                    style="border: 1px solid #035AA6;" @input="isEmail(email)"/>
-                                </div>
-                            </span>
-                            <span v-else>
-                                <div class="input-wrap">
-                                <label class="label" for="email">E-mail</label>
-                                <input v-model="email" id="email" class="false"
-                                    placeholder="이메일을 입력해주세요" type="text"
-                                    style="border: 1px solid red;" @input="isEmail(email)"/>
-                                <p class="warn" style="margin-bottom:0;"><small>이메일 형식이 아닙니다.</small></p>
-                                </div>       
-                            </span>
+            <template v-if="isname" >
+				<input v-model="name" class="input_vaild" @input="isName(name)" type="text" name="username" placeholder="이름을 입력해주세요" />
+            </template>
+            <template v-else>
+                <input v-model="name" @input="isName(name)" type="text" name="name" placeholder="이름을 입력해주세요" />
+                <p class="warn" ><small>이름을 입력해 주세요.</small></p>
+            </template>
+            
+            <template v-if="isemail">
+				<input v-model="email" class="input_vaild" @input="isEmail(email)" type="text" name="email" placeholder="이메일을 입력해주세요" />
+            </template>
+            <template v-else>
+                <input v-model="email"  @input="isEmail(email)" type="text" name="email" placeholder="이메일을 입력해주세요" />
+                    <p class="warn" ><small>이메일 형식이 아닙니다.</small></p>
+            </template>
 
-                            <span v-if="ispassword">  
-                                <div class="input-wrap password-wrap">
-                                <label class="label" for="password">비밀번호</label>
-                                <input v-model="pw" id="pw" class="true"
-                                    placeholder="비밀번호를 입력해주세요" :type="passwordType"
-                                    style="border: 1px solid #035AA6;" @input="isPassword(pw)"/>
-                                </div>
-                            </span>
-                            <span v-else>
-                                <div class="input-wrap password-wrap">
-                                <label class="label" for="password">비밀번호</label>
-                                <input v-model="pw" id="pw" class="false"
-                                    placeholder="비밀번호를 입력해주세요" :type="passwordType"
-                                    style="border: 1px solid red;" @input="isPassword(pw)"/>
-                                <p class="warn" style="margin-bottom:0;"><small>영문자와 숫자의 8~10자리 조합만 유효합니다.</small></p>
-                                </div>  
-                            </span>  
+            <template v-if="ispassword">
+				<input v-model="pw" class="input_vaild" @input="isPassword(pw)" type="password" name="password" placeholder="비밀번호를 입력해주세요" />
+            </template>
+            <template v-else>
+            	<input v-model="pw"  @input="isPassword(pw)" type="password" name="password" placeholder="비밀번호를 입력해주세요" />
+                <p class="warn"><small>영문자와 숫자의 8~10자리 조합만 유효합니다.</small></p>
+            </template>
 
-                            <span v-if="isconfirm">  
-                                <div class="input-wrap password-wrap">
-                                <label class="label" for="confirm_password">비밀번호 확인</label>
-                                <input v-model="passwordConfirm" id="password-confirm" class="true"
-                                    placeholder="비밀번호를 한번 더 입력해주세요" :type="passwordConfirmType"
-                                    style="border: 1px solid #035AA6;" @input="isConfirm(passwordConfirm)"/>
-                                </div>
-                            </span>
-                            <span v-else>
-                                <div class="input-wrap password-wrap">
-                                <label class="label" for="confirm_password">비밀번호 확인</label>
-                                <input v-model="passwordConfirm" id="password-confirm" class="false"
-                                    placeholder="비밀번호를 한번 더 입력해주세요" :type="passwordConfirmType"
-                                    style="border: 1px solid red;"
-                                @input="isConfirm(passwordConfirm)"/>
-                                <p class="warn" style="margin-bottom:0;"><small>비밀번호와 같지 않습니다.</small></p>
-                                </div> 
-                            </span> 
+            <template v-if="isconfirm">
+				<input v-model="passwordConfirm" class="input_vaild" @input="isConfirm(passwordConfirm)" type="password" name="password2" placeholder="비밀번호를 한번 더 입력해주세요" />
+            </template>
+            <template v-else>
+				<input v-model="passwordConfirm" @input="isConfirm(passwordConfirm)" type="password" name="password2" placeholder="비밀번호를 한번 더 입력해주세요" />
+                <p class="warn" ><small>비밀번호와 같지 않습니다.</small></p>
+            </template>
 
-                            <label class="label" for="language">주사용 언어</label>
-                            <b-form-select v-model="lang" :options="options"></b-form-select>
+            
+            <!-- <label class="label" for="language">주사용 언어</label> -->
+            <b-form-select v-model="lang" :options="options"></b-form-select>
+				
+            <input @click="submit" type="submit" name="signup_submit" value="회원가입" />
 
-                            </div>
-                        </div>
-
-                        <button class="btn" @click="submit">
-                            <span>
-                                회원가입
-                            </span>
-                        </button>
-                        <h6 class="hidetext">SNS 간편로그인하기</h6>
-                        <hr class="gubun">
-                        <h6 class="appeartext">SNS 간편 회원가입하기</h6>
-                        <h6 class="hidetext">SNS 간편로그인</h6>
-                        <h6 class="hidetext">SNS 간편로그인</h6>
-                        <img class="login_with" src="@/assets/img/kacircle.png" alt="Log In with Kakao ">
-                        <img class="login_with" src="@/assets/img/fbcircle.png" alt="Log In with facebook">
-                        <hr class="gubun2">
-                    </div>
-                <div>
-                </div>
             </div>
+		
+
+		</div>
+    </div>
+
 </template>
 
 <script>
@@ -143,7 +91,6 @@
                     this.$router.push('/')
                 })
                 .catch((error) => {
-                    console.log(error)
                     alert('가입된 이메일 입니다.\n다른 이메일을 사용해 주세요.')
                 })
             },
@@ -166,36 +113,36 @@
             },
             isName(asValue) {
                 var flag = true;
-                if (asValue == null){
+                if (asValue == null || asValue == ''){
                     flag = false
                 }
                 this.isname = flag
             },
             submit() {
-                console.log(this.name)
-                if (!this.isname || this.name == null){
+                if (!this.isname || this.name == null || this.name == ''){
                     this.name = null;
                     alert('이름을 입력하세요.');
                 }
-                else if (!this.isemail || this.email == null){
+                else if (!this.isemail || this.email == null || this.email == ''){
                     this.email = null;
                     alert('유효한 이메일 형식을 입력해 주세요.');
                 }
-                else if (!this.ispassword || this.password == null) {
+                else if (!this.ispassword || this.pw == null || this.pw == '') {
                     this.pw = null;
                     alert('비밀번호는 8~10자리 영문자만 유효합니다.')
                 }
-                else if (!this.isconfirm || this.passwordConfirm == null) {
+                else if (!this.isconfirm || this.passwordConfirm == null || this.passwordConfirm == '') {
                     this.passwordConfirm = null;
                     alert('비밀번호 확인이 비밀번호와 같지 않습니다.')
                 }
                 else if (this.lang == null) {
                     alert('언어를 선택 하세요.')
                 }
-                // else {
-                //     console.log(this.name)
-                //     this.signup()
-                // }
+                else {
+                    console.log(this.name)
+                    this.signup()
+                }
+
             }
 
         }
@@ -204,22 +151,109 @@
 </script>
 
 
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gamja+Flower&family=Jua&display=swap');
-    * {
-        font-family: 'Jua', sans-serif;
-    }
+<style  scoped>
 
-    input.false:focus {outline:1px solid #d50000;}
-    input.true:focus {outline: 1px solid #035AA6}
+	/* @import url(https://fonts.googleapis.com/css?family=Roboto:400, 300, 500);
+	*:focus {
+		outline: none;
+	} */
+
+	body {
+		margin: 0;
+		padding: 0;
+		background: #ddd;
+		font-size: 16px;
+		color: #222;
+		font-family: "Roboto", sans-serif;
+		font-weight: 300;
+	}
+
+	#signup-box {
+		position: relative;
+		margin: 5% auto;
+		width: 400px;
+		height: 500px;
+		background: #fff;
+		border-radius: 2px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+	}
+
+	.left {
+		position: absolute;
+		top: 0;
+		left: 0;
+		box-sizing: border-box;
+		padding: 40px;
+		width: 400px;
+		height: 400px;
+	}
+
+	h1 {
+		margin: 0 0 20px 0;
+		font-weight: 400;
+		font-size: 23px;
+		line-height: 1;
+        color: #33b5e5;
+	}
+
+	input[type="text"],
+	input[type="password"] {
+		display: block;
+		box-sizing: border-box;
+		/* margin-bottom: 20px; */
+		padding: 4px;
+		width: 320px;
+		height: 32px;
+		border: none;
+		border-bottom: 1px solid #aaa;
+		font-family: "Roboto", sans-serif;
+		font-weight: 400;
+		font-size: 15px;
+		transition: 0.2s ease;
+	}
+
+	input[type="text"]:focus,
+	input[type="password"]:focus {
+		/* border-bottom: 2px solid #16a085; */
+		color: #061416;
+		transition: 0.2s ease;
+	}
+
+	input[type="submit"] {
+		margin-top: 28px;
+		width: 120px;
+		height: 32px;
+		background: #33b5e5;
+		border: none;
+		border-radius: 2px;
+		color: #fff;
+		font-family: "Roboto", sans-serif;
+		font-weight: 500;
+		text-transform: uppercase;
+		transition: 0.1s ease;
+		cursor: pointer;
+	}
+
+	input[type="submit"]:hover,
+	input[type="submit"]:focus {
+		opacity: 0.8;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+		transition: 0.1s ease;
+	}
+
+	input[type="submit"]:active {
+		opacity: 1;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+		transition: 0.1s ease;
+	}
+
+    .input_vaild{
+        margin-bottom: 20px;
+    }
 
     .warn{
-        margin: 0;
-        padding: 0;
-        float: left;
-        color: #d50000;
+        margin-bottom : 10px;
+        color: rgb(206, 70, 70);
     }
-    .user{
-        background-color: rgb(236, 241, 243);
-    }
+
 </style>

@@ -15,5 +15,6 @@ public interface AccountService {
     public Account search(int userNo);
     public Account findByToken(String token);
     public void grade(int userNo, int grade);
+    public void insertKakao(Account user);
 
 }

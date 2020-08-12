@@ -65,6 +65,11 @@ public class AccountDaoImpl implements AccountDao{
         accountMapper.grade(userNo, grade);
     }
 
+    @Override
+    public void insertKakao(Account user) {
+        accountMapper.insertKakao(user);
+    }
+
    
 
 }

@@ -26,16 +26,10 @@
         <v-list-item-title v-text="ask.title"></v-list-item-title>
         </v-list-item>
 
-          <v-list-item 
-          @click="movePage(myrecord.path)"
-        >
-        <v-list-item-icon><v-icon v-text="myrecord.icon"></v-icon></v-list-item-icon>
-        <v-list-item-title v-text="myrecord.title"></v-list-item-title>
-        </v-list-item>
         </template>
     
           <v-list-group 
-            no-action prepend-icon="mdi-account"  red--text>
+            no-action prepend-icon="fas fa-question-circle"  red--text>
           
           <template v-slot:activator>
               <v-list-item-content>
@@ -45,7 +39,7 @@
             
             <v-list-item v-for="subitem in que.lang" :key="subitem.title"  @click="moveList('/list/', subitem.title,'')">
                 <v-list-item-title v-text="subitem.title"></v-list-item-title>
-                <v-list-item-icon><v-icon v-text="none"></v-icon></v-list-item-icon>
+                <v-list-item-icon><v-icon ></v-icon></v-list-item-icon>
             </v-list-item>
 
 
@@ -63,7 +57,7 @@
             <router-link to="/">
                 <img class="logo" src="../../assets/img/favicon.png"></router-link>
             <v-spacer/>
-
+               
                 <div id="search" fluid style=" padding-top: 30px;" >
                   <v-row >
                     <v-col cols="3" sm="3">
@@ -141,24 +135,35 @@
             this.$cookies.remove('auth-token')
             this.$store.commit('checkToken',this.$cookies.get('auth-token'))
             this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+            
+            Kakao.API.request({
+              url: '/v1/user/unlink',
+              success: function(response) {
+                  console.log(response);
+ 
+              },
+              fail: function(error) {
+                   console.log(error);
+              },
+            });
+            
             alert('로그아웃 되었습니다.')
             this.$router.push("/")
           }
         },
         data: () => ({
             items: [
-                'c', 'cpp', 'java', 'python', 'all' 
+                'c', 'cpp', 'java', 'python' , 
             ],
             item: '',
             search: '',
-            keyword: '',
             drawer: false,
             
-              fame:   { path: '/fame', title: '명예의 전당', icon: 'mdi-clock' },
-              bookmark:    { path: '/bookmark', title: '찜하기', icon: 'mdi-flag' },
-              ask: {path: '/askquestion', title: '질문하기', icon:''},
-              que: {  title: 'Question', icon: 'mdi-account'  , lang: [{title : 'c'} ,{title : 'cpp'},{title : 'java'},{title : 'python'},{title : 'all'} ] },
-              myrecord : {path : '/record' , title : '내기록' , icon : ''},
+              fame:   { path: '/fame', title: '명예의 전당', icon: 'fas fa-trophy' },
+              bookmark:    { path: '/bookmark', title: '찜하기', icon: 'fas fa-bookmark' },
+              ask: {path: '/askquestion', title: '질문하기', icon:'ar fa-gem'},
+              que: {  title: 'Question', icon: 'mdi-account'  , lang: [{title : 'c'} ,{title : 'cpp'},{title : 'java'},{title : 'python'} ] },
+              // myrecord : {path : '/record' , title : '내기록' , icon : 'mdi-account'},
            
         })
     }

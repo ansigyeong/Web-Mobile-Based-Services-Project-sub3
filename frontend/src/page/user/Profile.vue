@@ -121,7 +121,7 @@
     <hr>
 
     <h2>내가 한 질문</h2>
-    <b-table :items="data" :fields="fields" :per-page="perPage" :current-page="currentPage" striped responsive="sm">
+    <b-table :items="data" :fields="fields" striped responsive="sm">
       <slot></slot>
       <template v-slot:cell(actions)="row">
         <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1">
@@ -129,14 +129,8 @@
         </b-button>
       </template>
     </b-table>
-    <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        align="center"
-      ></b-pagination>
     <h2>내가 한 답변</h2>
-    <b-table :items="replydata" :fields="replyfields" :per-page="perPage2" :current-page="currentPage2" striped responsive="sm">
+    <b-table :items="replydata" :fields="replyfields" striped responsive="sm">
       <slot></slot>
       <template v-slot:cell(replyactions)="row">
         <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1">
@@ -144,12 +138,6 @@
         </b-button>
       </template>
     </b-table>
-    <b-pagination
-        v-model="currentPage2"
-        :total-rows="rows2"
-        :per-page="perPage2"
-        align="center"
-      ></b-pagination>
   </div>
 </template>
 
@@ -161,10 +149,6 @@ import { Carousel, Slide } from 'vue-carousel'
   export default {
     data(){
       return {
-        currentPage:1,
-        perPage:5,
-        currentPage2:1,
-        perPage2:5,
         data: null,
         fields: [
         {key:'lang', label: '언어'},
@@ -191,14 +175,6 @@ import { Carousel, Slide } from 'vue-carousel'
     created() {
       this.getlist(this.$route.params.userNo)
       this.checkflag()
-    },
-    computed:{
-      rows(){
-        return this.data.length;
-      },
-      rows2(){
-        return this.replydata.length;
-      }
     },
     methods: {
       getlist(userNo) {

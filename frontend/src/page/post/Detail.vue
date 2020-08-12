@@ -1,15 +1,22 @@
 <template>
   <div class="container">
-    <b-table stacked :items="items" :fields="userfields" class = "custom">
-        <template v-slot:cell(contentsactions)="row">
-        <viewer :initialValue = "row.item.contents" />
-        </template>
-        <template v-slot:cell(useractions)="row">
-        <a size="sm" @click="userdetail(row.item.userNo)" class="mr-1">
-          {{row.item.name}}
-        </a>
-      </template>
-    </b-table>
+      <div style="text-align: left">
+        <h1>{{this.items.title}}</h1>
+        <h7>작성 시간: {{this.items.createDate}}</h7>
+      </div>
+        <hr>
+        <b-media>
+          <template v-slot:aside>
+            <div style="margin-right:50px">
+                <img src='../../assets/img/lv2.png' width="100px" height="100px" alt="">
+                <p>{{items.name}}</p>
+            </div>
+          </template>
+        <div style="text-align: left; color: black !important;">
+            <div v-html="items.contents" style="width:1050px"></div>
+        </div>
+        </b-media>
+    <hr>
     <span v-if="this.$store.state.islogin"> 
     <div>
         <b-button @click="deletequestion">글 삭제</b-button>
@@ -22,10 +29,9 @@
         </span>
     </div>
     </span>
-    <viewer :initialValue = "contents" />
     <h2>댓글 목록</h2>
     <span v-if="this.$store.state.islogin">
-    <b-table :items="replyitems" :fields="fields" :per-page="perPage" :current-page="currentPage" striped responsive="sm">
+    <b-table :items="replyitems" :fields="fields" striped responsive="sm">
         <slot></slot>
             <template v-slot:cell(replyactions)="row">
             <a size="sm" @click="userdetail(row.item.userNo)" class="mr-1">
@@ -52,12 +58,6 @@
     <span v-else>
         <b-table :items="replyitems" :fields="fields" striped responsive="sm"></b-table>
     </span>
-    <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        align="center"
-      ></b-pagination>
     <span v-if="this.$store.state.islogin">  
     <h2>댓글 작성</h2>
     <b-container fluid>
@@ -76,11 +76,17 @@
 
 <script> 
 import axios from 'axios'
+import Editor from '@tinymce/tinymce-vue'
+import { component as VueCodeHighlight } from 'vue-code-highlight'
+import VuePrism from 'vue-prism'
     export default { 
+        components: {
+            'editor': Editor,
+            VueCodeHighlight,
+            VuePrism
+        },
         data () {
             return {
-                currentPage:1,
-                perPage:7,
                 items: null,
                 title: null,
                 contents: null,
@@ -112,9 +118,6 @@ import axios from 'axios'
             getcontents: function() 
             {
                 return this.contents
-            },
-             rows(){
-                return this.replyitems.length;
             }
         },
         methods: {
@@ -132,16 +135,14 @@ import axios from 'axios'
                     }
                 })
                 .then((response) => {
-                    console.log(response)
-                    console.log(response.data.data.question.contents)
-                    this.items = [{
+                    this.items = {
                     title: response.data.data.question.title,
                     contents:response.data.data.question.contents,
-                    createDate:response.data.data.question.createDate,
+                    createDate:response.data.data.question.createDate.substring(0,10)+' '+ response.data.data.question.createDate.substring(11,19),
                     name:response.data.data.user.name,
                     lang:response.data.data.question.lang,
                     userNo: response.data.data.user.userNo
-                    }]
+                    }
                     this.title = response.data.data.question.title
                     this.contents = response.data.data.question.contents
                     this.lang = response.data.data.question.lang
@@ -351,5 +352,15 @@ import axios from 'axios'
 
 .custom {
    width: 80rem; 
+}
+
+.inner {
+    position: absolute;
+    bottom: 0;
+}
+
+code {
+    color: black !important;
+    background-color: white !important;
 }
 </style>

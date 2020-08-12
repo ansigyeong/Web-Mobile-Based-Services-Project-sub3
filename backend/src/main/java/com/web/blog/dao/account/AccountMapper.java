@@ -56,5 +56,9 @@ public interface AccountMapper {
     //점수
     @Update("update user set grade = #{grade} where userNo = #{userNo}")
     public void grade(int userNo, int grade);
+
+    //kakao계정 회원가입
+    @Insert("insert into user(name,email,pw,role,authKey) values( #{user.name}, #{user.email}, #{user.pw}, #{user.role}, #{user.authKey}) ")
+    public void insertKakao(@Param("user") Account user);
    
 }

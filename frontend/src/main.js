@@ -14,11 +14,14 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/vue-editor';
 import { Viewer } from '@toast-ui/vue-editor';
 import VueCarousel from 'vue-carousel';
+import VuePrism from 'vue-prism'
 
 Vue.use(VueCookies)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueCarousel)
+Vue.use(VuePrism)
+
 
 Vue.component('editor', Editor)
 Vue.component('viewer',Viewer)

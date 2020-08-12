@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <h1>질문하기</h1>
+    <b-form-select v-model="lang" :options="options"></b-form-select>
     <v-form>
       <v-text-field v-model="title"
         label="제목을 입력해주세요"
@@ -9,25 +10,21 @@
         hide-details
       ></v-text-field>
       <v-divider></v-divider>
-      <editor
-      ref ="editor"
-      :options="editorOptions"
-      height="500px"
-      initialEditType="wysiwyg"
-      previewStyle="vertical"
-      />
-      <b-form-select v-model="lang" :options="options"></b-form-select>
-      <v-col cols="5" class="p-0">
-        <v-combobox
-          v-model="tags"
-          :items="tagList"
-          item-text="name"
-          label="최대 3개의 태그를 입력하세요."
-          multiple
-          chips
-          class="p-0 m-0"
-        ></v-combobox>
-      </v-col>
+    <div>
+      <editor api-key="vem3wnp12tvfllgyuf92uzd6e04f9ddz4ke9mzv8uh71ctgq" :init="{
+          height: 500,
+          menubar: ['file edit view insert format tools'],
+          plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount codesample'
+          ],
+          toolbar:
+            'undo redo codesample | formatselect | bold italic backcolor | \
+            alignleft aligncenter alignright alignjustify | \
+            bullist numlist outdent indent | removeformat | help'
+        }" v-model="contents" />
+    </div>
       <v-card-actions>
         <v-btn text @click="back">Cancel</v-btn>
         <v-spacer></v-spacer>
@@ -39,12 +36,15 @@
 
 <script>
 import axios from 'axios'
-
+import Editor from '@tinymce/tinymce-vue'
   export default {
     name: 'AskQuestion',
+    components: {
+        'editor': Editor
+    },
     data () {
       return {
-        contents: null,
+        contents: '',
         title: null,
         lang: null,
         options: [
@@ -56,9 +56,7 @@ import axios from 'axios'
         editorText: 'This is initialValue.',
         editorOptions: {
           hideModeSwitch: true
-        },
-        tags: [],
-        tagList: []
+        }
       }
     },
     methods: {
@@ -71,59 +69,11 @@ import axios from 'axios'
             "ACCESS-TOKEN": this.$store.state.token
           }
         }
-        let i = 0
-        let fT = '~'
-        let sT = '~'
-        let tT = '~'
-        
-        for(let tag of this.tags){
-          console.log(tag)
-          if(i==0)  fT = tag
-          if(i==1)  sT = tag
-          if(i==2)  tT = tag
-          i++
+        let body = {
+          contents: this.contents,
+          title: this.title,
+          lang: this.lang,
         }
-        let body = {}
-        if(fT=='~'){
-            body = {
-            contents: this.$refs.editor.invoke("getMarkdown"),
-            title: this.title,
-            lang: this.lang,
-          }
-        } else if(sT=='~'){
-            body = {
-            contents: this.$refs.editor.invoke("getMarkdown"),
-            title: this.title,
-            lang: this.lang,
-            firstTag : fT
-          }
-        } else if(tT=='~'){
-            body = {
-            contents: this.$refs.editor.invoke("getMarkdown"),
-            title: this.title,
-            lang: this.lang,
-            firstTag : fT,
-            secondTag : sT
-          }
-        } else {
-            body = {
-            contents: this.$refs.editor.invoke("getMarkdown"),
-            title: this.title,
-            lang: this.lang,
-            firstTag : fT,
-            secondTag : sT,
-            thirdTag : tT
-          }
-        }
-        // let body = {
-        //   contents: this.$refs.editor.invoke("getMarkdown"),
-        //   title: this.title,
-        //   lang: this.lang,
-        //   firstTag : fT,
-        //   secondTag : sT,
-        //   thirdTag : tT
-        // }
-        console.log(body)
         axios.post(this.$store.state.base_url + '/question', body, config)
         .then((response) => {
           alert('글이 성공적으로 작성 되었습니다.')

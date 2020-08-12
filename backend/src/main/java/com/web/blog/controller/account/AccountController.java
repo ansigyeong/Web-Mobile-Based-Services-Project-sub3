@@ -5,26 +5,41 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mysql.cj.exceptions.PasswordExpiredException;
 import com.web.blog.config.JwtTokenProvider;
 import com.web.blog.dto.BasicResponse;
 import com.web.blog.dto.account.Account;
 import com.web.blog.dto.account.AuthenticationRequest;
+import com.web.blog.dto.account.KakaoProfile;
+import com.web.blog.dto.account.OAuthToken;
 import com.web.blog.service.account.AccountService;
+import com.web.blog.service.account.TempKey;
 import com.web.blog.service.follow.FollowService;
 import com.web.blog.service.question.QuestionService;
 import com.web.blog.service.reply.ReplyService;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import springfox.documentation.service.OAuth;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,7 +71,7 @@ public class AccountController {
     ReplyService replyService;
     @Autowired
     FollowService followService;
-
+    
     // @getma
     @GetMapping("/")
     @ApiOperation(value = "메인")
@@ -123,7 +138,7 @@ public class AccountController {
     }
 
     @GetMapping("account/eamilConfirm")
-    @ApiOperation(value ="e-mail인증")
+    @ApiOperation(value = "e-mail인증")
     public Object emailConfirm(@RequestParam String email, @RequestParam String authKey) {
         Account user = new Account();
         user.setEmail(email);
@@ -137,7 +152,7 @@ public class AccountController {
         result.status = true;
         result.data = "success";
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return "인증이 완료되었습니다. 이제 이 브라우저 탭을 닫고 hellow Code_Sea에서 로그인 할 수 있습니다.";
 
     }
 
@@ -207,12 +222,129 @@ public class AccountController {
         }
     }
 
-    @GetMapping("/kakao")
+    @GetMapping("/auth/kakao/calback")
     @ApiOperation(value = "kakao로그인")
-    public Object login(@RequestParam("code") String code) {
+    public Object kakaoCallback(@RequestParam("code") String code) {
         System.out.println("code: " + code);
+        // post방식으로 key=value 데이터를 code보내주면서 요청(카카오쪽으로)
+        RestTemplate rt = new RestTemplate();
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        // HttpHeader 오브젝트 생성
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        // HttpBody 오브젝트 생성
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "authorization_code");
+        params.add("client_id", "a02e0d55e3c3e558db7f944f5d746ac1");
+        params.add("redirect_uri", "http://localhost/auth/kakao/calback");
+        params.add("code", code);
+
+        // HttpHeader와 HttpBody를 하나의 오브젝트에 담기
+        HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
+
+        // Http 요청하기 - posrt방식으로 보내고 response변수의 응답받음
+        ResponseEntity<String> response = rt.exchange("https://kauth.kakao.com//oauth/token", HttpMethod.POST,
+                kakaoTokenRequest, String.class);
+
+        // Gson, Json Simple,ObjectMapper
+        ObjectMapper objectMapper = new ObjectMapper();
+        OAuthToken oauthToken = null;
+
+        try {
+            oauthToken = objectMapper.readValue(response.getBody(), OAuthToken.class);
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        System.out.println(" 카카오 엑세스 토큰 : "+ oauthToken.getAccess_token());
+
+        // post방식으로 토큰 보내면서 사용자 정보 요청
+        RestTemplate rt2 = new RestTemplate();
+
+        // HttpHeader 오브젝트 생성
+        HttpHeaders headers2 = new HttpHeaders();
+        headers2.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        headers2.add("Authorization", "Bearer "+ oauthToken.getAccess_token());
+
+        // HttpHeader와 HttpBody를 하나의 오브젝트에 담기
+        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>( headers2);
+
+        // Http 요청하기 - posrt방식으로 , response변수의 응답받음
+        ResponseEntity<String> response2 = rt2.exchange("https://kapi.kakao.com/v2/user/me", HttpMethod.POST,
+        kakaoProfileRequest, String.class);
+        System.out.println(response2.getBody());
+
+
+        //User 객체에 담기
+        ObjectMapper objectMapper2 = new ObjectMapper();
+        KakaoProfile kakaoProfile = null;
+
+        try {
+            kakaoProfile = objectMapper.readValue(response2.getBody(), KakaoProfile.class);
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        Account user = new Account();
+        user.setEmail(kakaoProfile.getKakao_account().getEmail());
+        user.setName(kakaoProfile.getProperties().nickname);
+        user.setPw(passwordEncoder.encode("danbi"));
+        user.setRole("ROLE_KAKAO");
+        String authKey = new TempKey().getKey(50, false); // 임의의 인증키 생성
+        user.setAuthKey(authKey);
+        String jwt = "";
+        Account account = accountService.selectAccount(user.getEmail());
+        
+        BasicResponse result = new BasicResponse();
+        Map<String,Object> map = new HashMap<>();
+
+
+        if(account == null){
+            System.out.println("기존 회원 아닙니다 자동 회원가입 진행");
+            accountService.insertKakao(user);
+        }
+        
+        jwt = jwtToken.createToken(user.getEmail(), user.getRole());
+        System.out.println("토큰 생성 : " + jwt);
+        map.put("ACCESS-TOKEN", jwt);
+        result.data = map;
+        result.status = true;
+    
+        return  new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/kakao")
+    public Object kakaoLogin(@RequestParam String email, @RequestParam String name){
+        Account user = new Account();
+        user.setEmail(email);
+        user.setName(name);
+        user.setPw(passwordEncoder.encode("danbi"));
+        user.setLang("c");
+        user.setRole("ROLE_KAKAO");
+        String authKey = new TempKey().getKey(50, false); // 임의의 인증키 생성
+        user.setAuthKey(authKey);
+        String jwt = "";
+        Account account = accountService.selectAccount(user.getEmail());
+        
+        BasicResponse result = new BasicResponse();
+        Map<String,Object> map = new HashMap<>();
+
+
+        if(account == null){
+            System.out.println("기존 회원 아닙니다 자동 회원가입 진행");
+            accountService.insertKakao(user);
+        }
+        
+        jwt = jwtToken.createToken(user.getEmail(), user.getRole());
+        System.out.println("토큰 생성 : " + jwt);
+        map.put("ACCESS-TOKEN", jwt);
+        result.data = map;
+        result.status = true;
+    
+        return  new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
