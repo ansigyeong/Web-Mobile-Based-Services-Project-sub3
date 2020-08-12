@@ -13,7 +13,6 @@
     "axios": "^0.19.2",
     "bootstrap-vue": "^2.16.0",
     "core-js": "^3.6.5",
-    "fullpage.js": "^3.0.9",
     "sweetalert": "^2.1.2",
     "tui-editor": "^1.4.10",
     "vue": "^2.6.11",

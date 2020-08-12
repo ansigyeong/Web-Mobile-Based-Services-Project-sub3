@@ -1,9 +1,9 @@
 <template>
 <div>
-<full-page :options="options">
+       <full-page :options="options" id="fullpage">
 <!-- 1 -->
-  <div style="padding-top:50px;">
-    <div class="section">
+  <div>
+    <div class="section" style="padding-top:16px;">
     <b-carousel
       id="carousel-1"
       v-model="slide"
@@ -47,13 +47,6 @@
         </template>
       </b-carousel-slide>
 
-      <!-- Slide with blank fluid image to maintain slide aspect ratio -->
-      <!-- <b-carousel-slide caption="Blank Image" img-blank img-alt="Blank image">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eros felis, tincidunt
-          a tincidunt eget, convallis vel est. Ut pellentesque ut lacus vel interdum.
-        </p>
-      </b-carousel-slide> -->
     </b-carousel>
     </div>
 <!-- 2 -->
@@ -69,7 +62,7 @@
       <b-carousel-slide
         caption="First slide"
         text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-        img-src="https://im5.ezgif.com/tmp/ezgif-5-1238766f947b.png"
+       
       ></b-carousel-slide>
 
     </b-carousel>
@@ -87,7 +80,7 @@
       <b-carousel-slide
         caption="First slide"
         text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-        img-src="https://im5.ezgif.com/tmp/ezgif-5-1238766f947b.png"
+        
       ></b-carousel-slide>
 
     </b-carousel>
@@ -105,14 +98,13 @@
       <b-carousel-slide
         caption="First slide"
         text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-        img-src="https://im5.ezgif.com/tmp/ezgif-5-1238766f947b.png"
 
       ></b-carousel-slide>
 
     </b-carousel>
   </div>
 <!-- 5 -->
-  <div class="section">
+  <div class="section" >
     <b-carousel
       id="carousel-1"
       img-width="1024"
@@ -144,7 +136,8 @@
     </b-carousel>
   </div>
   </div>
-</full-page>
+
+        </full-page>
 </div>
 </template>
 
@@ -155,8 +148,13 @@
         slide: 0,
         sliding: null,
         options : {
-          // controlArrows: true,
-          // scrollBar: true
+          licenseKey: 'YOUR_KEY_HERE',
+          afterLoad: this.afterLoad,
+          scrollOverflow: true,
+          scrollBar: false,
+          navigation: true,
+          anchors: ['page1', 'page2', 'page3'],
+          sectionsColor: ['#41b883', '#ff5f45', '#0798ec', '#fec401', '#1bcee6', '#ee1a59', '#2c3e4f', '#ba5be9', '#b4b8ab']
         }
       }
     },
@@ -173,3 +171,12 @@
     }
   }
 </script>
+<style scoped>
+body{
+  margin : 0;
+  padding: 0;
+}
+#carousel-1{
+  margin: 0;
+}
+</style>
