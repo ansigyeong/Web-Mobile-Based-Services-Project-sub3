@@ -141,7 +141,11 @@ import Editor from '@tinymce/tinymce-vue'
           this.$router.push('/list/'+this.lang)
         })
         .catch((error) => {
-          console.log(error)
+            alert('세션 만료.\n다시 로그인 해주세요.')
+            this.$cookies.remove('auth-token')
+            this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+            this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+            this.$router.push('/login')
         })
       }
     },

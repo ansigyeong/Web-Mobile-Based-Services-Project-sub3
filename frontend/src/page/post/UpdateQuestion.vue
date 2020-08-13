@@ -47,6 +47,9 @@ export default {
       lang: this.$store.state.updatebox.lang,
       }
   },
+  created(){
+    console.log(this.$store.state.updatebox)
+  },
   methods: {
     update() {
         let config = {

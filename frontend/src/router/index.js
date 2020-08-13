@@ -52,7 +52,7 @@ Vue.use(VueRouter)
     component: AskQuestion
   },
   {
-    path: '/detail/:queNo',
+    path: '/detail/:queNo/:lang?',
     name: 'Detail',
     component: Detail
   },

@@ -3,25 +3,25 @@
     <!-- 프로필 -->
     <h1 v-if="this.flag">내 정보</h1>
     <h1 v-else>{{username}}님 정보</h1>
-    <div class="row">
+    <div class="row" style="border:black solid 1px; width:800px; height:330px; margin:0 100px 0 100px">
       <div class="col-1"></div>
       <div class="col-3">
         <img class="userprofile" :src="link">
       </div>
       <div class="col-1"></div>
       <div class="col-6">
-        <b-table stacked :items="useritems" class = "custom"></b-table>
+        <b-table stacked :items="useritems" class = "custom" borderless="false"></b-table>
       </div>
     </div>
     <span v-if="this.flag"> 
     <div>
-        <b-button @click="deleteuser">회원 탈퇴</b-button>
-        <b-button @click="updateuser">회원 정보 수정</b-button>
+        <b-button @click="deleteuser" class="dd"  variant="primary" style="margin:7px 7px 0 0 ">회원 탈퇴</b-button>
+        <b-button @click="updateuser" class="dd"  variant="primary" style="margin:7px 0 0 7px">정보 수정</b-button>
     </div>
     </span>
     <span v-else>    
-        <b-button v-if = "this.followflag" @click="follow">팔로우</b-button>
-        <b-button v-else @click="followdelete">팔로우 취소</b-button>
+        <b-button v-if = "this.followflag" @click="follow"  class="dd"  variant="primary">팔로우</b-button>
+        <b-button v-else @click="followdelete"  class="dd" variant="primary">팔로우 취소</b-button>
     </span>
     <hr>
     <!-- 팔로우-->
@@ -32,7 +32,7 @@
       <!-- <a @click="openfollow">dd</a> -->
       
       <div>
-        <b-button v-b-modal.modal-scrollable>팔로워 전체보기</b-button>
+        <b-button v-b-modal.modal-scrollable class="dd"  variant="primary">팔로워 전체보기</b-button>
 
         <b-modal id="modal-scrollable" scrollable title="나를 팔로우하는 사람들">
           <div class="my-4" v-for="(k,i) in following.slice(0,follower.length/2+1)" :key="i">
@@ -80,7 +80,7 @@
       <p>{{following.length}}명</p>
 
       <div>
-        <b-button v-b-modal.modal-tall>팔로잉 전체보기</b-button>
+        <b-button v-b-modal.modal-tall  class="dd"  variant="primary">팔로잉 전체보기</b-button>
 
         <b-modal id="modal-tall" scrollable title="내가 팔로우하는 사람들">
           <div class="my-4" v-for="(k,i) in following.slice(0,following.length/2+1)" :key="i">
@@ -118,13 +118,13 @@
             </slide>        
         </carousel>     
     </div>
-    <hr>
+    <hr> 
 
     <h2>내가 한 질문</h2>
-    <b-table :items="data" :fields="fields" :per-page="perPage" :current-page="currentPage" striped responsive="sm">
+    <b-table :items="data" :fields="fields" :per-page="perPage" :current-page="currentPage"  responsive="sm" >
       <slot></slot>
       <template v-slot:cell(actions)="row">
-        <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1">
+        <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1 dd" variant="primary">
           상세보기
         </b-button>
       </template>
@@ -138,10 +138,10 @@
         
       ></b-pagination>
     <h2>내가 한 답변</h2>
-    <b-table :items="replydata" :fields="replyfields" :per-page="perPage2" :current-page="currentPage2" striped responsive="sm">
+    <b-table :items="replydata" :fields="replyfields" :per-page="perPage2" :current-page="currentPage2"  responsive="sm">
       <slot></slot>
       <template v-slot:cell(replyactions)="row">
-        <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1">
+        <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1 dd"   variant="primary">
           상세보기
         </b-button>
       </template>
@@ -220,6 +220,8 @@ import { Carousel, Slide } from 'vue-carousel'
             this.username = response.data.data.user.name;
             this.data = response.data.data.myque;
             this.replydata = response.data.data.myrp;
+            console.log('re')
+            console.log(response.data.data.myrp)
             this.useritems =[{
               '이름': response.data.data.user.name,
               '이메일' : response.data.data.user.email,
@@ -230,7 +232,7 @@ import { Carousel, Slide } from 'vue-carousel'
             }]
             this.following = response.data.data.followingList
             this.follower = response.data.data.followerList
-            console.log(this.follower)
+            // console.log(this.follower)
           })
         .catch((error) => {
           console.log(error)
@@ -279,6 +281,13 @@ import { Carousel, Slide } from 'vue-carousel'
           .then((response) => {
             console.log(response)
             this.checkflag()
+          })
+          .catch((error) => {
+            alert('세션 만료.\n다시 로그인 해주세요.')
+            this.$cookies.remove('auth-token')
+            this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+            this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+            this.$router.push('/login')
           })
         },
       followdelete() {
@@ -338,8 +347,14 @@ import { Carousel, Slide } from 'vue-carousel'
     margin: 0;
     padding: 0;
 
-    border: black solid 1px;
+    border: rgb(0, 0, 0) solid 1px;
     border-radius: 50%;
-
+  
   }
+  .dd{
+    color: rgb(11, 13, 15);
+    border: rgb(11, 13, 15);
+    background-color: rgb(140, 180, 231);
+  }
+ 
 </style>

@@ -38,8 +38,8 @@
     <!-- 등급 가이드 -->
     <div class="container grade-guide">
       <img :src="require('../../assets/img/lv'+level(user.grade)+'.png')" style="width: 100px; display: inline-block;" />
-      <span v-if="stage(level(user.grade)) == 6">
-        <h3>당신은 백상아리 입니다. 명예의 전당에 도전하세요!</h3>
+      <span v-if="level(user.grade) == 6">
+        <h3 style="display: inline-block;">당신은 최고 등급 백상아리 입니다. 명예의 전당에 도전하세요!</h3>
       </span>
       <span v-else>
         <h3 style="display: inline-block;">당신은 {{stage(level(user.grade))}} 입니다. 다음 등급 {{stage(level(user.grade)+1)}}까지 {{line[level(user.grade)+1]-user.grade}}점 남았습니다.</h3>
@@ -81,6 +81,13 @@
         })
         .then((response) => {
           this.user = response.data.data.hof
+        })
+        .catch((error) => {
+            alert('세션 만료.\n다시 로그인 해주세요.')
+            this.$cookies.remove('auth-token')
+            this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+            this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+            this.$router.push('/login')
         })
       },
       level(grade){
