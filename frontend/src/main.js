@@ -17,12 +17,13 @@ import VueCarousel from 'vue-carousel';
 import VuePrism from 'vue-prism'
 import VueFullPage from 'vue-fullpage.js'
 
+Vue.use(VueFullPage)
+
 Vue.use(VueCookies)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueCarousel)
 Vue.use(VuePrism)
-Vue.use(VueFullPage)
 
 Vue.component('editor', Editor)
 Vue.component('viewer',Viewer)
