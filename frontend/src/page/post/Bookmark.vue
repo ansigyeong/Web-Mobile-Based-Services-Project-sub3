@@ -85,12 +85,10 @@ import axios from 'axios'
             }   
         })
         .then((response) => {
-          console.log(response)
           this.cpp = response.data.data.cpp;
           this.c = response.data.data.c;
           this.java = response.data.data.java;
           this.python = response.data.data.python;
-          console.log(this.python)
         })
         .catch((error) => {
             alert('세션 만료.\n다시 로그인 해주세요.')

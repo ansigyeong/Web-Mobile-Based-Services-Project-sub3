@@ -54,7 +54,13 @@
           this.items = [
             temp[1],temp[0],temp[2]
           ]
-          console.log(this.items)
+          for(var i in this.items){
+            if (this.items[i] == undefined){
+              alert('유저가 3명 이상이어야 집계가 가능합니다.')
+              this.$router.go(-1)
+              break
+            }
+          }
         })
         .catch((error) => {
           console.log(error)

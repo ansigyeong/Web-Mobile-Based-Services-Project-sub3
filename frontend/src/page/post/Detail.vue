@@ -1,29 +1,38 @@
 <template>
   <div class="container">
       <div style="text-align: left">
-        <h2>{{this.items.title}}</h2>
+        <div style="display:flex; justify-content:space-between">
+            <h2>{{this.items.title}}</h2>
+            <div class="tags" style="margin-top:10px">
+                <a class="post-tag" @click="moveTagList('/taglist/', items.firstTag)" v-if="this.items.firstTag!=''">{{this.items.firstTag}}</a>
+                <a class="post-tag" @click="moveTagList('/taglist/', items.secondTag)" v-if="this.items.secondTag!=''">{{this.items.secondTag}}</a>
+                <a class="post-tag" @click="moveTagList('/taglist/', items.thirdTag)" v-if="this.items.thirdTag!=''">{{this.items.thirdTag}}</a>
+            </div>
+        </div>
         <div style="display:flex; justify-content:space-between">
             <h7>작성 시간: {{this.items.createDate}}</h7>
-            <span v-if="this.$store.state.islogin"> 
+            <span v-if="$store.state.islogin"> 
             <div>
-                <a class="land" @click="deletequestion">글 삭제</a>
-                <a class="land" @click="updatequestion">글 수정</a>
                 <span v-if="this.flag">
-                <img  src='../../assets/img/nostar.png' class="land" width="30px"  @click="selectquestion">
+                <img  src='../../assets/img/nostar.png' class="land" width="40px"  @click="selectquestion">
                 </span>
                 <span v-else>
-                <img src='../../assets/img/star.png' class="land" width="30px" @click="selectdelete">
+                <img src='../../assets/img/star.png' class="land" width="40px" @click="selectdelete">
                 </span>
+                <a class="land" @click="deletequestion">글 삭제</a>
+                <a class="land" @click="updatequestion">글 수정</a>
             </div>
             </span>   
         </div>
       </div>
-        <hr>
+        <hr style="margin-top:10px">
         <b-media>
           <template v-slot:aside>
             <div class="userlanding">
-                <img :src="getimage(items.grade)" width="100px" height="100px" alt="">
-                <p style="margin-top:5px; margin-bottom:3px">{{items.name}}</p>
+                <img :src="getimage(user.grade)" width="100px" height="100px" alt="">
+                <p style="margin-top:5px; margin-bottom:3px">
+                    <a @click="userdetail(user.userNo)" style="color: blueviolet">{{user.name}}</a>
+                </p>
             </div>
           </template>
         <div class="bording" >
@@ -45,11 +54,24 @@
           <template v-slot:aside>
             <div style="margin-right:20px">
                 <div class="userlanding">
-                    <img src='../../assets/img/lv2.png' width="100px" height="100px" alt="">
-                    <p style="margin-top:5px; margin-bottom:3px">{{item.name}}</p>
+                    <img :src="getimage(item.grade)" width="100px" height="100px" alt="">
+                    <p style="margin-top:5px; margin-bottom:3px">
+                        <a @click="userdetail(item.userNo)" style="color: blueviolet">{{item.name}}</a>
+                    </p>
                 </div>
-                <img src="../../assets/img/delete.png" @click="replydelete(item.rpNo)" class="photo">
-                <img src="../../assets/img/update.png" @click="replyupdate(item.rpNo)" class="photo">        
+                <p style="margin-bottom:3px"> 
+                    {{item.rpLike}}
+                    <span v-if="$store.state.islogin">
+                        <span v-if="item.exist=='좋아요'">
+                            <img src="../../assets/img/blackheart.png"  @click="replylike(item.rpNo,idx)" class="heart">
+                        </span>
+                        <span v-else-if="item.exist=='좋아요취소'">
+                            <img src="../../assets/img/redheart.png" @click="replylike(item.rpNo,idx)" class="heart">
+                        </span>
+                        <img src="../../assets/img/delete.png" @click="replydelete(item.rpNo)" class="photo">
+                        <img src="../../assets/img/update.png" @click="replyupdate(item.rpNo)" class="photo">   
+                    </span> 
+                </p>    
             </div>
           </template>
         </b-media> 
@@ -103,31 +125,28 @@ import VuePrism from 'vue-prism'
                 lang: null,
                 replycontents: null,
                 replyitems: null,
-                fields: [{key:'rpLike', label:'좋아요'},
-                    {key:'replyactions', label: '작성자'},
-                    {key:'contents', label: '내용'},
-                    {key: 'createDate', label: '작성 시간'},
-                    {key: 'rpdelete', label: '댓글 삭제'},
-                    {key: 'rpupdate', label: '댓글 수정'},
-                    {key: 'replylike', label: '좋아요'}],
                 flag: true,
                 selectlist: null,
-                userfields: [{key:'title', label:'제목'},
-                {key:'contentsactions', label:'내용'},
-                {key:'createDate', label:'작성시간'},
-                {key:'useractions', label:'질문자'},
-                {key:'lang', label:'언어'}],
+                user: null
                 } 
         },
+        beforeCreate() {
+            console.log(this.lang)
+        },
         created() {
+            this.checkflag();
             this.queNo = this.$route.params.queNo;
             this.getdetail();
-            this.checkflag()
         },
         computed: {
             getcontents: function() 
             {
                 return this.contents
+            },
+            tracklang: function()
+            {
+                console.log('language is changed')
+                return this.lang
             }
         },
         methods: {
@@ -146,20 +165,10 @@ import VuePrism from 'vue-prism'
                 })
                 .then((response) => {
                     console.log(response)
-                    this.items = {
-                    title: response.data.data.question.title,
-                    contents:response.data.data.question.contents,
-                    createDate:response.data.data.question.createDate,
-                    name:response.data.data.user.name,
-                    lang:response.data.data.question.lang,
-                    userNo: response.data.data.user.userNo,
-                    grade: response.data.data.user.grade
-                    }
-                    this.title = response.data.data.question.title
-                    this.contents = response.data.data.question.contents
-                    this.lang = response.data.data.question.lang
+                    this.items = response.data.data.question
+                    this.user = response.data.data.user
                     this.replyitems = response.data.data.rpList
-                    console.log(this.items)
+                    console.log(this.items.firstTag)
                 })
                 .catch((error) => {
                     console.log(error)
@@ -176,21 +185,21 @@ import VuePrism from 'vue-prism'
                 })
                 .then((response) => {
                     console.log(response)
-                    if (response.data.status) {
-                        alert('질문이 성공적으로 삭제 되었습니다.')
-                        this.$router.go(-1)
+                    if (response.data.data == 'user fail') {
+                        alert('작성자만 삭제가 가능합니다.')
                     }
                     else {
-                        alert('작성자만 삭제가 가능합니다.')
+                        alert('질문이 성공적으로 삭제 되었습니다.')
+                        this.$router.go(-1)
                     }
                 })
           
             },
             updatequestion(queNo) {
                 this.$store.commit("updateinfo",{
-                    title : this.title,
-                    contents : this.contents,
-                    lang : this.lang
+                    title : this.items.title,
+                    contents : this.items.contents,
+                    lang : this.items.lang
                 })
                 this.$router.push('/updatequestion/'+this.$route.params.queNo)
             },
@@ -240,7 +249,7 @@ import VuePrism from 'vue-prism'
                 })
                 .then((response) => {
                     console.log(response.data.status)
-                    if (response.data.status) {
+                    if (response.data.data != 'user fail') {
                         alert('댓글이 정상적으로 삭제 되었습니다.')
                         axios.get(this.$store.state.base_url +'/question/detail',{     
                             params: {
@@ -267,7 +276,7 @@ import VuePrism from 'vue-prism'
                     this.$router.push('/login')
                 })
             },
-            replylike(rpNo) {
+            replylike(rpNo,idx) {
                 let config = {
                     headers: {
                         "ACCESS-TOKEN": this.$store.state.token
@@ -289,6 +298,7 @@ import VuePrism from 'vue-prism'
                     })
                     .then((response) =>{ 
                         this.replyitems = response.data.data.rpList
+                        this.user.grade = response.data.data.user.grade
                         console.log(this.replyitems)
                         }
                     )
@@ -331,7 +341,7 @@ import VuePrism from 'vue-prism'
                 }   
             })
             .then((response) => {
-                this.selectlist = response.data.data[this.lang]
+                this.selectlist = response.data.data[this.$route.params.lang]
                 console.log(this.selectlist)
                 var temp = true
                 for (var i in this.selectlist){
@@ -368,7 +378,14 @@ import VuePrism from 'vue-prism'
             },
             getimage(grade){
                 return require('../../assets/img/lv'+this.level(grade)+'.png')
-            },       
+            },  
+            userdetail(userNo){
+                this.$router.push('/profile/'+userNo)
+            },     
+            moveTagList(path, tag){
+                console.log(this.tag)
+                this.$router.push(path+tag);
+            },
     },
     }
 </script>
@@ -411,5 +428,33 @@ code {
 
 .photo {
     width: 30px;
+}
+
+.tags{
+    line-height: 18px;
+    float: left;
+    margin-left: 5%;
+}
+
+.post-tag{
+    font-size: 12px;
+    color: cadetblue;
+    background-color: rgb(211, 247, 247);
+    border-color: transparent;
+    display: inline-block;
+    padding: .4em .5em;
+    margin: 4px 4px 4px 4px;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 30%;
+}
+
+.heart{
+    width: 25px;
+    height: 25px;
 }
 </style>
