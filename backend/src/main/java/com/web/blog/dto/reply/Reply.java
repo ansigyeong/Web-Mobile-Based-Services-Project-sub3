@@ -14,7 +14,7 @@ public class Reply  {
     private int rpNo;
     private String contents;
     private int rpLike;
-    private Date createDate;
+    private String createDate;
     private int queNo;
     private int userNo;
 }

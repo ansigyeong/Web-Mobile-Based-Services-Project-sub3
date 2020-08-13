@@ -14,4 +14,6 @@ public interface QueTagService {
     public void deleteQueTag(int queNo, int tagNo);
     public List<Tag> TagList();
     public List<QueTag> QueTagList(int queNo);
+    public List<QueTag> tagNoList(int tagNo);
+
 }

@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Update;
 @Mapper
 public interface ReplyMapper {
     
-    @Insert("insert into reply(userNo,contents,queNo,createDate) values( #{reply.userNo}, #{reply.contents}, #{reply.queNo},#{reply.createDate})")
+    @Insert("insert into reply(userNo,contents,queNo,createDate) values( #{reply.userNo}, #{reply.contents}, #{reply.queNo},now())")
     public int writeReply(@Param("reply") Reply reply); 
 
     @Select("select * from reply where queNo=#{queNo} order by createDate desc ")

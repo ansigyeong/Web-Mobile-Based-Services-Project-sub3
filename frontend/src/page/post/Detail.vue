@@ -1,76 +1,86 @@
 <template>
   <div class="container">
       <div style="text-align: left">
-        <h1>{{this.items.title}}</h1>
-        <h7>작성 시간: {{this.items.createDate}}</h7>
+        <h2>{{this.items.title}}</h2>
+        <div style="display:flex; justify-content:space-between">
+            <h7>작성 시간: {{this.items.createDate}}</h7>
+            <span v-if="this.$store.state.islogin"> 
+            <div>
+                <a class="land" @click="deletequestion">글 삭제</a>
+                <a class="land" @click="updatequestion">글 수정</a>
+                <span v-if="this.flag">
+                <img  src='../../assets/img/nostar.png' class="land" width="30px"  @click="selectquestion">
+                </span>
+                <span v-else>
+                <img src='../../assets/img/star.png' class="land" width="30px" @click="selectdelete">
+                </span>
+            </div>
+            </span>   
+        </div>
       </div>
         <hr>
         <b-media>
           <template v-slot:aside>
-            <div style="margin-right:50px">
-                <img src='../../assets/img/lv2.png' width="100px" height="100px" alt="">
-                <p>{{items.name}}</p>
+            <div class="userlanding">
+                <img :src="getimage(items.grade)" width="100px" height="100px" alt="">
+                <p style="margin-top:5px; margin-bottom:3px">{{items.name}}</p>
             </div>
           </template>
-        <div style="text-align: left; color: black !important;">
-            <div v-html="items.contents" style="width:1050px"></div>
+        <div class="bording" >
+            <div style="height:10px"></div>
+            <div v-html="items.contents" style="margin:20px"></div>
+            <div style="height:10px"></div>
         </div>
-        </b-media>
+        </b-media>  
+
     <hr>
-    <span v-if="this.$store.state.islogin"> 
-    <div>
-        <b-button @click="deletequestion">글 삭제</b-button>
-        <b-button @click="updatequestion">글 수정</b-button>
-        <span v-if="this.flag">
-        <b-button @click="selectquestion">찜 하기</b-button>
-        </span>
-        <span v-else>
-        <b-button @click="selectdelete">찜 삭제</b-button>
-        </span>
-    </div>
+    <h2>{{replyitems.length}}개의 답변</h2>
+    <span v-for="(item,idx) in replyitems" :key="idx">
+        <b-media right-align>
+        <div class="bording" >
+            <div style="height:10px"></div>
+            <div v-html="item.contents" style="margin:20px"></div>
+            <div style="height:10px"></div>
+        </div>
+          <template v-slot:aside>
+            <div style="margin-right:20px">
+                <div class="userlanding">
+                    <img src='../../assets/img/lv2.png' width="100px" height="100px" alt="">
+                    <p style="margin-top:5px; margin-bottom:3px">{{item.name}}</p>
+                </div>
+                <img src="../../assets/img/delete.png" @click="replydelete(item.rpNo)" class="photo">
+                <img src="../../assets/img/update.png" @click="replyupdate(item.rpNo)" class="photo">        
+            </div>
+          </template>
+        </b-media> 
+        <div style="height:40px"></div> 
     </span>
-    <h2>댓글 목록</h2>
-    <span v-if="this.$store.state.islogin">
-    <b-table :items="replyitems" :fields="fields" striped responsive="sm">
-        <slot></slot>
-            <template v-slot:cell(replyactions)="row">
-            <a size="sm" @click="userdetail(row.item.userNo)" class="mr-1">
-            {{row.item.name}}
-            </a>
-            </template>
-            <template v-slot:cell(rpdelete)="row">
-            <b-button size="sm" @click="replydelete(row.item.rpNo)" class="mr-1">
-            댓글 삭제
-            </b-button>
-            </template>
-            <template v-slot:cell(rpupdate)="row">
-            <b-button size="sm" @click="replyupdate(row.item.rpNo)" class="mr-1">
-            댓글 수정
-            </b-button>
-            </template>
-            <template v-slot:cell(replylike)="row">
-            <b-button size="sm" @click="replylike(row.item.rpNo)" class="mr-1">
-            {{row.item.exist}}
-            </b-button>
-            </template>
-    </b-table>
-    </span>
-    <span v-else>
-        <b-table :items="replyitems" :fields="fields" striped responsive="sm"></b-table>
-    </span>
+   
     <span v-if="this.$store.state.islogin">  
-    <h2>댓글 작성</h2>
     <b-container fluid>
-        <b-row class="my-1">
-            <b-col sm="10">
-            <b-form-input id="input-default" placeholder="댓글을 입력하세요" v-model="replycontents"></b-form-input>
-            </b-col>
-        </b-row>
-        <b-row>
-            <b-button @click="writereply">댓글 등록</b-button>
-        </b-row>
+            <div style="text-align:center">
+            <h2>댓글 작성</h2>
+            <div style="text-align:center">
+                <editor api-key="vem3wnp12tvfllgyuf92uzd6e04f9ddz4ke9mzv8uh71ctgq" :init="{
+                    height: 300,
+                    width: 1000,
+                    menubar: ['file edit view insert format tools'],
+                    plugins: [
+                        'advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount codesample'
+                    ],
+                    toolbar:
+                        'undo redo codesample | formatselect | bold italic backcolor | \
+                        alignleft aligncenter alignright alignjustify | \
+                        bullist numlist outdent indent | removeformat | help'
+                    }" v-model="replycontents" />
+            </div>
+            </div>
+            <b-button @click="writereply">답변 등록</b-button>
     </b-container>
     </span>
+<i class="fas fa-heart"></i>
   </div>
 </template>
 
@@ -135,18 +145,21 @@ import VuePrism from 'vue-prism'
                     }
                 })
                 .then((response) => {
+                    console.log(response)
                     this.items = {
                     title: response.data.data.question.title,
                     contents:response.data.data.question.contents,
-                    createDate:response.data.data.question.createDate.substring(0,10)+' '+ response.data.data.question.createDate.substring(11,19),
+                    createDate:response.data.data.question.createDate,
                     name:response.data.data.user.name,
                     lang:response.data.data.question.lang,
-                    userNo: response.data.data.user.userNo
+                    userNo: response.data.data.user.userNo,
+                    grade: response.data.data.user.grade
                     }
                     this.title = response.data.data.question.title
                     this.contents = response.data.data.question.contents
                     this.lang = response.data.data.question.lang
                     this.replyitems = response.data.data.rpList
+                    console.log(this.items)
                 })
                 .catch((error) => {
                     console.log(error)
@@ -204,7 +217,8 @@ import VuePrism from 'vue-prism'
                     })
                     .then((response) =>{ 
                         this.replyitems = response.data.data.rpList
-                        this.replycontents = null
+                        this.replycontents = ''
+                        alert('댓글이 등록 되었습니다.')
                     })
                 })
                 .catch((error) => {
@@ -342,8 +356,19 @@ import VuePrism from 'vue-prism'
                 alert('찜 목록에서 삭제 되었습니다.')
                 this.checkflag()
             })
-            }
-        
+            },
+            level(grade){
+                if (grade < 100){return 0}
+                else if (grade>=100 && grade<200){return 1}
+                else if (grade>=200 && grade<300){return 2}
+                else if (grade>=300 && grade<400){return 3}
+                else if (grade>=400 && grade<500){return 4}
+                else if (grade>=500 && grade<600){return 5}
+                else {return 6}
+            },
+            getimage(grade){
+                return require('../../assets/img/lv'+this.level(grade)+'.png')
+            },       
     },
     }
 </script>
@@ -359,8 +384,32 @@ import VuePrism from 'vue-prism'
     bottom: 0;
 }
 
+.media.box {
+    width: 30px;
+}
 code {
     color: black !important;
     background-color: white !important;
+}
+
+.land {
+    margin-left: 10px;
+}
+
+.bording {
+    background-color:#EEEEEE;
+    border-radius: 10px;
+    text-align: left;
+    min-height: 170px;
+}
+
+.userlanding{
+    border-radius: 10px;
+    border: skyblue 3px solid;
+    margin-bottom: 8px;
+}
+
+.photo {
+    width: 30px;
 }
 </style>

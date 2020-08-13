@@ -1,57 +1,30 @@
 <template>
   <div>
-    <h1 style="margin: 30px;">🏆 내 기록 🏆</h1>
+    <h1>지금 바로 <strong>백상아리</strong>에 도전하세요</h1>
     <div id="carousel">
-      <carousel-3d style="height: 550px !important;">
+      <carousel-3d  style="height: 480px;">
         <span v-for="n in 7" :key="n">
           <slide :index="n-1">
-            <span v-if="n-1 == 0">
-              <div class="crs-bx" style="border: solid 7px #ffd700;">
-                <h5><strong>현재 등급</strong></h5>
-                <img class="grade-img" :src="require('../../assets/img/lv'+remainder(level(user.grade)+n-1)+'.png')"/>
-                <div class="text-box">
-                  <h2><strong>LV. {{remainder(level(user.grade)+n-1)+1}}</strong></h2>
-                  <h3>{{animal(remainder(level(user.grade)+n-1))}}</h3>
-                  <h5>{{user.grade}}점</h5>
-                  <h4>답변 수: {{user.rpCnt}}개</h4>
-                  <h4>좋아요 수: {{user.rpLike}}개</h4>
-                </div>
+            <div class="crs-bx" style="border: solid 7px #ffd700;">
+              <img class="grade-img" :src="require('../../assets/img/lv'+remainder(level(user.grade)+n-1)+'.png')"/>
+              <div class="text-box">
+                <h3>{{animal(remainder(level(user.grade)+n-1))}}</h3>
+                <h2>LV. {{remainder(level(user.grade)+n-1)+1}}</h2>
+                <h3>{{boundary[remainder(level(user.grade)+n-1)]}}</h3>
               </div>
-            </span>
-            <span v-else>
-              <div class="crs-bx">
-                <img class="grade-img" :src="require('../../assets/img/lv'+remainder(level(user.grade)+n-1)+'.png')"/>
-                <div class="text-box">
-                  <br/>
-                  <h2><strong>LV. {{remainder(level(user.grade)+n-1)+1}}</strong></h2>
-                  <br/>
-                  <h3>{{animal(remainder(level(user.grade)+n-1))}}</h3>
-                  <br/>
-                  <h3>{{boundary[remainder(level(user.grade)+n-1)]}}</h3>
-                </div>
-              </div>
-            </span>
+            </div>
           </slide>
         </span>
       </carousel-3d>
     </div>
-    <!-- 등급 가이드 -->
-    <div class="container grade-guide">
-      <img :src="require('../../assets/img/lv'+level(user.grade)+'.png')" style="width: 100px; display: inline-block;" />
-      <span v-if="stage(level(user.grade)) == 6">
-        <h3>당신은 백상아리 입니다. 명예의 전당에 도전하세요!</h3>
-      </span>
-      <span v-else>
-        <h3 style="display: inline-block;">당신은 {{stage(level(user.grade))}} 입니다. 다음 등급 {{stage(level(user.grade)+1)}}까지 {{line[level(user.grade)+1]-user.grade}}점 남았습니다.</h3>
-      </span>
-    </div>
   </div>  
 </template>
+
 <script>
   import {Carousel3d, Slide}  from 'vue-carousel-3d'
   import axios from 'axios'
   export default {
-    name: 'Record',
+    name: 'RecordCarousel',
     components: {
       Carousel3d,
       Slide
@@ -67,7 +40,8 @@
           '400 ~ 499 점',
           '500 ~ 599 점',
           '600 점 이상'],
-        line : [0,100,200,300,400,500,600]
+        line : [0,100,200,300,400,500,600],
+        grade: 650,
       }
     },
     methods : {
@@ -119,12 +93,13 @@
     }
   }
 </script>
+
 <style scoped>
   body {
     background-size: cover;
   }
   .carousel-3d-slide {
-    height: 550px !important;
+    height: auto !important;
     margin-top: 20px;
   }
   .crs-bx {
@@ -133,7 +108,7 @@
     vertical-align: middle;
     border: solid 2px #000;
     background-color: white;
-    height: 530px;
+    height: 450px;
   }
   .grade-img {
     padding: 30px;
@@ -143,12 +118,5 @@
   }
   .text-box {
     margin: 20px;
-    height: 186px;
   } 
-  .grade-guide {
-    position: fixed;
-    bottom: 10px;
-    left: 200px;
-    padding: 0px;
-  }
 </style>

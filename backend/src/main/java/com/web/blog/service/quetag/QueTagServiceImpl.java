@@ -57,7 +57,10 @@ public class QueTagServiceImpl implements QueTagService {
         return quetagDao.QueTagList(queNo);
     }
 
-
+    @Override
+    public List<QueTag> tagNoList(int tagNo) {
+        return quetagDao.tagNoList(tagNo);
+    }
 
 
 }

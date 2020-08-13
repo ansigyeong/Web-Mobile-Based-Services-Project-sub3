@@ -14,7 +14,7 @@ import org.apache.ibatis.annotations.Update;
 public interface AccountMapper {
     
     //회원가입
-    @Insert("insert into user(name,email,pw,lang,authKey,createDate) values( #{user.name},#{user.email}, #{user.pw}, #{user.lang}, #{user.authKey} ,#{user.createDate})")
+    @Insert("insert into user(name,email,pw,lang,authKey,createDate) values( #{user.name},#{user.email}, #{user.pw}, #{user.lang}, #{user.authKey} ,now())")
     public void insertAccount(@Param("user") Account user);
 
     //email 권한 수정

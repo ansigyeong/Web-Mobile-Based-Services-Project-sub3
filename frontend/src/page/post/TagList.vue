@@ -1,23 +1,12 @@
 <template>
   <div class="container">
-    <div>
-      <v-row>
-        <v-col class="mainlang">
-          <h1>{{this.$route.params.lang}}</h1>
-        </v-col>
-        <v-col class="sort" cols="3" style="height:50px;">
-          <v-btn v-show="this.sorting_type==0" color="success" text @click="one(lang,keyword)">최신순</v-btn>
-          <v-btn v-show="this.sorting_type==1" color="primary" text @click="one(lang,keyword)">최신순</v-btn>
-          <v-btn v-show="this.sorting_type==0" color="primary" text @click="two(lang,keyword)">답글순</v-btn>
-          <v-btn v-show="this.sorting_type==1" color="success" text @click="two(lang,keyword)">답글순</v-btn>
-        </v-col>
-      </v-row>
-    </div>
+    <a class="maintag">{{this.$route.params.tag}}</a>
     <template>
     <div class="que" v-for="item in data" :key="item.id"  >
       <div class="stats">
         <h6 style="text-size:small;">답글수</h6>
         <div class="like">
+          <!-- <p >답글수</p> -->
           <strong>{{item.rpCnt}}</strong>
           <span>개</span>
           </div>
@@ -31,14 +20,35 @@
           <a class="post-tag" @click="moveTagList('/taglist/', item.tag3)" v-if="item.tag3!=''">{{item.tag3}}</a>
           </div>
         <div class="others">
+          <!-- <span class="lang">{{item.lang}}</span> -->
           <a @click="userdetail(item.userNo)" class="writer">{{item.name}}</a>
           <span class="date">{{item.createDate}}</span>
           </div>
       </div>
     </div>
-    
+    <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        align="center"
+      ></b-pagination>
     </template>
 
+
+    <!-- <b-table :items="data" :fields="fields" :per-page="perPage" :current-page="currentPage" striped responsive="sm">
+      <slot></slot>
+      
+      <template v-slot:cell(useractions)="row">
+        <a size="sm" @click="userdetail(row.item.userNo)" class="mr-1">
+          {{row.item.name}}
+        </a>
+      </template>
+      <template v-slot:cell(actions)="row">
+        <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1">
+          상세보기
+        </b-button>
+      </template>
+    </b-table> -->
   </div>
 </template>
 
@@ -47,6 +57,8 @@ import axios from 'axios'
   export default {
     data(){
       return {
+        currentPage:1,
+        perPage:10,
         type: 0,
         data: null,
         fields: [{key:'rpCnt', label:'답글 수'},
@@ -56,17 +68,15 @@ import axios from 'axios'
         {key: 'useractions', label:'질문자'},
         {key: 'actions', label: '상세 보기' }],
         sorting_type: 0,
-        lang: this.$route.params.lang,
-        keyword: this.$route.params.keyword
+        tag: this.$route.params.tag
       }
     },
     methods: {
-      getlist(lang, keyword) {
-        axios.get(this.$store.state.base_url +'/question',{
+      getlist(tag) {
+        axios.get(this.$store.state.base_url +'/tagList',{
           params:{
-            lang: lang,
             type: this.sorting_type,
-            keyword: keyword}
+            tag: tag}
         })
         .then((response) => {
           console.log(response)
@@ -83,24 +93,26 @@ import axios from 'axios'
         console.log(this.tag)
         this.$router.push(path+tag);
       },
-      one(lang,keyword){
-        this.sorting_type = 0;
-        this.getlist(lang,keyword)
-      },
-      two(lang,keyword){
-        this.sorting_type = 1;
-        this.getlist(lang,keyword)
-
-      }
     },
     created() {
-      this.getlist(this.$route.params.lang,this.$route.params.keyword)
+      this.getlist(this.$route.params.tag)
     },
     beforeRouteUpdate (to, from, next){
-        this.getlist(to.params.lang, to.params.keyword);
+        this.getlist(to.params.tag);
         next();
     },
-
+    computed:{
+      data(){
+        const items = this.$store.getters.loadedData
+        return items.slice(
+          (this.currentPage - 1) * this.perPage,
+          this.currentPage * this.perPage
+        )
+      },
+      rows(){
+        return this.data.length;
+      }
+    }
   }
 </script>
 
@@ -155,7 +167,7 @@ import axios from 'axios'
     word-wrap: break-word;
     word-break: break-word;
     padding-bottom: 5px;
-    height: 50px;
+    height: px;
     overflow: hidden;
   }
 
@@ -195,11 +207,14 @@ import axios from 'axios'
   .date{
     font-size: 12px;
   }
-  .h1{
+  .maintag{
+    font-size: 30px;
     color: cadetblue;
     background-color: rgb(211, 247, 247);
     border-color: transparent;
     display: inline-block;
+    padding: .4em .5em;
+    margin: 7px 7px 7px 7px;
     line-height: 1;
     white-space: nowrap;
     text-decoration: none;
@@ -207,8 +222,5 @@ import axios from 'axios'
     border-width: 1px;
     border-style: solid;
     border-radius: 30%;
-  }
-  .mainlang{
-    margin-left: 25%;
   }
 </style>
