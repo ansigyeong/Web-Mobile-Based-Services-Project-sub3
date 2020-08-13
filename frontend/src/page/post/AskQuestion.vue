@@ -106,20 +106,20 @@ import Editor from '@tinymce/tinymce-vue'
         let body = {}
         if(fT=='~'){
           body = {
-            contents: this.$refs.editor.invoke("getMarkdown"),
+            contents: this.contents,
             title: this.title,
             lang: this.lang,
           }
         } else if(sT=='~'){
           body = {
-            contents: this.$refs.editor.invoke("getMarkdown"),
+            contents: this.contents,
             title: this.title,
             lang: this.lang,
             firstTag : fT
           }
         } else if(tT=='~'){
           body = {
-            contents: this.$refs.editor.invoke("getMarkdown"),
+            contents: this.contents,
             title: this.title,
             lang: this.lang,
             firstTag : fT,
@@ -127,7 +127,7 @@ import Editor from '@tinymce/tinymce-vue'
           }
         } else {
           body = {
-            contents: this.$refs.editor.invoke("getMarkdown"),
+            contents: this.contents,
             title: this.title,
             lang: this.lang,
             firstTag : fT,

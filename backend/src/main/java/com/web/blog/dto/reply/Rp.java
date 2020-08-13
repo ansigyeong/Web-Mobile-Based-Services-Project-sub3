@@ -16,4 +16,5 @@ public class Rp  {
     private String name;
     private String exist;
     private int userNo;
+    private int grade;
 }

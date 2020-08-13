@@ -213,13 +213,26 @@ public class QuestionController {
     public Object queDetail(int queNo, int type, Principal principal){
         if(principal == null){
             Question question = questionService.oneQuestion(queNo);
+            List<QueTag> qtlist = quetagService.QueTagList(question.getQueNo());
+            String a=""; 
+            String b=""; 
+            String c="";
+            for(int j = 0; j < qtlist.size(); j++){
+                if(j==0) a = quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
+                if(j==1) b = quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
+                if(j==2) c= quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
+            }
+            question.setFirstTag(a);
+            question.setSecondTag(b);
+            question.setThirdTag(c);
             List<Reply> list = replyService.replyList(queNo);
             ArrayList<Rp> rpList = new ArrayList<>();
             for(int i = 0; i < list.size(); i++){
                 Rp rp = new Rp();
                 Reply reply = list.get(i);
                 Account ac = accountService.search(reply.getUserNo());
-                rp = new Rp(reply.getRpNo(), reply.getContents(), reply.getRpLike(), reply.getCreateDate(), reply.getQueNo(), ac.getName(),"비로그인", reply.getUserNo());
+                rp = new Rp(reply.getRpNo(), reply.getContents(), reply.getRpLike(), reply.getCreateDate()
+                    , reply.getQueNo(), ac.getName(),"비로그인", reply.getUserNo(), ac.getGrade());
                 rpList.add(rp);
             }
             if(type==1){
@@ -252,7 +265,8 @@ public class QuestionController {
                 String exist = "좋아요";
                 if(ck != null)   exist = "좋아요취소";  
                 Account ac = accountService.search(reply.getUserNo());
-                rp = new Rp(reply.getRpNo(), reply.getContents(), reply.getRpLike(), reply.getCreateDate(), reply.getQueNo(), ac.getName(), exist, reply.getUserNo());
+                rp = new Rp(reply.getRpNo(), reply.getContents(), reply.getRpLike(), reply.getCreateDate()
+                    , reply.getQueNo(), ac.getName(), exist, reply.getUserNo(), ac.getGrade());
                 rpList.add(rp);
             }
             if(type==1){

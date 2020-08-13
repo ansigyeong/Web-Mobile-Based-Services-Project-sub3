@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.Update;
 public interface QuestionMapper {
     
     //질문생성
-    @Insert("insert into question(userNo,title,contents,lang,createDate) values( #{question.userNo}, #{question.title},#{question.contents}, #{question.lang},#{question.createDate})")
+    @Insert("insert into question(userNo,title,contents,lang,createDate) values( #{question.userNo}, #{question.title},#{question.contents}, #{question.lang},now())")
     public int writeQuestion(@Param("question") Question question); 
 
     //질문 리스트
