@@ -1,8 +1,9 @@
 <template>
 <div>
      <full-page :options="options" id="fullpage">
+
 <!-- 1 -->
-  <div style="padding-top:50px;" class="section">
+  <div style="" class="section" >
     <b-carousel
       id="carousel-1"
       v-model="slide"
@@ -212,7 +213,7 @@
         {index: '5', animal: '🦑 해파리 🦑', level: 'LV. 4', score: '300 ~ 399 점', recodeImg: '../../assets/img/lv2.png'}, 
         {index: '6', animal: '🐙 문어 🐙', level: 'LV. 5', score: '400 ~ 499 점', recodeImg: '../../assets/img/lv1.png'}, 
         {index: '7', animal: '🐬 돌고래 ', level: 'LV. 6', score: '500 ~ 599 점', recodeImg: '../../assets/img/lv0.png'}
-        ]
+        ],
 
       }
     },

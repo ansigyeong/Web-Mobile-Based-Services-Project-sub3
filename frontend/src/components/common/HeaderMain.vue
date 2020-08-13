@@ -1,7 +1,6 @@
 <template>
-  <div>
-    
-    <v-navigation-drawer v-model="drawer" app clipped  light temporary >
+ <div  style="height:123px; position:absolute; z-index:100; " fixed="">
+        <v-navigation-drawer v-model="drawer" app clipped  light temporary >
      <v-list  flat  class="primary--text" >
              <v-subheader>Menu</v-subheader>   
         <v-list-item 
@@ -48,19 +47,16 @@
 
     </v-list>
     
-    </v-navigation-drawer>
-
-    <v-app-bar flat="flat" height="103%" class="headerbar" fixed="">
-      
+    </v-navigation-drawer> 
+    <div class="main_top">
+        <v-row >
+        <v-col cols="">            
         <v-app-bar-nav-icon @click="drawer = !drawer" />
-      
-            <router-link to="/">
-                <img class="logo" src="../../assets/img/favicon.png"></router-link>
-            <v-spacer/>
-               
-                <div id="search" fluid style=" padding-top: 30px;" >
-                  <v-row >
-                    <v-col cols="3" sm="3">
+        <router-link to="/">
+        <img class="logo" src="../../assets/img/favicon.png"></router-link>
+        </v-col>
+                <!-- <div id="search" fluid style="width:500px" > -->
+            <v-col cols="1">
                       <v-select
                           v-model="item"
                           :items="items"
@@ -70,17 +66,17 @@
                           style="width: 300px;"
                           >
                       </v-select>
+            </v-col>
+                <v-col cols="4" >
+                    <v-text-field v-model="keyword" label="검색어 입력"   single-line="single-line" @keyup.enter="moveList2('/list/', item+'/',keyword)"></v-text-field>
                     </v-col>
-                    <v-col cols="7">
-                      <v-text-field v-model="keyword" label="검색어 입력" clear-icon light hide-details flat height=50 single-line="single-line" @keyup.enter="moveList2('/list/', item+'/',keyword)"></v-text-field>
-                    </v-col>
-                    <div style="padding-top:10px">
-                    <v-btn icon large height=60 width=60 @click="moveList2('/list/', item+'/', keyword)"><v-icon>mdi-magnify</v-icon></v-btn>
+                    <div style="">
+                    <v-btn icon large height=70 @click="moveList2('/list/', item+'/', keyword)"><v-icon>mdi-magnify</v-icon></v-btn>
                     </div>
-                  </v-row>
-                </div>
+                <!-- </div>  -->
 
-              <template v-if="this.$store.state.islogin"> 
+                <v-col cols="" >                
+            <template v-if="this.$store.state.islogin"> 
                 <v-btn text="text" >
                     <router-link to="/profile/0" style="color:rgb(76, 75, 71);">내 정보</router-link>
                 </v-btn>
@@ -96,24 +92,17 @@
                     <router-link to="/join" style="color:rgb(76, 75, 71);" >회원가입</router-link>
                 </v-btn>
               </template>
-    
-        </v-app-bar>
-  </div>
+                </v-col>
+                  </v-row>
+    </div>
+
+ </div> 
 </template>
 
 <script>
-
-    export default {
-        name: 'Header',
-
-        components: {},
-        computed: {},
-        watch: {},
-        created() {
-            this.$store.commit('checkToken',this.$cookies.get('auth-token'))
-            this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))      
-        },
-        methods: {
+export default {
+    name: 'HeaderMain',
+             methods: {
           movePage(path){
             this.$router.push(path)
           },
@@ -166,42 +155,11 @@
               // myrecord : {path : '/record' , title : '내기록' , icon : 'mdi-account'},
            
         })
-    }
+}
 </script>
-<style >
 
-    .v-toolbar__content,.v-navigation-drawer__content{
-      background-color: #D0EEFF;
-      
-    }
-    .v-navigation-drawer{
-      color: black;
-    }
-    .headerbar {
-      position: sticky;
-    }
-  
-/* 
-
-  .theme--dark.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled){
-    color : black;
-  } */
-  .logo {
-        /* padding-top: 10px; */
-        padding-left: 20px;
-        height: 70px;
-        width: 80px;
-    }
-  .list-nav {
-      color : black;
-  }
-
-  a:hover{
-    text-decoration: none;
-    text-decoration-color: rgb(179, 175, 164);
-    color:rgb(76, 75, 71);
-  }
-
-  
-
+<style scoped>
+.main_top{
+    width: 2000px;
+}
 </style>
