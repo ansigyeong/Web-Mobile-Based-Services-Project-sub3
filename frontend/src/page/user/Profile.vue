@@ -15,13 +15,13 @@
     </div>
     <span v-if="this.flag"> 
     <div>
-        <b-button @click="deleteuser" disabled  variant="primary" style="margin:7px 7px 0 0 ">회원 탈퇴</b-button>
-        <b-button @click="updateuser"  disabled  variant="primary" style="margin:7px 0 0 7px">정보 수정</b-button>
+        <b-button @click="deleteuser" class="dd"  variant="primary" style="margin:7px 7px 0 0 ">회원 탈퇴</b-button>
+        <b-button @click="updateuser" class="dd"  variant="primary" style="margin:7px 0 0 7px">정보 수정</b-button>
     </div>
     </span>
     <span v-else>    
-        <b-button v-if = "this.followflag" @click="follow"  disabled  variant="primary">팔로우</b-button>
-        <b-button v-else @click="followdelete"  disabled  variant="primary">팔로우 취소</b-button>
+        <b-button v-if = "this.followflag" @click="follow"  class="dd"  variant="primary">팔로우</b-button>
+        <b-button v-else @click="followdelete"  class="dd" variant="primary">팔로우 취소</b-button>
     </span>
     <hr>
     <!-- 팔로우-->
@@ -32,7 +32,7 @@
       <!-- <a @click="openfollow">dd</a> -->
       
       <div>
-        <b-button v-b-modal.modal-scrollable  disabled  variant="primary">팔로워 전체보기</b-button>
+        <b-button v-b-modal.modal-scrollable class="dd"  variant="primary">팔로워 전체보기</b-button>
 
         <b-modal id="modal-scrollable" scrollable title="나를 팔로우하는 사람들">
           <div class="my-4" v-for="(k,i) in following.slice(0,follower.length/2+1)" :key="i">
@@ -80,7 +80,7 @@
       <p>{{following.length}}명</p>
 
       <div>
-        <b-button v-b-modal.modal-tall  disabled  variant="primary">팔로잉 전체보기</b-button>
+        <b-button v-b-modal.modal-tall  class="dd"  variant="primary">팔로잉 전체보기</b-button>
 
         <b-modal id="modal-tall" scrollable title="내가 팔로우하는 사람들">
           <div class="my-4" v-for="(k,i) in following.slice(0,following.length/2+1)" :key="i">
@@ -124,7 +124,7 @@
     <b-table :items="data" :fields="fields" :per-page="perPage" :current-page="currentPage"  responsive="sm" >
       <slot></slot>
       <template v-slot:cell(actions)="row">
-        <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1"  disabled  variant="primary">
+        <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1 dd" variant="primary">
           상세보기
         </b-button>
       </template>
@@ -141,7 +141,7 @@
     <b-table :items="replydata" :fields="replyfields" :per-page="perPage2" :current-page="currentPage2"  responsive="sm">
       <slot></slot>
       <template v-slot:cell(replyactions)="row">
-        <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1"  disabled  variant="primary">
+        <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1 dd"   variant="primary">
           상세보기
         </b-button>
       </template>
@@ -347,10 +347,14 @@ import { Carousel, Slide } from 'vue-carousel'
     margin: 0;
     padding: 0;
 
-    border: black solid 1px;
+    border: rgb(0, 0, 0) solid 1px;
     border-radius: 50%;
   
   }
-  
+  .dd{
+    color: rgb(11, 13, 15);
+    border: rgb(11, 13, 15);
+    background-color: rgb(140, 180, 231);
+  }
  
 </style>
