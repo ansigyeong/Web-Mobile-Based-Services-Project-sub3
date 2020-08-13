@@ -15,7 +15,7 @@
           <v-list-item 
           @click="movePage(bookmark.path)"
         >
-        <v-list-item-icon><v-icon v-text="bookmark.icon"></v-icon></v-list-item-icon>
+        <v-list-item-icon><v-icon id="bookmarkIcon" v-text="bookmark.icon"></v-icon></v-list-item-icon>
         <v-list-item-title v-text="bookmark.title"></v-list-item-title>
 
         </v-list-item>
@@ -201,7 +201,6 @@
     text-decoration-color: rgb(179, 175, 164);
     color:rgb(76, 75, 71);
   }
-
 
   
 

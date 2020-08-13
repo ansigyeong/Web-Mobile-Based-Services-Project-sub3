@@ -83,7 +83,7 @@
                             </div>
                         </div>
 
-                        <button class="btn" @click="signup">
+                        <button class="btn" @click="submit">
                             <span>
                                 회원가입
                             </span>
