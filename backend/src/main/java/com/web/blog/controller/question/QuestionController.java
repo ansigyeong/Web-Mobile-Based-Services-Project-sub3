@@ -213,18 +213,6 @@ public class QuestionController {
     public Object queDetail(int queNo, int type, Principal principal){
         if(principal == null){
             Question question = questionService.oneQuestion(queNo);
-            List<QueTag> qtlist = quetagService.QueTagList(question.getQueNo());
-            String a=""; 
-            String b=""; 
-            String c="";
-            for(int j = 0; j < qtlist.size(); j++){
-                if(j==0) a = quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
-                if(j==1) b = quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
-                if(j==2) c= quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
-            }
-            question.setFirstTag(a);
-            question.setSecondTag(b);
-            question.setThirdTag(c);
             List<Reply> list = replyService.replyList(queNo);
             ArrayList<Rp> rpList = new ArrayList<>();
             for(int i = 0; i < list.size(); i++){
@@ -277,6 +265,18 @@ public class QuestionController {
                     }
                 });
             }
+            List<QueTag> qtlist = quetagService.QueTagList(question.getQueNo());
+            String a=""; 
+            String b=""; 
+            String c="";
+            for(int j = 0; j < qtlist.size(); j++){
+                if(j==0) a = quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
+                if(j==1) b = quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
+                if(j==2) c= quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
+            }
+            question.setFirstTag(a);
+            question.setSecondTag(b);
+            question.setThirdTag(c);
             Account user = accountService.search(question.getUserNo());
             final BasicResponse result = new BasicResponse();
             Map<String, Object> map = new HashMap<>();

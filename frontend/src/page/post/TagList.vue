@@ -12,7 +12,7 @@
           </div>
       </div>
       <div class="summary">
-        <div class="title"><a class="tt" @click="detail(item.queNo)"> Q: {{item.title}}</a></div>
+        <div class="title"><a class="tt" @click="detail(item.queNo,item.lang)"> Q: {{item.title}}</a></div>
         <div class="contents">{{item.contents}}</div>
         <div class="tags">
           <a class="post-tag" @click="moveTagList('/taglist/', item.tag1)" v-if="item.tag1!=''">{{item.tag1}}</a>
@@ -83,8 +83,8 @@ import axios from 'axios'
           this.data = response.data.data.list
         })
       },
-      detail(queNo) {
-        this.$router.push('/detail/'+queNo)
+      detail(queNo,lang) {
+        this.$router.push('/detail/'+queNo+'/'+lang)
       },
       userdetail(userNo){
         this.$router.push('/profile/'+userNo)
