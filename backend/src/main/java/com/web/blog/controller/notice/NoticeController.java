@@ -122,14 +122,20 @@ public class NoticeController {
     
     @GetMapping("notice")
     @ApiOperation(value = "공지목록")
-    public Object list(){
+    public Object list(Principal principal){
         final BasicResponse result = new BasicResponse();
+        Map<String, Object> map = new HashMap<>();
+        if(principal!=null){
+            Account account = accountService.findByToken(principal.getName());
+            int userNo = account.getUserNo();
+            Account user = accountService.search(userNo);
+            map.put("user", user);
+        }
         try {
             List<Notice> list = noticeService.noticeList();
             for(int i=0; i < list.size(); i++){
                 list.get(i).setCreateDate(list.get(i).getCreateDate().substring(0, 10));
             }
-            Map<String, Object> map = new HashMap<>();
             map.put("list", list);
             result.data = map;
             result.status = true;
@@ -141,11 +147,17 @@ public class NoticeController {
     
     @GetMapping("notice/detail")
     @ApiOperation(value = "상세공지")
-    public Object detail(int noticeNo){
+    public Object detail(int noticeNo, Principal principal){
         final BasicResponse result = new BasicResponse();
+        Map<String, Object> map = new HashMap<>();
+        if(principal!=null){
+            Account account = accountService.findByToken(principal.getName());
+            int userNo = account.getUserNo();
+            Account user = accountService.search(userNo);
+            map.put("user", user);
+        }
         try {
             Notice notice = noticeService.oneNotice(noticeNo);
-            Map<String, Object> map = new HashMap<>();
             map.put("notice", notice);
             result.data = map;
             result.status = true;
