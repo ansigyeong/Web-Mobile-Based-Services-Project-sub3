@@ -53,7 +53,7 @@
                         // console.log(response)
                         // console.log(response.data.data["ACCESS-TOKEN"])
                         this.$cookies.set('auth-token', response.data.data["ACCESS-TOKEN"])
-                        alert('로그인 되었습니다.')
+                        swal('', '로그인 되었습니다.', 'success')
                         this.$store.commit('checkToken',this.$cookies.get('auth-token'))
                         this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
                         // console.log(this.$store.state.token)
@@ -61,11 +61,11 @@
                         this.$router.push('/')
                     }
                     else {
-                        alert(response.data.data.msg)
+                        swal('', response.data.data.msg, 'warning')
                     }
                 })
                 .catch((error) => {
-                    alert(error)
+                    swal('', error, 'error')
                     // console.log('error')
                     // console.log(error)
                 }) 
@@ -95,7 +95,7 @@
                                     // console.log(response)
                                     // console.log(response.data.data["ACCESS-TOKEN"])
                                     // console.log('success')
-                                    alert('로그인 되었습니다.')
+                                    swal('', '로그인 되었습니다.', 'success')
                                     vm.$cookies.set('auth-token', response.data.data["ACCESS-TOKEN"])
                                     vm.$store.commit('checkToken', vm.$cookies.get('auth-token'))
                                     vm.$store.commit('checklogin', vm.$cookies.isKey('auth-token'))
@@ -104,7 +104,7 @@
                                     vm.$router.push('/')
                                 })
                                 .catch((error) => {
-                                    alert('error')
+                                    swal('', 'error', 'error')
                                     console.log('error')
                                     console.log(error)
                                 }) 

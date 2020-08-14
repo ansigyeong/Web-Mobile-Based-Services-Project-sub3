@@ -1,0 +1,38 @@
+.footermsg {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    width: 600px;
+    height: 465px;
+    padding-top: 150px;
+    padding-left: 100px;
+    position: relative;
+    z-index: 1;
+
+}
+
+.underthesea {
+    position: fixed;
+    bottom: 0;
+    width: 185px;
+    height: 120px;
+    right: 800px;
+
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+
+
+    // position: sticky;
+    // height: 300px;
+    // width: 230px;
+    // height: 50px;
+    // margin-top: 300px;
+    // align-items: left;
+
+    // padding-top: 150px;
+    // padding-left: 100px;
+    // position: relative;
+    // z-index: 1;
+
+}

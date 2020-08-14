@@ -1,7 +1,7 @@
 <template>
   <div>
     
-    <v-navigation-drawer v-model="drawer" app clipped  light temporary >
+    <v-navigation-drawer v-model="drawer" app clipped  light temporary>
      <v-list  flat  class="primary--text" >
              <v-subheader>Menu</v-subheader>   
         <v-list-item 
@@ -132,9 +132,9 @@
             console.log(this.item)
             console.log(this.keyword)
             if(this.item==''){
-              alert('언어를 선택하세요')
+              swal('', '언어를 선택하세요', 'warning')
             } else if(this.keyword==null){
-              alert('검색어를 입력하세요')
+              swal('', '검색어를 입력하세요', 'warning')
             } else this.$router.push(path+lang+keyword); 
           },
           logout() {
@@ -153,7 +153,7 @@
               },
             });
             
-            alert('로그아웃 되었습니다.')
+            swal('', '로그아웃 되었습니다.', 'success')
             this.$router.push("/")
           }
         },
@@ -177,7 +177,8 @@
 <style >
 
     .v-toolbar__content,.v-navigation-drawer__content{
-      background-color: #D0EEFF;
+      /* background-color: #D0EEFF; */
+      /* opacity: 0.5; */
       
     }
     .v-navigation-drawer{
