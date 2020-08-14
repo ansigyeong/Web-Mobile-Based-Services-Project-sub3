@@ -9,9 +9,11 @@ import com.web.blog.dto.BasicResponse;
 import com.web.blog.dto.account.Account;
 import com.web.blog.dto.cart.Cart;
 import com.web.blog.dto.question.Question;
+import com.web.blog.dto.tag.QueTag;
 import com.web.blog.service.account.AccountService;
 import com.web.blog.service.cart.CartService;
 import com.web.blog.service.question.QuestionService;
+import com.web.blog.service.quetag.QueTagService;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
@@ -42,6 +44,8 @@ public class CartController {
     CartService cartService;
     @Autowired
     AccountService accountService;
+    @Autowired
+    QueTagService quetagService;
 
     @PostMapping("cart")
     @ApiOperation(value ="찜등록")
@@ -91,13 +95,27 @@ public class CartController {
         ArrayList<Question> cppList = new ArrayList<>();
         ArrayList<Question> javaList = new ArrayList<>();
         ArrayList<Question> pyList = new ArrayList<>();
+        ArrayList<Question> etcList = new ArrayList<>();
         try {
             Account account = accountService.findByToken(principal.getName());
             int userNo = account.getUserNo();
+            Account user = accountService.search(userNo);
             List<Integer> cartList = cartService.cartList(userNo);
             for(int i = 0; i < cartList.size(); i++){
                 Question q = questionService.oneQuestion(cartList.get(i));
                 System.out.println(q);
+                List<QueTag> qtlist = quetagService.QueTagList(q.getQueNo());
+                String a=""; 
+                String b=""; 
+                String c="";
+                for(int j = 0; j < qtlist.size(); j++){
+                    if(j==0) a = quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
+                    if(j==1) b = quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
+                    if(j==2) c= quetagService.searchTagNo(qtlist.get(j).getTagNo()).getName();
+                }
+                q.setFirstTag(a);
+                q.setSecondTag(b);
+                q.setThirdTag(c);
                 if(q.getLang().equals("c")){
                     cList.add(q);
                 } else if(q.getLang().equals("cpp")){
@@ -106,13 +124,17 @@ public class CartController {
                     javaList.add(q);
                 } else if(q.getLang().equals("python")){
                     pyList.add(q);
-                } 
+                } else {
+                    etcList.add(q);
+                }
             }
             Map<String, Object> map = new HashMap<>();
+            map.put("user",user);
             map.put("c", cList);
             map.put("cpp",cppList);
             map.put("java", javaList);
             map.put("python", pyList);
+            map.put("etc", etcList);
             result.data = map;
             result.status = true;
         } catch (Exception e) {
