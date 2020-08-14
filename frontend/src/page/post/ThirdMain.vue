@@ -1,0 +1,19 @@
+<template>
+    <div style="height: 100px;">
+        <img class="footermsg" src="../../assets/img/ThirdMain.png" alt="">
+        <img class="underthesea" src="../../assets/img/underthesea.png" alt="">
+    </div>
+</template>
+
+<script>
+import '../../assets/css/ThirdMain.scss'
+export default {
+    
+}
+</script>
+
+<style scoped>
+    * {
+        background-color: #D0EEFF;
+    }
+</style>

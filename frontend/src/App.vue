@@ -1,7 +1,8 @@
 <template>
   <v-app>
-    <Header/>
-    <!-- <Navigation v-if="!isCheckedMain && !isCheckedLogin && !isCheckedJoin "/> -->
+    <Header v-if="!isCheckedMain"/>
+    <header-main v-if="isCheckedMain"/>
+    <Navigation v-if="!isCheckedMain && !isCheckedLogin && !isCheckedJoin "/>
     <div>
       <router-view/>
     </div>
@@ -10,11 +11,13 @@
 <script>
 import Header from './components/common/Header.vue'
 import Navigation from './components/common/Navigation.vue'
+import HeaderMain from './components/common/HeaderMain.vue'
 export default {
   name: 'App',
   components:{
     Header,
-    Navigation
+    Navigation,
+    HeaderMain
   },
   data() {
     return {
@@ -74,8 +77,8 @@ export default {
 // }
   .container {
      padding-top: 100px;
-     padding-left: 100px;
-     padding-right: 100px;
+     padding-left: 200px;
+     padding-right: 200px;
   }
 </style>
 
