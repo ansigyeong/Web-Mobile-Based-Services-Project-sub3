@@ -18,6 +18,12 @@
         <v-list-item-title v-text="bookmark.title"></v-list-item-title>
 
         </v-list-item>
+        <v-list-item 
+          @click="movePage('/notice')"
+        >
+        <v-list-item-title v-text="'공지사항'"></v-list-item-title>
+        </v-list-item>
+        
           <v-list-item 
           @click="movePage(ask.path)"
         >
@@ -115,9 +121,9 @@ export default {
             console.log(this.item)
             console.log(this.keyword)
             if(this.item==''){
-              alert('언어를 선택하세요')
+              swal('', '언어를 선택하세요', 'warning')
             } else if(this.keyword==''){
-              alert('검색어를 입력하세요')
+              swal('', '검색어를 입력하세요', 'warning')
             } else this.$router.push(path+lang+keyword); 
           },
           logout() {
@@ -136,7 +142,7 @@ export default {
               },
             });
             
-            alert('로그아웃 되었습니다.')
+            swal('', '로그아웃 되었습니다.', 'success')
             this.$router.push("/")
           }
         },
@@ -162,4 +168,7 @@ export default {
 .main_top{
     width: 2000px;
 }
+
+
+            
 </style>

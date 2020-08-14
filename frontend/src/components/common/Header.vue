@@ -133,7 +133,7 @@
             console.log(this.keyword)
             if(this.item==''){
               swal('', '언어를 선택하세요', 'warning')
-            } else if(this.keyword==null){
+            } else if(this.keyword==null || this.keyword== ''){
               swal('', '검색어를 입력하세요', 'warning')
             } else this.$router.push(path+lang+keyword); 
           },
