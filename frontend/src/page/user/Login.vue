@@ -7,8 +7,8 @@
 			<div class="form">
 				<h2>로그인</h2>
 				<form>
-					<input v-model="email" id="email" type="text"  placeholder="이메일을 입력해주세요"/>
-					<input v-model="pw" id="pw" type="password" placeholder="영문, 숫자 혼용 8자 이상"/>
+					<input v-model="email" id="email" type="text" @keyup.enter="login" placeholder="이메일을 입력해주세요"/>
+					<input v-model="pw" id="pw" type="password" @keyup.enter="login" placeholder="영문, 숫자 혼용 8자 이상"/>
 				</form>
 					<button @click="login" >로그인</button>
 			</div>
