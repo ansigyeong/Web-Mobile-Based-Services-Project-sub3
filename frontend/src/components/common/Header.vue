@@ -17,8 +17,14 @@
         >
         <v-list-item-icon><v-icon id="bookmarkIcon" v-text="bookmark.icon"></v-icon></v-list-item-icon>
         <v-list-item-title v-text="bookmark.title"></v-list-item-title>
-
         </v-list-item>
+
+        <v-list-item 
+          @click="movePage('/notice')"
+        >
+        <v-list-item-title v-text="'공지사항'"></v-list-item-title>
+        </v-list-item>
+
           <v-list-item 
           @click="movePage(ask.path)"
         >
@@ -127,7 +133,7 @@
             console.log(this.keyword)
             if(this.item==''){
               alert('언어를 선택하세요')
-            } else if(this.keyword==''){
+            } else if(this.keyword==null){
               alert('검색어를 입력하세요')
             } else this.$router.push(path+lang+keyword); 
           },
