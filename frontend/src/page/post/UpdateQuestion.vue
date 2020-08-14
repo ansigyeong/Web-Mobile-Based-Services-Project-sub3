@@ -66,15 +66,15 @@ export default {
         axios.put(this.$store.state.base_url +'/question', body, config)
         .then((response) => {
             if (response.data.status){
-              alert('성공적으로 질문이 수정 되었습니다.')
+              swal('', '성공적으로 질문이 수정 되었습니다.', 'success')
             }
             else {
-              alert('질문 작성자만 수정이 가능 합니다.')
+              swal('', '질문 작성자만 수정이 가능 합니다.', 'warning')
             }
             this.$router.push('/detail/'+this.$route.params.queNo)
           })
         .catch((error) => {
-            alert('세션 만료.\n다시 로그인 해주세요.')
+            swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
             this.$cookies.remove('auth-token')
             this.$store.commit('checkToken',this.$cookies.get('auth-token'))
             this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))

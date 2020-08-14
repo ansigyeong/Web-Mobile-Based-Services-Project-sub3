@@ -87,11 +87,11 @@
                 })
                 .then((response) => {
                     console.log(response)
-                    alert('회원가입 되었습니다.\n가입하신 이메일의 인증 메일을 확인해주세요.')
+                    swal('', '회원가입 되었습니다.\n가입하신 이메일의 인증 메일을 확인해주세요.', 'success')
                     this.$router.push('/')
                 })
                 .catch((error) => {
-                    alert('가입된 이메일 입니다.\n다른 이메일을 사용해 주세요.')
+                    swal('', '가입된 이메일 입니다.\n다른 이메일을 사용해 주세요.', 'warning')
                 })
             },
             isEmail(asValue) {
@@ -121,22 +121,22 @@
             submit() {
                 if (!this.isname || this.name == null || this.name == ''){
                     this.name = null;
-                    alert('이름을 입력하세요.');
+                    swal('', '이름을 입력하세요.', 'warning');
                 }
                 else if (!this.isemail || this.email == null || this.email == ''){
                     this.email = null;
-                    alert('유효한 이메일 형식을 입력해 주세요.');
+                    swal('', '유효한 이메일 형식을 입력해 주세요.','warning');
                 }
                 else if (!this.ispassword || this.pw == null || this.pw == '') {
                     this.pw = null;
-                    alert('비밀번호는 8~10자리 영문자만 유효합니다.')
+                    swal('비밀번호는 8~10자리 영문자만 유효합니다.', 'warning')
                 }
                 else if (!this.isconfirm || this.passwordConfirm == null || this.passwordConfirm == '') {
                     this.passwordConfirm = null;
-                    alert('비밀번호 확인이 비밀번호와 같지 않습니다.')
+                    swal('비밀번호 확인이 비밀번호와 같지 않습니다.', 'warning')
                 }
                 else if (this.lang == null) {
-                    alert('언어를 선택 하세요.')
+                    swal('언어를 선택 하세요.', 'warning')
                 }
                 else {
                     console.log(this.name)

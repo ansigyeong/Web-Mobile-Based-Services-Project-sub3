@@ -32,7 +32,7 @@ export default {
       this.$cookies.remove('auth-token')
       this.$store.commit('checkToken',this.$cookies.get('auth-token'))
       this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
-      alert('로그아웃 되었습니다.')
+      swal('', '로그아웃 되었습니다.', 'success')
       this.$router.push("/list")
       console.log(this.$store.state.token)
       console.log(this.$store.state.islogin)

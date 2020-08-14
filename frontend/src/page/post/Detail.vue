@@ -186,10 +186,10 @@ import VuePrism from 'vue-prism'
                 .then((response) => {
                     console.log(response)
                     if (response.data.data == 'user fail') {
-                        alert('작성자만 삭제가 가능합니다.')
+                        swal('', '작성자만 삭제가 가능합니다.', 'warning')
                     }
                     else {
-                        alert('질문이 성공적으로 삭제 되었습니다.')
+                        swal('', '질문이 성공적으로 삭제 되었습니다.', 'success')
                         this.$router.go(-1)
                     }
                 })
@@ -227,11 +227,11 @@ import VuePrism from 'vue-prism'
                     .then((response) =>{ 
                         this.replyitems = response.data.data.rpList
                         this.replycontents = ''
-                        alert('댓글이 등록 되었습니다.')
+                        swal('', '댓글이 등록 되었습니다.', 'success')
                     })
                 })
                 .catch((error) => {
-                    alert('세션 만료.\n다시 로그인 해주세요.')
+                    swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
                     this.$cookies.remove('auth-token')
                     this.$store.commit('checkToken',this.$cookies.get('auth-token'))
                     this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
@@ -250,7 +250,7 @@ import VuePrism from 'vue-prism'
                 .then((response) => {
                     console.log(response.data.status)
                     if (response.data.data != 'user fail') {
-                        alert('댓글이 정상적으로 삭제 되었습니다.')
+                        swal('', '댓글이 정상적으로 삭제 되었습니다.', 'success')
                         axios.get(this.$store.state.base_url +'/question/detail',{     
                             params: {
                                 queNo: this.queNo,
@@ -265,11 +265,11 @@ import VuePrism from 'vue-prism'
                         })
                     }
                     else {
-                        alert('댓글 작성자만 삭제가 가능합니다.')
+                        swal('', '댓글 작성자만 삭제가 가능합니다.', 'warning')
                     }
                 })
                 .catch((error) => {
-                    alert('세션 만료.\n다시 로그인 해주세요.')
+                    swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
                     this.$cookies.remove('auth-token')
                     this.$store.commit('checkToken',this.$cookies.get('auth-token'))
                     this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
@@ -304,7 +304,7 @@ import VuePrism from 'vue-prism'
                     )
                 })
                 .catch((error) => {
-                    alert('세션 만료.\n다시 로그인 해주세요.')
+                    swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
                     this.$cookies.remove('auth-token')
                     this.$store.commit('checkToken',this.$cookies.get('auth-token'))
                     this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
@@ -322,11 +322,11 @@ import VuePrism from 'vue-prism'
                 }
                 axios.post(this.$store.state.base_url +'/cart', body, config)  
                 .then((response) => {
-                    alert('성공적으로 찜등록 되었습니다.')
+                    swal('', '성공적으로 찜등록 되었습니다.', 'success')
                     this.checkflag()
                 })
                 .catch((error) => {
-                    alert('세션 만료.\n다시 로그인 해주세요.')
+                    swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
                     this.$cookies.remove('auth-token')
                     this.$store.commit('checkToken',this.$cookies.get('auth-token'))
                     this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
@@ -363,7 +363,7 @@ import VuePrism from 'vue-prism'
                 }   
             })
             .then((response) => {
-                alert('찜 목록에서 삭제 되었습니다.')
+                swal('','찜 목록에서 삭제 되었습니다.', 'success')
                 this.checkflag()
             })
             },

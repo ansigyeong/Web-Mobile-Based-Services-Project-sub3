@@ -1,7 +1,9 @@
 <template>
 <div>
-     <full-page :options="options" id="fullpage">
-       <img class="sticker" src="../../assets/img/mainsticker.png" alt="">
+
+<!-- <img class="sticker" src="../../assets/img/mainsticker.png" alt=""> -->
+<full-page :options="options" id="fullpage">
+
 <!-- 1 -->
   <div style="padding-top:50px;" class="section">
     <b-carousel
@@ -154,7 +156,11 @@
 
 </template>
 
+
+
 <script>
+  import swal from 'sweetalert';
+  import '../../assets/css/main.scss'
   import {Carousel3d, Slide}  from 'vue-carousel-3d'
 
   export default {
@@ -229,7 +235,7 @@
         this.$router.push('/askquestion')
 
       }else{
-        alert('로그인 후 이용해 주세요.')
+        swal('', '로그인 후 이용해 주세요.', 'warning')
         this.$router.push('/login')
       }
     },
@@ -237,7 +243,7 @@
       if(this.$store.state.islogin){
         this.$router.push('???')
       }else{
-        alert('로그인 후 이용해 주세요.')
+        swal('', '로그인 후 이용해 주세요.', 'warning')
         this.$router.push('/login')
       }
     },

@@ -80,11 +80,11 @@ import axios from 'axios'
                 .then((response) => {
                     console.log(response)
                     if (response.data.status) {
-                        alert('공지가 성공적으로 삭제 되었습니다.')
+                        swal('', '공지가 성공적으로 삭제 되었습니다.', 'success')
                         this.$router.go(-1)
                     }
                     else {
-                        alert('운영자만 삭제가 가능합니다.')
+                        swal('', '운영자만 삭제가 가능합니다.', 'warning')
                     }
                 })
           
