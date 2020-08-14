@@ -1,9 +1,8 @@
 <template>
 <div>
 
-<!-- <img class="sticker" src="../../assets/img/mainsticker.png" alt=""> -->
-<full-page :options="options" id="fullpage">
 
+<full-page :options="options" id="fullpage">
 <!-- 1 -->
   <div style="padding-top:50px;" class="section">
     <b-carousel
@@ -99,55 +98,15 @@
 </div>
 <!-- 4 -->
 <div class="section">
-    <b-carousel
-      id="carousel-1"
-      img-width="1024"
-      img-height="480"
-      style="text-shadow: 1px 1px 2px #333;"
-
-    >
-      <!-- Text slides with image -->
-      <b-carousel-slide
-        caption="First slide"
-        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-        img-src="https://im5.ezgif.com/tmp/ezgif-5-1238766f947b.png"
-
-      ></b-carousel-slide>
-
-    </b-carousel>
+    <ThirdMain />
 
 </div>
 <!-- 5 -->
 <div class="section">
-    <b-carousel
-      id="carousel-1"
-      img-width="1024"
-      img-height="480"
-      style="text-shadow: 1px 1px 2px #333;"
-
-    >
+    
       <!-- Text slides with image -->
-    <b-carousel-slide
-        img-src="https://im5.ezgif.com/tmp/ezgif-5-15fa9a01c137.gif">
+    <MainFooter />
 
-        <div style="text-align:left; display: flex-box; justify-content: left; align-items: left; padding-bottom: 150px;">
-            <h2 style="font-size: 60px;">헬로우 코드씨!</h2>
-            <h4>어두운 코딩 바닷 속,</h4>
-            <h4>헬로우 코드씨가</h4>
-            <h4>한줄기 빛이되어드릴게요!</h4>
-        </div>
- 
-        <div style="text-align: left; padding-bottom: 30px;">
-            <h5>대표</h5>
-            <p style="margin-bottom: 3px;">백단비 | miinding21@gmail.com</p>
-            <p style="margin-bottom: 3px;">도정우 | miinding21@gmail.com</p>
-            <p style="margin-bottom: 3px;">김홍준 | miinding21@gmail.com</p>
-            <p style="margin-bottom: 3px;">안시경 | miinding21@gmail.com</p>
-            <p style="margin-bottom: 3px;">김민지 | miinding21@gmail.com</p>
-        </div>
-    </b-carousel-slide>
-
-    </b-carousel>
 </div>
   
      </full-page>
@@ -161,12 +120,18 @@
 <script>
   import swal from 'sweetalert';
   import '../../assets/css/main.scss'
+  import '../../assets/css/mainfooter.scss'
+  import '../../assets/css/ThirdMain.scss'
   import {Carousel3d, Slide}  from 'vue-carousel-3d'
+  import MainFooter from './MainFooter.vue'
+  import ThirdMain from './ThirdMain.vue'
 
   export default {
     components: {
       Carousel3d,
-      Slide
+      Slide,
+      MainFooter,
+      ThirdMain
     },
     data() {
       return {

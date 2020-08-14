@@ -18,7 +18,8 @@ import NoticeDetail from '../page/post/NoticeDetail.vue'
 import NoticeCreate from '../page/post/NoticeCreate.vue'
 import NoticeModify from '../page/post/NoticeModify.vue'
 import MainFooter from '../page/post/MainFooter.vue'
-import ThirdMain from '../page/post/ThirdMain'
+import ThirdMain from '../page/post/ThirdMain.vue'
+import FloatingIcon from '../page/post/FloatingIcon.vue'
 
 Vue.use(VueRouter)
 
@@ -117,7 +118,12 @@ Vue.use(VueRouter)
     path: '/thirdmain',
     name: 'ThirdMain',
     component: ThirdMain
-  }
+  },
+  {
+    path: '/floatingicon',
+    name: 'FloatingIcon',
+    component: FloatingIcon
+  },
 
 ]
 
