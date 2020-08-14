@@ -1,6 +1,7 @@
 <template>
 <div>
      <full-page :options="options" id="fullpage">
+       <img class="sticker" src="../../assets/img/mainsticker.png" alt="">
 <!-- 1 -->
   <div style="padding-top:50px;" class="section">
     <b-carousel

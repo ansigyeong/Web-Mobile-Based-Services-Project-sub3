@@ -1,7 +1,7 @@
 <template>
   <div>
     
-    <v-navigation-drawer v-model="drawer" app clipped  light temporary >
+    <v-navigation-drawer v-model="drawer" app clipped  light temporary>
      <v-list  flat  class="primary--text" >
              <v-subheader>Menu</v-subheader>   
         <v-list-item 
@@ -171,7 +171,8 @@
 <style >
 
     .v-toolbar__content,.v-navigation-drawer__content{
-      background-color: #D0EEFF;
+      /* background-color: #D0EEFF; */
+      /* opacity: 0.5; */
       
     }
     .v-navigation-drawer{
