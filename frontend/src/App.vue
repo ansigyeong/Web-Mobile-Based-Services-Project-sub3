@@ -2,7 +2,7 @@
   <v-app>
     <Header v-if="!isCheckedMain"/>
     <header-main v-if="isCheckedMain"/>
-    <!-- <Navigation v-if="!isCheckedMain && !isCheckedLogin && !isCheckedJoin "/> -->
+    <Navigation v-if="!isCheckedMain && !isCheckedLogin && !isCheckedJoin "/>
     <div>
       <router-view/>
     </div>
@@ -77,8 +77,8 @@ export default {
 // }
   .container {
      padding-top: 100px;
-     padding-left: 100px;
-     padding-right: 100px;
+     padding-left: 200px;
+     padding-right: 200px;
   }
 </style>
 

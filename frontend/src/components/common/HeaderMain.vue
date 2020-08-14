@@ -50,7 +50,7 @@
     </v-navigation-drawer> 
     <div class="main_top">
         <v-row >
-        <v-col cols="">            
+        <v-col cols="2">            
         <v-app-bar-nav-icon @click="drawer = !drawer" />
         <router-link to="/">
         <img class="logo" src="../../assets/img/favicon.png"></router-link>
@@ -67,7 +67,7 @@
                           >
                       </v-select>
             </v-col>
-                <v-col cols="4" >
+                <v-col cols="3" >
                     <v-text-field v-model="keyword" label="검색어 입력"   single-line="single-line" @keyup.enter="moveList2('/list/', item+'/',keyword)"></v-text-field>
                     </v-col>
                     <div style="">
@@ -75,7 +75,7 @@
                     </div>
                 <!-- </div>  -->
 
-                <v-col cols="" >                
+                <v-col cols="3" >                
             <template v-if="this.$store.state.islogin"> 
                 <v-btn text="text" >
                     <router-link to="/profile/0" style="color:rgb(76, 75, 71);">내 정보</router-link>

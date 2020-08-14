@@ -13,7 +13,7 @@
         </v-col>
       </v-row>
     </div>
-    <template>
+    <!-- <template> -->
     <div class="que" v-for="item in data" :key="item.id"  >
       <div class="stats">
         <h6 style="text-size:small;">답글수</h6>
@@ -36,7 +36,7 @@
       </div>
     </div>
     
-    </template>
+    <!-- </template> -->
 
   </div>
 </template>

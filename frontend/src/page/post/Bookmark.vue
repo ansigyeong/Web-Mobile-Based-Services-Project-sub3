@@ -2,7 +2,30 @@
   <div class="container">
       <h1>찜 목록</h1>
       <b-form-select v-model="lang" :options="langname" ></b-form-select>
-      <span v-for=" idx in 4" :key="idx">
+      <div class="mypage">
+        <div class="bookmark_box">
+            <ul class="bookmark_list">
+              <li class="bookmark_li">
+                <a href="javascript:void(0)'">c</a>
+              </li>
+              <li class="bookmark_li">
+                 <a href="javascript:void(0)'">c++</a>
+              </li>
+              <li class="bookmark_li">
+                 <a href="javascript:void(0)'">java</a>
+              </li>
+              <li class="bookmark_li">
+                 <a href="javascript:void(0)'">python</a>
+              </li>
+              <li class="bookmark_li"> <a href="javascript:void(0)'">other</a>
+              </li>
+
+
+            </ul>
+        </div>
+
+      </div>
+      <!-- <span v-for=" idx in 4" :key="idx">
         <h2>{{langname[idx-1]}}</h2>
           <template>
           <div class="que" v-for="item in langs[idx-1]" :key="item.id"  >
@@ -29,7 +52,7 @@
           </template>
 
 
-      </span>
+      </span> -->
 
   </div>
 </template>
@@ -231,5 +254,36 @@ import axios from 'axios'
   .mainlang{
     margin-left: 25%;
   }
-
+  /* .bookmark_box .bookmark_list{
+    display: table;
+    table-layout: fixed;
+    box-sizing: border-box;
+    width: 100%;
+  } */
+  .bookmark_list{
+    margin: 0;
+    padding: 0px 700px 0px 0;
+    border-bottom: 1px solid #e9e9e9;
+    list-style: none;
+    height: 55px;
+    width: 785px;
+  }
+  .bookmark_box{
+    padding: 0 700px 0 0;
+    border-top: 1px solid #e9e9e9;
+  }
+  .bookmark_li{
+    border-right: 1px solid #e9e9e9;
+    display: inline;
+    font-size: 30px;
+    /* padding-left: 3rem;
+    padding-right: 3rem; */
+    padding: 5.7px 49px 7px 52px;
+    text-align: center;
+  }
+  .mypage .bookmark_box .bookmark_list li a{
+  }
+  .mypage{
+    padding-top: 20px;
+  }
 </style>
