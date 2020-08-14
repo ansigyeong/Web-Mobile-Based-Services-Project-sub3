@@ -56,7 +56,7 @@
           ]
           for(var i in this.items){
             if (this.items[i] == undefined){
-              alert('유저가 3명 이상이어야 집계가 가능합니다.')
+              swal('','유저가 3명 이상이어야 집계가 가능합니다.', 'warning')
               this.$router.go(-1)
               break
             }

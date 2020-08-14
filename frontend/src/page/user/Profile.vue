@@ -287,7 +287,7 @@ import { Carousel, Slide } from 'vue-carousel'
             this.checkflag()
           })
           .catch((error) => {
-            alert('세션 만료.\n다시 로그인 해주세요.')
+            swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
             this.$cookies.remove('auth-token')
             this.$store.commit('checkToken',this.$cookies.get('auth-token'))
             this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))

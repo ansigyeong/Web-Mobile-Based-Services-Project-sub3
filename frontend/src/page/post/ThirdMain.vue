@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 100vw">
+    <div style="height: 100px;">
         <img class="footermsg" src="../../assets/img/ThirdMain.png" alt="">
         <img class="underthesea" src="../../assets/img/underthesea.png" alt="">
     </div>

@@ -137,11 +137,11 @@ import Editor from '@tinymce/tinymce-vue'
         }
         axios.post(this.$store.state.base_url + '/question', body, config)
         .then((response) => {
-          alert('글이 성공적으로 작성 되었습니다.')
+          swal('', '글이 성공적으로 작성 되었습니다.', 'success')
           this.$router.push('/list/'+this.lang)
         })
         .catch((error) => {
-            alert('세션 만료.\n다시 로그인 해주세요.')
+            swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
             this.$cookies.remove('auth-token')
             this.$store.commit('checkToken',this.$cookies.get('auth-token'))
             this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))

@@ -67,7 +67,7 @@ import Editor from '@tinymce/tinymce-vue'
         }
         axios.post(this.$store.state.base_url + '/notice', body, config)
         .then((response) => {
-          alert('글이 성공적으로 작성 되었습니다.')
+          swal('', '글이 성공적으로 작성 되었습니다.', 'success')
           this.$router.push('/notice')
         })
         .catch((error) => {
