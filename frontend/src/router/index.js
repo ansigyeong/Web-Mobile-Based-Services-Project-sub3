@@ -15,8 +15,6 @@ import Main from '../page/post/main.vue'
 import TagList from '../page/post/TagList.vue'
 import Notice from '../page/post/Notice.vue'
 import NoticeDetail from '../page/post/NoticeDetail.vue'
-import MainFooter from '../page/post/MainFooter.vue'
-import ThirdMain from '../page/post/ThirdMain'
 
 Vue.use(VueRouter)
 
@@ -96,16 +94,6 @@ Vue.use(VueRouter)
     name: 'NoticeDetail',
     component: NoticeDetail
   },
-  {
-    path: '/mainfooter',
-    name: 'MainFooter',
-    component: MainFooter
-  },
-  {
-    path: '/thirdmain',
-    name: 'ThirdMain',
-    component: ThirdMain
-  }
 
 ]
 
