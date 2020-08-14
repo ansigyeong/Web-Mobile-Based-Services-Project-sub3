@@ -77,8 +77,8 @@ export default {
 // }
   .container {
      padding-top: 100px;
-     padding-left: 200px;
-     padding-right: 200px;
+     padding-left: 170px;
+     padding-right: 170px;
   }
 </style>
 

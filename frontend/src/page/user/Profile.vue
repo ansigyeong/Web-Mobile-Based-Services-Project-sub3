@@ -121,12 +121,12 @@
     <hr> 
 
     <div class="my">
-      <div class="mq" style="float:left; width:450px; overflow:hidden;">
+      <div class="mq" style="float:left; width:400px; overflow:hidden;">
         <h2>내가 한 질문</h2>
         <b-table :items="data" :fields="fields" :per-page="perPage" :current-page="currentPage"  responsive="sm" >
           <slot></slot>
           <template v-slot:cell(actions)="row">
-            <div size="sm" @click="detail(row.item.queNo)" class="mr-1" variant="primary" style="background-color:white;width:200px; height:27px; overflow: hidden;">
+            <div size="sm" @click="detail(row.item.queNo)" class="mr-1" variant="primary" style="background-color:white;width:170px; height:27px; overflow: hidden;">
               {{row.item.title}}
             </div>
           </template>
@@ -139,12 +139,12 @@
             align="left"
         ></b-pagination>
       </div>
-      <div class="mr" style="float:right; width:450px; overflow:hidden;" >
+      <div class="mr" style="float:right; width:400px; overflow:hidden;" >
         <h2>내가 한 답변</h2>
         <b-table :items="replydata" :fields="replyfields" :per-page="perPage2" :current-page="currentPage2"  responsive="sm" >
           <slot></slot>
           <template v-slot:cell(replyactions)="row">
-            <div size="sm" @click="detail(row.item.queNo)" class="mr-1"   variant="primary" style="background-color:white; width: 200px; height:27px; overflow: hidden;">
+            <div size="sm" @click="detail(row.item.queNo)" class="mr-1"   variant="primary" style="background-color:white; width: 170px; height:27px; overflow: hidden;">
               {{row.item.contents}}
             </div>
           </template>
