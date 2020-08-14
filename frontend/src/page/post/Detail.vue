@@ -3,15 +3,10 @@
       <div style="text-align: left">
         <div style="display:flex; justify-content:space-between">
             <h2>{{this.items.title}}</h2>
-            <div class="tags" style="margin-top:10px">
-                <a class="post-tag" @click="moveTagList('/taglist/', items.firstTag)" v-if="this.items.firstTag!=''">{{this.items.firstTag}}</a>
-                <a class="post-tag" @click="moveTagList('/taglist/', items.secondTag)" v-if="this.items.secondTag!=''">{{this.items.secondTag}}</a>
-                <a class="post-tag" @click="moveTagList('/taglist/', items.thirdTag)" v-if="this.items.thirdTag!=''">{{this.items.thirdTag}}</a>
-            </div>
         </div>
         <div style="display:flex; justify-content:space-between">
             <h7>작성 시간: {{this.items.createDate}}</h7>
-            <span v-if="$store.state.islogin"> 
+            <span v-if="$store.state.islogin & this.isme"> 
             <div>
                 <span v-if="this.flag">
                 <img  src='../../assets/img/nostar.png' class="land" width="40px"  @click="selectquestion">
@@ -20,9 +15,12 @@
                 <img src='../../assets/img/star.png' class="land" width="40px" @click="selectdelete">
                 </span>
                 <a class="land" @click="deletequestion">글 삭제</a>
-                <a class="land" @click="updatequestion">글 수정</a>
+                <a class="land" @click="updatequestion(user.email)">글 수정</a>
             </div>
             </span>   
+            <span v-else>
+                <div style="width=175px; height=40px"></div>
+            </span>
         </div>
       </div>
         <hr style="margin-top:10px">
@@ -39,6 +37,11 @@
             <div style="height:10px"></div>
             <div v-html="items.contents" style="margin:20px"></div>
             <div style="height:10px"></div>
+        </div>
+        <div class="tags" style="margin-top:10px">
+            <a class="post-tag" @click="moveTagList('/taglist/', items.firstTag)" v-if="this.items.firstTag!=''">{{this.items.firstTag}}</a>
+            <a class="post-tag" @click="moveTagList('/taglist/', items.secondTag)" v-if="this.items.secondTag!=''">{{this.items.secondTag}}</a>
+            <a class="post-tag" @click="moveTagList('/taglist/', items.thirdTag)" v-if="this.items.thirdTag!=''">{{this.items.thirdTag}}</a>
         </div>
         </b-media>  
 
@@ -111,6 +114,8 @@ import axios from 'axios'
 import Editor from '@tinymce/tinymce-vue'
 import { component as VueCodeHighlight } from 'vue-code-highlight'
 import VuePrism from 'vue-prism'
+import jwt_decode from 'jwt-decode'
+
     export default { 
         components: {
             'editor': Editor,
@@ -127,7 +132,8 @@ import VuePrism from 'vue-prism'
                 replyitems: null,
                 flag: true,
                 selectlist: null,
-                user: null
+                user: null,
+                isme : null
                 } 
         },
         beforeCreate() {
@@ -164,11 +170,19 @@ import VuePrism from 'vue-prism'
                     }
                 })
                 .then((response) => {
-                    console.log(response)
+                    var token = this.$store.state.token
+                    var decoded = jwt_decode(token) //payload
+
                     this.items = response.data.data.question
                     this.user = response.data.data.user
                     this.replyitems = response.data.data.rpList
-                    console.log(this.items.firstTag)
+
+                    if (decoded.sub == user.email){
+                        this.isme = true
+                    }
+                    else {
+                        this.isme = false
+                    }
                 })
                 .catch((error) => {
                     console.log(error)
@@ -195,13 +209,20 @@ import VuePrism from 'vue-prism'
                 })
           
             },
-            updatequestion(queNo) {
-                this.$store.commit("updateinfo",{
-                    title : this.items.title,
-                    contents : this.items.contents,
-                    lang : this.items.lang
-                })
-                this.$router.push('/updatequestion/'+this.$route.params.queNo)
+            updatequestion(email) {
+                if (email == decoded.sub)
+                {
+                    this.$store.commit("updateinfo",{
+                        title : this.items.title,
+                        contents : this.items.contents,
+                        lang : this.items.lang
+                    })
+                    this.$router.push('/updatequestion/'+this.$route.params.queNo)
+                }
+                else 
+                {
+                    alert('질문 작성자만 수정이 가능합니다.')
+                }
             },
             writereply() {
                 let config = {
@@ -433,7 +454,6 @@ code {
 .tags{
     line-height: 18px;
     float: left;
-    margin-left: 5%;
 }
 
 .post-tag{
@@ -450,7 +470,7 @@ code {
     text-align: center;
     border-width: 1px;
     border-style: solid;
-    border-radius: 30%;
+    border-radius: 10px;
 }
 
 .heart{

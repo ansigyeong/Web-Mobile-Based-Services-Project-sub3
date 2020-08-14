@@ -13,7 +13,7 @@
       </div>
       <div class="summary">
         <div class="title"><a class="tt" @click="detail(item.queNo,item.lang)"> Q: {{item.title}}</a></div>
-        <div class="contents">{{item.contents}}</div>
+        <div v-html="item.contents" style="text-align:left"></div>
         <div class="tags">
           <a class="post-tag" @click="moveTagList('/taglist/', item.tag1)" v-if="item.tag1!=''">{{item.tag1}}</a>
           <a class="post-tag" @click="moveTagList('/taglist/', item.tag2)" v-if="item.tag2!=''">{{item.tag2}}</a>
