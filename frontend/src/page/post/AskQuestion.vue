@@ -42,7 +42,7 @@
             'undo redo codesample | formatselect | bold italic backcolor | \
             alignleft aligncenter alignright alignjustify | \
             bullist numlist outdent indent | removeformat | help'
-        }" v-model="contents" />
+        }" v-model="contents"  />
     </div>
       <v-card-actions>
         <v-btn text @click="back">Cancel</v-btn>

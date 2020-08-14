@@ -25,7 +25,7 @@
     <b-table :items="data" :fields="fields" :per-page="perPage" :current-page="currentPage" responsive="sm">
       <slot></slot>
       <template v-slot:cell(actions)="row">
-        <div size="sm" @click="detail(row.item.noticeNo)" class="mr-1" style="background-color:white">
+        <div size="sm" @click="detail(row.item.noticeNo)" class="mr-1" style="background-color:white;">
           {{row.item.title}}
         </div>
       </template>
@@ -102,3 +102,9 @@ import axios from 'axios'
     }
   }
 </script>
+
+<style scoped>
+.mr-1:hover{
+  color:rgb(51, 54, 185);
+}
+</style>

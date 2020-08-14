@@ -13,8 +13,8 @@
         </v-col>
       </v-row>
     </div>
-    <!-- <template> -->
-    <div class="que" v-for="item in data" :key="item.id"  >
+    <template>
+    <div class="que" v-for="item in paginatedData" :key="item.id"  >
       <div class="stats">
         <h6 style="text-size:small;">답글수</h6>
         <div class="like">
@@ -36,8 +36,15 @@
           </div>
       </div>
     </div>
-    
-    <!-- </template> -->
+    <div class="pagination" style="float:right;">
+      
+      <button :disabled="pageNum === 0" @click="firstPage" class="page-btn"><i class="fas fa-caret-square-left"></i></button>
+      <button :disabled="pageNum === 0" @click="prevPage" class="page-btn"><i class="far fa-caret-square-left"></i></button>
+      <span class="page-count" style="padding-left:5px;padding-right:5px;font-size:1.2em;">{{ pageNum + 1 }} / {{ pageCount }}</span>
+      <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn"><i class="far fa-caret-square-right"></i></button>
+      <button :disabled="pageNum >= pageCount - 1" @click="lastPage" class="page-btn"><i class="fas fa-caret-square-right"></i></button>
+    </div>
+    </template>
 
   </div>
 </template>
@@ -47,17 +54,19 @@ import axios from 'axios'
   export default {
     data(){
       return {
+        pageNum: 0,
         type: 0,
         data: null,
-        fields: [{key:'rpCnt', label:'답글 수'},
-        {key:'lang', label: '언어'},
-        {key:'title', label: '제목'},
-        {key: 'createDate', label: '작성 시간'},
-        {key: 'useractions', label:'질문자'},
-        {key: 'actions', label: '상세 보기' }],
         sorting_type: 0,
         lang: this.$route.params.lang,
         keyword: this.$route.params.keyword
+      }
+    },
+    props: {
+      pageSize:{
+        type: Number,
+        required: false,
+        default:7
       }
     },
     methods: {
@@ -71,6 +80,7 @@ import axios from 'axios'
         .then((response) => {
           console.log(response)
           this.data = response.data.data.list
+          console.log(this.data)
         })
       },
       detail(queNo,lang) {
@@ -91,6 +101,18 @@ import axios from 'axios'
         this.sorting_type = 1;
         this.getlist(lang,keyword)
 
+      },
+      nextPage () {
+      this.pageNum += 1;
+      },
+      prevPage () {
+        this.pageNum -= 1;
+      },
+      firstPage () {
+        this.pageNum = 0;
+      },
+      lastPage () {
+        this.pageNum = this.pageCount-1;
       }
     },
     created() {
@@ -100,7 +122,27 @@ import axios from 'axios'
         this.getlist(to.params.lang, to.params.keyword);
         next();
     },
+    computed:{
+      pageCount() {
+        let listleng = this.data.length,
+        listSize = this.pageSize,
+        page = Math.floor(listleng/listSize)
 
+        if(listleng % listSize > 0) page +=1;
+
+        return page;
+      },
+      paginatedData() {
+        const start = this.pageNum*this.pageSize,
+        end = start + this.pageSize;
+        console.log(start)
+        console.log(end)
+        console.log(this.data)
+        if(this.data!=null)
+        return this.data.slice(start, end);
+      }
+
+    }
   }
 </script>
 
@@ -211,4 +253,19 @@ import axios from 'axios'
   .mainlang{
     margin-left: 25%;
   }
+  .page-btn{
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 1.3em;
+    color: pink;
+  }
+  /* .pagination {
+    display: inline-block;
+  }
+  .pagination button {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+} */
 </style>

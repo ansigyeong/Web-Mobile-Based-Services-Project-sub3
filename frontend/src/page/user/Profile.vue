@@ -120,39 +120,44 @@
     </div>
     <hr> 
 
-    <h2>내가 한 질문</h2>
-    <b-table :items="data" :fields="fields" :per-page="perPage" :current-page="currentPage"  responsive="sm" >
-      <slot></slot>
-      <template v-slot:cell(actions)="row">
-        <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1 dd" variant="primary">
-          상세보기
-        </b-button>
-      </template>
-    </b-table>
-    <b-pagination
-        v-show="this.data.length>5"
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        align="right"
-        
-      ></b-pagination>
-    <h2>내가 한 답변</h2>
-    <b-table :items="replydata" :fields="replyfields" :per-page="perPage2" :current-page="currentPage2"  responsive="sm">
-      <slot></slot>
-      <template v-slot:cell(replyactions)="row">
-        <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1 dd"   variant="primary">
-          상세보기
-        </b-button>
-      </template>
-    </b-table>
-    <b-pagination
-        v-show="this.replydata.length>5"
-        v-model="currentPage2"
-        :total-rows="rows2"
-        :per-page="perPage2"
-        align="right"
-      ></b-pagination>
+    <div class="my">
+      <div class="mq" style="float:left; width:450px; overflow:hidden;">
+        <h2>내가 한 질문</h2>
+        <b-table :items="data" :fields="fields" :per-page="perPage" :current-page="currentPage"  responsive="sm" >
+          <slot></slot>
+          <template v-slot:cell(actions)="row">
+            <div size="sm" @click="detail(row.item.queNo)" class="mr-1" variant="primary" style="background-color:white;width:200px; height:27px; overflow: hidden;">
+              {{row.item.title}}
+            </div>
+          </template>
+        </b-table>
+        <b-pagination
+            v-show="this.data.length>5"
+            v-model="currentPage"
+            :total-rows="rows"
+            :per-page="perPage"
+            align="left"
+        ></b-pagination>
+      </div>
+      <div class="mr" style="float:right; width:450px; overflow:hidden;" >
+        <h2>내가 한 답변</h2>
+        <b-table :items="replydata" :fields="replyfields" :per-page="perPage2" :current-page="currentPage2"  responsive="sm" >
+          <slot></slot>
+          <template v-slot:cell(replyactions)="row">
+            <div size="sm" @click="detail(row.item.queNo)" class="mr-1"   variant="primary" style="background-color:white; width: 200px; height:27px; overflow: hidden;">
+              {{row.item.contents}}
+            </div>
+          </template>
+        </b-table>
+        <b-pagination
+            v-show="this.replydata.length>5"
+            v-model="currentPage2"
+            :total-rows="rows2"
+            :per-page="perPage2"
+            align="right"
+          ></b-pagination>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -171,15 +176,14 @@ import { Carousel, Slide } from 'vue-carousel'
         data: null,
         fields: [
         {key:'lang', label: '언어'},
-        {key:'title', label: '제목'},
+        {key:'actions', label: '제목'},
         {key: 'createDate', label: '작성 시간'},
-        {key: 'actions', label: '상세 보기' }],
+        ],
         replydata : null,
         replyfields: [
           {key:'rpLike', label: '좋아요'},
-          {key:'contents', label: '내용'},
+          {key:'replyactions', label: '내용'},
           {key:'createDate', label: '작성일'},
-          {key:'replyactions', label: '질문 보기'}
         ],
         useritems:null,
         following: null,
@@ -355,6 +359,9 @@ import { Carousel, Slide } from 'vue-carousel'
     color: rgb(11, 13, 15);
     border: rgb(11, 13, 15);
     background-color: rgb(140, 180, 231);
+  }
+  .mr-1:hover{
+    color:rgb(51, 54, 185);
   }
  
 </style>
