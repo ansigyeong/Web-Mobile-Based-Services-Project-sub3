@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import '../../assets/css/mainfooter.scss'
+// import '../../assets/css/mainfooter.scss'
 export default {
     name: 'MainFooter'
 }

@@ -18,12 +18,17 @@ import NoticeDetail from '../page/post/NoticeDetail.vue'
 import NoticeCreate from '../page/post/NoticeCreate.vue'
 import NoticeModify from '../page/post/NoticeModify.vue'
 import MainFooter from '../page/post/MainFooter.vue'
-import ThirdMain from '../page/post/ThirdMain.vue'
-import FloatingIcon from '../page/post/FloatingIcon.vue'
+import ThirdMain from '../page/post/ThirdMain'
+import UpdateReply from '../page/post/UpdateReply.vue'
 
 Vue.use(VueRouter)
 
   const routes = [
+  {
+    path: '/updatereply/:queNo/:lang/:rpNo',
+    name: 'updatereply',
+    component: UpdateReply
+  },
   {
     path: '/join',
     name: 'Join',
@@ -65,7 +70,7 @@ Vue.use(VueRouter)
     component: List
   },
   {
-    path: '/bookmark',
+    path: '/bookmark/:lang?',
     name: 'Bookmark',
     component: Bookmark
   },

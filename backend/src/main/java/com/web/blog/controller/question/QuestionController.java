@@ -220,7 +220,7 @@ public class QuestionController {
                 Reply reply = list.get(i);
                 Account ac = accountService.search(reply.getUserNo());
                 rp = new Rp(reply.getRpNo(), reply.getContents(), reply.getRpLike(), reply.getCreateDate()
-                    , reply.getQueNo(), ac.getName(),"비로그인", reply.getUserNo(), ac.getGrade());
+                    , reply.getQueNo(), ac.getName(),"비로그인", reply.getUserNo(), ac.getGrade(), ac.getEmail());
                 rpList.add(rp);
             }
             if(type==1){
@@ -254,7 +254,7 @@ public class QuestionController {
                 if(ck != null)   exist = "좋아요취소";  
                 Account ac = accountService.search(reply.getUserNo());
                 rp = new Rp(reply.getRpNo(), reply.getContents(), reply.getRpLike(), reply.getCreateDate()
-                    , reply.getQueNo(), ac.getName(), exist, reply.getUserNo(), ac.getGrade());
+                    , reply.getQueNo(), ac.getName(), exist, reply.getUserNo(), ac.getGrade(), ac.getEmail());
                 rpList.add(rp);
             }
             if(type==1){

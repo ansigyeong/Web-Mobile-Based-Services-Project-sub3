@@ -2,7 +2,7 @@
   <div class="container">
     <a class="maintag">{{this.$route.params.tag}}</a>
     <template>
-    <div class="que" v-for="item in data" :key="item.id"  >
+    <div class="que" v-for="item in paginatedData" :key="item.id"  >
       <div class="stats">
         <h6 style="text-size:small;">답글수</h6>
         <div class="like">
@@ -13,7 +13,7 @@
       </div>
       <div class="summary">
         <div class="title"><a class="tt" @click="detail(item.queNo,item.lang)"> Q: {{item.title}}</a></div>
-        <div class="contents">{{item.contents}}</div>
+        <div v-html="item.contents" style="text-align:left"></div>
         <div class="tags">
           <a class="post-tag" @click="moveTagList('/taglist/', item.tag1)" v-if="item.tag1!=''">{{item.tag1}}</a>
           <a class="post-tag" @click="moveTagList('/taglist/', item.tag2)" v-if="item.tag2!=''">{{item.tag2}}</a>
@@ -26,12 +26,14 @@
           </div>
       </div>
     </div>
-    <b-pagination
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        align="center"
-      ></b-pagination>
+     <div class="pagination" style="float:right;">
+      
+      <button :disabled="pageNum === 0" @click="firstPage" class="page-btn"><i class="fas fa-caret-square-left"></i></button>
+      <button :disabled="pageNum === 0" @click="prevPage" class="page-btn"><i class="far fa-caret-square-left"></i></button>
+      <span class="page-count" style="padding-left:5px;padding-right:5px;font-size:1.2em;">{{ pageNum + 1 }} / {{ pageCount }}</span>
+      <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn"><i class="far fa-caret-square-right"></i></button>
+      <button :disabled="pageNum >= pageCount - 1" @click="lastPage" class="page-btn"><i class="fas fa-caret-square-right"></i></button>
+    </div>
     </template>
 
 
@@ -57,8 +59,7 @@ import axios from 'axios'
   export default {
     data(){
       return {
-        currentPage:1,
-        perPage:10,
+        pageNum: 0,
         type: 0,
         data: null,
         fields: [{key:'rpCnt', label:'답글 수'},
@@ -69,6 +70,13 @@ import axios from 'axios'
         {key: 'actions', label: '상세 보기' }],
         sorting_type: 0,
         tag: this.$route.params.tag
+      }
+    },
+    props: {
+      pageSize:{
+        type: Number,
+        required: false,
+        default:7
       }
     },
     methods: {
@@ -93,6 +101,18 @@ import axios from 'axios'
         console.log(this.tag)
         this.$router.push(path+tag);
       },
+      nextPage () {
+      this.pageNum += 1;
+      },
+      prevPage () {
+        this.pageNum -= 1;
+      },
+      firstPage () {
+        this.pageNum = 0;
+      },
+      lastPage () {
+        this.pageNum = this.pageCount-1;
+      }
     },
     created() {
       this.getlist(this.$route.params.tag)
@@ -102,15 +122,23 @@ import axios from 'axios'
         next();
     },
     computed:{
-      data(){
-        const items = this.$store.getters.loadedData
-        return items.slice(
-          (this.currentPage - 1) * this.perPage,
-          this.currentPage * this.perPage
-        )
+      pageCount() {
+        let listleng = this.data.length,
+        listSize = this.pageSize,
+        page = Math.floor(listleng/listSize)
+
+        if(listleng % listSize > 0) page +=1;
+
+        return page;
       },
-      rows(){
-        return this.data.length;
+      paginatedData() {
+        const start = this.pageNum*this.pageSize,
+        end = start + this.pageSize;
+        console.log(start)
+        console.log(end)
+        console.log(this.data)
+        if(this.data!=null)
+        return this.data.slice(start, end);
       }
     }
   }
@@ -222,5 +250,14 @@ import axios from 'axios'
     border-width: 1px;
     border-style: solid;
     border-radius: 30%;
+  }
+  .mainlang{
+    margin-left: 25%;
+  }
+  .page-btn{
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 1.3em;
+    color: pink;
   }
 </style>

@@ -3,15 +3,10 @@
       <div style="text-align: left">
         <div style="display:flex; justify-content:space-between">
             <h2>{{this.items.title}}</h2>
-            <div class="tags" style="margin-top:10px">
-                <a class="post-tag" @click="moveTagList('/taglist/', items.firstTag)" v-if="this.items.firstTag!=''">{{this.items.firstTag}}</a>
-                <a class="post-tag" @click="moveTagList('/taglist/', items.secondTag)" v-if="this.items.secondTag!=''">{{this.items.secondTag}}</a>
-                <a class="post-tag" @click="moveTagList('/taglist/', items.thirdTag)" v-if="this.items.thirdTag!=''">{{this.items.thirdTag}}</a>
-            </div>
         </div>
         <div style="display:flex; justify-content:space-between">
             <h7>작성 시간: {{this.items.createDate}}</h7>
-            <span v-if="$store.state.islogin"> 
+            <span v-if="$store.state.islogin & this.isme"> 
             <div>
                 <span v-if="this.flag">
                 <img  src='../../assets/img/nostar.png' class="land" width="40px"  @click="selectquestion">
@@ -20,9 +15,12 @@
                 <img src='../../assets/img/star.png' class="land" width="40px" @click="selectdelete">
                 </span>
                 <a class="land" @click="deletequestion">글 삭제</a>
-                <a class="land" @click="updatequestion">글 수정</a>
+                <a class="land" @click="updatequestion(user.email)">글 수정</a>
             </div>
             </span>   
+            <span v-else>
+                <div style="width=175px; height=40px"></div>
+            </span>
         </div>
       </div>
         <hr style="margin-top:10px">
@@ -40,19 +38,35 @@
             <div v-html="items.contents" style="margin:20px"></div>
             <div style="height:10px"></div>
         </div>
+        <div class="tags" style="margin-top:10px">
+            <a class="post-tag" @click="moveTagList('/taglist/', items.firstTag)" v-if="this.items.firstTag!=''">{{this.items.firstTag}}</a>
+            <a class="post-tag" @click="moveTagList('/taglist/', items.secondTag)" v-if="this.items.secondTag!=''">{{this.items.secondTag}}</a>
+            <a class="post-tag" @click="moveTagList('/taglist/', items.thirdTag)" v-if="this.items.thirdTag!=''">{{this.items.thirdTag}}</a>
+        </div>
         </b-media>  
 
     <hr>
     <h2>{{replyitems.length}}개의 답변</h2>
     <span v-for="(item,idx) in replyitems" :key="idx">
         <b-media right-align>
-        <div class="bording" >
-            <div style="height:10px"></div>
-            <div v-html="item.contents" style="margin:20px"></div>
-            <div style="height:10px"></div>
+        <div>
+            <div style="float:left;">
+                <span v-if="item.exist=='좋아요'">
+                    <img src="../../assets/img/blackheart.png"  @click="replylike(item.rpNo,idx)" class="heart">
+                </span>
+                <span v-else-if="item.exist=='좋아요취소'">
+                    <img src="../../assets/img/redheart.png" @click="replylike(item.rpNo,idx)" class="heart">
+                </span>
+                <p style="margin-top:15px">{{item.rpLike}}</p>
+            </div>
+            <div class="bording" style="margin-left:50px" >
+                <div style="height:10px"></div>
+                <div v-html="item.contents" style="margin:20px"></div>
+                <div style="height:10px"></div>
+            </div>
         </div>
           <template v-slot:aside>
-            <div style="margin-right:20px">
+            <div>
                 <div class="userlanding">
                     <img :src="getimage(item.grade)" width="100px" height="100px" alt="">
                     <p style="margin-top:5px; margin-bottom:3px">
@@ -60,16 +74,9 @@
                     </p>
                 </div>
                 <p style="margin-bottom:3px"> 
-                    {{item.rpLike}}
                     <span v-if="$store.state.islogin">
-                        <span v-if="item.exist=='좋아요'">
-                            <img src="../../assets/img/blackheart.png"  @click="replylike(item.rpNo,idx)" class="heart">
-                        </span>
-                        <span v-else-if="item.exist=='좋아요취소'">
-                            <img src="../../assets/img/redheart.png" @click="replylike(item.rpNo,idx)" class="heart">
-                        </span>
                         <img src="../../assets/img/delete.png" @click="replydelete(item.rpNo)" class="photo">
-                        <img src="../../assets/img/update.png" @click="replyupdate(item.rpNo)" class="photo">   
+                        <img src="../../assets/img/update.png" @click="replyupdate(item.rpNo, item.contents)" class="photo">   
                     </span> 
                 </p>    
             </div>
@@ -85,7 +92,7 @@
             <div style="text-align:center">
                 <editor api-key="vem3wnp12tvfllgyuf92uzd6e04f9ddz4ke9mzv8uh71ctgq" :init="{
                     height: 300,
-                    width: 1000,
+                    width: 750,
                     menubar: ['file edit view insert format tools'],
                     plugins: [
                         'advlist autolink lists link image charmap print preview anchor',
@@ -111,6 +118,8 @@ import axios from 'axios'
 import Editor from '@tinymce/tinymce-vue'
 import { component as VueCodeHighlight } from 'vue-code-highlight'
 import VuePrism from 'vue-prism'
+import jwt_decode from 'jwt-decode'
+
     export default { 
         components: {
             'editor': Editor,
@@ -127,7 +136,8 @@ import VuePrism from 'vue-prism'
                 replyitems: null,
                 flag: true,
                 selectlist: null,
-                user: null
+                user: null,
+                isme : null
                 } 
         },
         beforeCreate() {
@@ -165,13 +175,26 @@ import VuePrism from 'vue-prism'
                 })
                 .then((response) => {
                     console.log(response)
+                    var token = this.$store.state.token
+                    var decoded = jwt_decode(token) //payload
+
                     this.items = response.data.data.question
                     this.user = response.data.data.user
                     this.replyitems = response.data.data.rpList
-                    console.log(this.items.firstTag)
+
+                    if (decoded.sub == this.user.email){
+                        this.isme = true
+                    }
+                    else {
+                        this.isme = false
+                    }
                 })
                 .catch((error) => {
-                    console.log(error)
+                    swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
+                    this.$cookies.remove('auth-token')
+                    this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+                    this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+                    this.$router.push('/login')
                 })
             },
             deletequestion() {
@@ -193,15 +216,29 @@ import VuePrism from 'vue-prism'
                         this.$router.go(-1)
                     }
                 })
-          
-            },
-            updatequestion(queNo) {
-                this.$store.commit("updateinfo",{
-                    title : this.items.title,
-                    contents : this.items.contents,
-                    lang : this.items.lang
+                .catch((error) => {
+                    swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
+                    this.$cookies.remove('auth-token')
+                    this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+                    this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+                    this.$router.push('/login')
                 })
-                this.$router.push('/updatequestion/'+this.$route.params.queNo)
+            },
+            updatequestion(email) {
+
+                if (this.isme)
+                {
+                    this.$store.commit("updateinfo",{
+                        title : this.items.title,
+                        contents : this.items.contents,
+                        lang : this.items.lang
+                    })
+                    this.$router.push('/updatequestion/'+this.$route.params.queNo)
+                }
+                else 
+                {
+                    alert('질문 작성자만 수정이 가능합니다.')
+                }
             },
             writereply() {
                 let config = {
@@ -248,7 +285,6 @@ import VuePrism from 'vue-prism'
                     }   
                 })
                 .then((response) => {
-                    console.log(response.data.status)
                     if (response.data.data != 'user fail') {
                         swal('', '댓글이 정상적으로 삭제 되었습니다.', 'success')
                         axios.get(this.$store.state.base_url +'/question/detail',{     
@@ -275,6 +311,14 @@ import VuePrism from 'vue-prism'
                     this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
                     this.$router.push('/login')
                 })
+            },
+            replyupdate(rpNo, contents) {
+                this.$store.commit("updateinfo",{
+                    title : '',
+                    contents : contents,
+                    lang : '',
+                })
+                this.$router.push('/updatereply/'+this.$route.params.queNo+'/'+this.$route.params.lang+'/'+rpNo)
             },
             replylike(rpNo,idx) {
                 let config = {
@@ -352,6 +396,13 @@ import VuePrism from 'vue-prism'
                 }
                 this.flag = temp
                 })
+            .catch((error) => {
+                swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
+                this.$cookies.remove('auth-token')
+                this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+                this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+                this.$router.push('/login')
+                })
             },
             selectdelete(queNo){
             axios.delete(this.$store.state.base_url +'/cart',{     
@@ -365,7 +416,14 @@ import VuePrism from 'vue-prism'
             .then((response) => {
                 swal('','찜 목록에서 삭제 되었습니다.', 'success')
                 this.checkflag()
-            })
+                })
+            .catch((error) => {
+                swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
+                this.$cookies.remove('auth-token')
+                this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+                this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+                this.$router.push('/login')
+                })
             },
             level(grade){
                 if (grade < 100){return 0}
@@ -421,8 +479,8 @@ code {
 }
 
 .userlanding{
-    border-radius: 10px;
-    border: skyblue 3px solid;
+    /* border-radius: 10px; */
+    /* border: black 1px solid; */
     margin-bottom: 8px;
 }
 
@@ -433,7 +491,6 @@ code {
 .tags{
     line-height: 18px;
     float: left;
-    margin-left: 5%;
 }
 
 .post-tag{
@@ -450,11 +507,12 @@ code {
     text-align: center;
     border-width: 1px;
     border-style: solid;
-    border-radius: 30%;
+    border-radius: 10px;
 }
 
 .heart{
-    width: 25px;
-    height: 25px;
+    width: 40px;
+    height: 40px;
+    margin-top: 55px;
 }
 </style>

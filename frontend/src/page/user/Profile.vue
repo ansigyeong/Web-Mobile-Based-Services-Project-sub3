@@ -43,11 +43,6 @@
                 </div>
             </div>
           </div>
-          <div class="overflow-auto" style="float: right;">
-            <div class="mt-3">
-              <b-pagination v-model="currentPage" :total-rows="rows"></b-pagination>
-            </div>
-          </div>
         </b-modal>
 
       </div>
@@ -91,11 +86,6 @@
                 </div>
             </div>
           </div>
-          <div class="overflow-auto" style="float: right;">
-            <div class="mt-3">
-              <b-pagination v-model="currentPage" :total-rows="rows"></b-pagination>
-            </div>
-          </div>
         </b-modal>
       </div>
  
@@ -120,39 +110,44 @@
     </div>
     <hr> 
 
-    <h2>내가 한 질문</h2>
-    <b-table :items="data" :fields="fields" :per-page="perPage" :current-page="currentPage"  responsive="sm" >
-      <slot></slot>
-      <template v-slot:cell(actions)="row">
-        <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1 dd" variant="primary">
-          상세보기
-        </b-button>
-      </template>
-    </b-table>
-    <b-pagination
-        v-show="this.data.length>5"
-        v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        align="right"
-        
-      ></b-pagination>
-    <h2>내가 한 답변</h2>
-    <b-table :items="replydata" :fields="replyfields" :per-page="perPage2" :current-page="currentPage2"  responsive="sm">
-      <slot></slot>
-      <template v-slot:cell(replyactions)="row">
-        <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1 dd"   variant="primary">
-          상세보기
-        </b-button>
-      </template>
-    </b-table>
-    <b-pagination
-        v-show="this.replydata.length>5"
-        v-model="currentPage2"
-        :total-rows="rows2"
-        :per-page="perPage2"
-        align="right"
-      ></b-pagination>
+    <div class="my">
+      <div class="mq" style="float:left; width:400px; overflow:hidden;">
+        <h2>내가 한 질문</h2>
+        <b-table :items="data" :fields="fields" :per-page="perPage" :current-page="currentPage"  responsive="sm" >
+          <slot></slot>
+          <template v-slot:cell(actions)="row">
+            <div size="sm" @click="detail(row.item.queNo)" class="mr-1" variant="primary" style="background-color:white;width:170px; height:27px; overflow: hidden;">
+              {{row.item.title}}
+            </div>
+          </template>
+        </b-table>
+        <b-pagination
+            v-show="this.data.length>5"
+            v-model="currentPage"
+            :total-rows="rows"
+            :per-page="perPage"
+            align="left"
+        ></b-pagination>
+      </div>
+      <div class="mr" style="float:right; width:400px; overflow:hidden;" >
+        <h2>내가 한 답변</h2>
+        <b-table :items="replydata" :fields="replyfields" :per-page="perPage2" :current-page="currentPage2"  responsive="sm" >
+          <slot></slot>
+          <template v-slot:cell(replyactions)="row">
+            <div size="sm" @click="detail(row.item.queNo)" class="mr-1"   variant="primary" style="background-color:white; width: 170px; height:27px; overflow: hidden;">
+              {{row.item.contents}}
+            </div>
+          </template>
+        </b-table>
+        <b-pagination
+            v-show="this.replydata.length>5"
+            v-model="currentPage2"
+            :total-rows="rows2"
+            :per-page="perPage2"
+            align="right"
+          ></b-pagination>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -171,15 +166,14 @@ import { Carousel, Slide } from 'vue-carousel'
         data: null,
         fields: [
         {key:'lang', label: '언어'},
-        {key:'title', label: '제목'},
+        {key:'actions', label: '제목'},
         {key: 'createDate', label: '작성 시간'},
-        {key: 'actions', label: '상세 보기' }],
+        ],
         replydata : null,
         replyfields: [
           {key:'rpLike', label: '좋아요'},
-          {key:'contents', label: '내용'},
+          {key:'replyactions', label: '내용'},
           {key:'createDate', label: '작성일'},
-          {key:'replyactions', label: '질문 보기'}
         ],
         useritems:null,
         following: null,
@@ -214,7 +208,6 @@ import { Carousel, Slide } from 'vue-carousel'
             }
         })
         .then((response) => {
-            console.log(response)
             this.flag = response.data.data.modify
             this.link =  require('../../assets/img/lv'+this.level(response.data.data.user.grade)+'.png')
             this.username = response.data.data.user.name;
@@ -235,7 +228,11 @@ import { Carousel, Slide } from 'vue-carousel'
             // console.log(this.follower)
           })
         .catch((error) => {
-          console.log(error)
+            swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
+            this.$cookies.remove('auth-token')
+            this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+            this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+            this.$router.push('/login')
         })
       },
       detail(queNo) {
@@ -249,7 +246,6 @@ import { Carousel, Slide } from 'vue-carousel'
           }   
       })
       .then((response) => {
-          console.log(response)
           this.selectlist = response.data.data.followingList
           console.log(this.selectlist)
           var temp = true
@@ -263,7 +259,23 @@ import { Carousel, Slide } from 'vue-carousel'
           })
       },
       deleteuser() {
-        
+        if (confirm("정말로 회원탈퇴를 하시겠습니까?"))
+        {
+            axios.delete(this.$store.state.base_url +'/account/delete',{     
+            params: {
+            }, 
+            headers : {
+                'ACCESS-TOKEN' : this.$store.state.token
+            }   
+        })
+        .then((response) => {
+            alert('회원탈퇴 처리 되었습니다.')
+            this.$cookies.remove('auth-token')
+            this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+            this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+            this.$router.push('/')
+        })
+        }
       },
       updateuser() {
 
@@ -281,6 +293,7 @@ import { Carousel, Slide } from 'vue-carousel'
           .then((response) => {
             console.log(response)
             this.checkflag()
+            this.getlist(this.$route.params.userNo)
           })
           .catch((error) => {
             swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
@@ -303,6 +316,7 @@ import { Carousel, Slide } from 'vue-carousel'
             console.log(response)
             this.checkflag()
             console.log(this.followflag)
+            this.getlist(this.$route.params.userNo)
           })
         },
       level(grade){
@@ -320,11 +334,11 @@ import { Carousel, Slide } from 'vue-carousel'
       userdetail(userNo){
         this.$router.push('/profile/'+userNo)
       }
-      },
+    },
 
     beforeRouteUpdate (to, from, next){
-        this.getlist(to.params.userNo);
-        next();
+      this.getlist(to.params.userNo);
+      next();
     }
   }
 </script>
@@ -355,6 +369,9 @@ import { Carousel, Slide } from 'vue-carousel'
     color: rgb(11, 13, 15);
     border: rgb(11, 13, 15);
     background-color: rgb(140, 180, 231);
+  }
+  .mr-1:hover{
+    color:rgb(51, 54, 185);
   }
  
 </style>
