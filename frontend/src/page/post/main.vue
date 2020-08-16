@@ -51,51 +51,15 @@
   </div>
 <!-- 2 -->
 <div class="section">
-    <div id="carousel">
-      <carousel-3d  style="height: 550px;">
-        <span v-for="(item, idx) in items" :key="idx">
-             <slide :index="idx">
-           
-              <div class="crs-bx" style="border: solid 7px #ffd700;">
-                <img class="grade-img" :src="item.recodeImg"/>
-                <div class="text-box">
-                  <h2>{{item.level}}</h2>
-                  <h3>{{item.animal}}</h3>
-                </div>
-              </div>
-          
-          </slide>
-        </span>
-      </carousel-3d>
-    </div>
+    <RecordCarousel />
 </div>
+
 <!-- 3 -->
-<div class="section ">
-    <div class="section_padding">
-      <p style=" font-size:20pt;">질문, 답변, 좋아요 갯수에 따라</p>
-      <p style="padding:0 130px 0 0; font-size:50pt;">레벨 업!</p>
-      <div style="padding:0 180px 0 0;">
-          <v-btn @click="moveQuestion">질문하러</v-btn>
-          <v-btn @click="moveReply">답변하러</v-btn>
-      </div>
-    </div>
-
-        <div class="mt-10 lan_card" >
-            <div class="row">
-              <div class="col-md-2"/>
-                <div class="col-md-2" v-for="(item,idx) in all" :key="idx">
-                    <div class="card" :class="'mark'+item.category"><img class="card-img-top" :src="item.imgSrc" @click="moveList('/list/', item.lang)"/>
-                        <div class="card-body">
-                            <h5 class="card-title" :class="'mark'+item.categorye">{{ item.title }}</h5>
-                            <p class="card-text">{{ item.description }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2"/>
-            </div>
-        </div>
-
+<div class="section">
+    <img class="screen3msg" src="@/assets/img/slide3text.png">
+    <img  class="screen3img" src="@/assets/img/man.png">
 </div>
+
 <!-- 4 -->
 <div class="section">
     <ThirdMain />
@@ -123,6 +87,7 @@
   import '../../assets/css/mainfooter.scss'
   import '../../assets/css/ThirdMain.scss'
   import {Carousel3d, Slide}  from 'vue-carousel-3d'
+  import RecordCarousel from '../../components/common/RecordCarousel.vue'
   import MainFooter from './MainFooter.vue'
   import ThirdMain from './ThirdMain.vue'
 
@@ -130,6 +95,7 @@
     components: {
       Carousel3d,
       Slide,
+      RecordCarousel,
       MainFooter,
       ThirdMain
     },
@@ -176,16 +142,6 @@
                     "PYTHON"
                 }
                 ],
-     items : [
-        {index: '1', animal: '🦈 백상아리 🦈', level: 'Lv. 7', score: '600 점 이상', recodeImg: '../../assets/img/lv6.png' }, 
-        {index: '2', animal: '🦠 플랑크톤 🦠', level: 'Lv. 1', score: '0 ~ 99 점', recodeImg: '../../assets/img/lv5.png' }, 
-        {index: '3', animal: '🐟 멸치 🐟', level: 'LV. 2', score: '100 ~ 199 점', recodeImg: '../../assets/img/lv4.png'}, 
-        {index: '4', animal: '🦐 새우 🦐', level: 'LV. 3', score: '200 ~ 299 점', recodeImg: '../../assets/img/lv3.png'}, 
-        {index: '5', animal: '🦑 해파리 🦑', level: 'LV. 4', score: '300 ~ 399 점', recodeImg: '../../assets/img/lv2.png'}, 
-        {index: '6', animal: '🐙 문어 🐙', level: 'LV. 5', score: '400 ~ 499 점', recodeImg: '../../assets/img/lv1.png'}, 
-        {index: '7', animal: '🐬 돌고래 ', level: 'LV. 6', score: '500 ~ 599 점', recodeImg: '../../assets/img/lv0.png'}
-        ]
-
       }
     },
     methods: {
@@ -220,6 +176,7 @@
     }
   }
 </script>
+
 <style scoped>
 .section_padding{
   padding: 100px 900px 0 0;
@@ -242,17 +199,12 @@
    {
     box-shadow: 0 0 11px rgba(33,33,33,.2); 
     }
-  /* .markBBB {
-    border: 2px solid thin;
-    margin-top: 70px;
-  } */
   body {
     background-size: cover;
   }
   .carousel-3d-slide {
     height: 550px !important;
     margin-top: 20px;
-    /* background-color: red; */
   }
   .crs-bx {
     padding-top: 20px;
@@ -272,7 +224,24 @@
     margin: 20px;
     height: 186px;
   } 
-   .grade-guide {
+  .grade-guide {
     padding: 0px;
   } 
+    /* 3번째 화면 */
+  .screen3msg {
+    float: left;
+    width: 680px;
+    height: 450px;
+    z-index: 1;
+  }
+    .screen3img {
+    float: right;
+    width: 600px;
+    height: 500px;
+    position: relative;
+    bottom: -100px;
+    right: 100px;
+    margin-bottom: 0px;
+  }
+
 </style>
