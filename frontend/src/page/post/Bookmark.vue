@@ -1,58 +1,53 @@
 <template>
   <div class="container">
       <h1>찜 목록</h1>
-      <b-form-select v-model="lang" :options="langname" ></b-form-select>
+
       <div class="mypage">
         <div class="bookmark_box">
             <ul class="bookmark_list">
               <li class="bookmark_li">
-                <a href="javascript:void(0)'">c</a>
+                <router-link :to="{ name: 'Bookmark', params: { lang: 'c' }}">C</router-link>
               </li>
               <li class="bookmark_li">
-                 <a href="javascript:void(0)'">c++</a>
+                 <router-link :to="{ name: 'Bookmark', params: { lang: 'cpp' }}">C++</router-link>
               </li>
               <li class="bookmark_li">
-                 <a href="javascript:void(0)'">java</a>
+                 <router-link :to="{ name: 'Bookmark', params: { lang: 'java' }}">Java</router-link>
               </li>
               <li class="bookmark_li">
-                 <a href="javascript:void(0)'">python</a>
+                 <router-link :to="{ name: 'Bookmark', params: { lang: 'python' }}">Python</router-link>
               </li>
-              <li class="bookmark_li"> <a href="javascript:void(0)'">other</a>
+              <li class="bookmark_li">
+                 <router-link :to="{ name: 'Bookmark', params: { lang: 'etc' }}">Others</router-link>
               </li>
-
-
             </ul>
         </div>
-
       </div>
-      <!-- <span v-for=" idx in 4" :key="idx">
-        <h2>{{langname[idx-1]}}</h2>
-          <template>
-          <div class="que" v-for="item in langs[idx-1]" :key="item.id"  >
-            <div class="stats">
-              <h6 style="text-size:small;">답글수</h6>
-              <div class="like">
-                <strong>{{item.rpCnt}}</strong>
-                <span>개</span>
-                </div>
-            </div>
-            <div class="summary">
-              <div class="title"><a class="tt" @click="detail(item.queNo,item.lang)"> Q: {{item.title}}</a></div>
-              <div class="tags">
-                <a class="post-tag" @click="moveTagList('/taglist/', item.tag1)" v-if="item.tag1!=''">{{item.tag1}}</a>
-                <a class="post-tag" @click="moveTagList('/taglist/', item.tag2)" v-if="item.tag2!=''">{{item.tag2}}</a>
-                <a class="post-tag" @click="moveTagList('/taglist/', item.tag3)" v-if="item.tag3!=''">{{item.tag3}}</a>
-                </div>
-              <div class="others">
-                <a @click="userdetail(item.userNo)" class="writer">{{item.name}}</a>
-                <span class="date">{{item.createDate}}</span>
-                </div>
-            </div>
-          </div>
-          </template>
 
-
-      </span> -->
+      <h2>{{this.$route.params.lang}}</h2>
+      <template>
+      <div class="que" v-for="item in items" :key="item.id"  >
+        <div class="stats">
+          <h6 style="text-size:small;">답글수</h6>
+          <div class="like">
+            <strong>{{item.rpCnt}}</strong>
+            <span>개</span>
+            </div>
+        </div>
+        <div class="summary">
+          <div class="title"><a class="tt" @click="detail(item.queNo,item.lang)"> Q: {{item.title}}</a></div>
+          <div class="tags">
+            <a class="post-tag" @click="moveTagList('/taglist/', item.firstTag)" v-if="item.firstTag!=''">{{item.firstTag}}</a>
+            <a class="post-tag" @click="moveTagList('/taglist/', item.secondTag)" v-if="item.secondTag!=''">{{item.secondTag}}</a>
+            <a class="post-tag" @click="moveTagList('/taglist/', item.thirdTag)" v-if="item.thirdTag!=''">{{item.thirdTag}}</a>
+            </div>
+          <div class="others">
+            <a @click="userdetail(item.userNo)" class="writer">{{item.name}}</a>
+            <span class="date">{{item.createDate}}</span>
+            </div>
+        </div>
+      </div>
+      </template>
 
   </div>
 </template>
@@ -74,12 +69,13 @@ import axios from 'axios'
           
           langname : ['C','C++','Java','Python'],
           langs : null,
-          lang: 'Python'
+          lang: null,
+          items: null,
 
       }
     },
     methods: {
-      getlist() {
+      getlist(language) {
         axios.get(this.$store.state.base_url +'/cart',{     
             params: null, 
             headers : {
@@ -87,12 +83,14 @@ import axios from 'axios'
             }   
         })
         .then((response) => {
-          console.log(response)
-          this.cpp = response.data.data.cpp;
-          this.c = response.data.data.c;
-          this.java = response.data.data.java;
-          this.python = response.data.data.python;
-          this.langs = [this.c,this.cpp,this.java,this.python]
+          this.lang = response.data.data.user.lang
+          if (this.lang == null){
+            this.lang = 'etc'
+          }
+          if (language == null){
+            this.$router.push('/bookmark/'+this.lang)
+          }
+          this.items = response.data.data[language]
         })
         .catch((error) => {
             swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
@@ -101,13 +99,6 @@ import axios from 'axios'
             this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
             this.$router.push('/login')
         })
-      },
-      indexing(lang) {
-        for (var i=0; i < 4; i++){
-          if (this.langname[i] == lang){
-            return i
-          }
-        }
       },
       detail(queNo,lang) {
         this.$router.push('/detail/'+queNo+'/'+lang)
@@ -145,8 +136,12 @@ import axios from 'axios'
       }
     },
     created() {
-      this.getlist()
-    }
+      this.getlist(this.$route.params.lang)
+    },
+    beforeRouteUpdate (to, from, next){
+        this.getlist(to.params.lang);
+        next();
+    },
   }
 </script>
 

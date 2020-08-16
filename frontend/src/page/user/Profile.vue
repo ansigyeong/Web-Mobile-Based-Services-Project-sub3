@@ -43,11 +43,6 @@
                 </div>
             </div>
           </div>
-          <div class="overflow-auto" style="float: right;">
-            <div class="mt-3">
-              <b-pagination v-model="currentPage" :total-rows="rows"></b-pagination>
-            </div>
-          </div>
         </b-modal>
 
       </div>
@@ -89,11 +84,6 @@
                   <img class="allfollowerimg" width="120px" height="120px" :src="getimage(item.grade)" alt="">
                   <a href="" @click="userdetail(item.userNo)"><p class="allfollower">{{item.name}}</p></a>
                 </div>
-            </div>
-          </div>
-          <div class="overflow-auto" style="float: right;">
-            <div class="mt-3">
-              <b-pagination v-model="currentPage" :total-rows="rows"></b-pagination>
             </div>
           </div>
         </b-modal>
@@ -218,7 +208,6 @@ import { Carousel, Slide } from 'vue-carousel'
             }
         })
         .then((response) => {
-            console.log(response)
             this.flag = response.data.data.modify
             this.link =  require('../../assets/img/lv'+this.level(response.data.data.user.grade)+'.png')
             this.username = response.data.data.user.name;
@@ -239,7 +228,11 @@ import { Carousel, Slide } from 'vue-carousel'
             // console.log(this.follower)
           })
         .catch((error) => {
-          console.log(error)
+            swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
+            this.$cookies.remove('auth-token')
+            this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+            this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+            this.$router.push('/login')
         })
       },
       detail(queNo) {
@@ -253,7 +246,6 @@ import { Carousel, Slide } from 'vue-carousel'
           }   
       })
       .then((response) => {
-          console.log(response)
           this.selectlist = response.data.data.followingList
           console.log(this.selectlist)
           var temp = true
@@ -267,7 +259,23 @@ import { Carousel, Slide } from 'vue-carousel'
           })
       },
       deleteuser() {
-        
+        if (confirm("정말로 회원탈퇴를 하시겠습니까?"))
+        {
+            axios.delete(this.$store.state.base_url +'/account/delete',{     
+            params: {
+            }, 
+            headers : {
+                'ACCESS-TOKEN' : this.$store.state.token
+            }   
+        })
+        .then((response) => {
+            alert('회원탈퇴 처리 되었습니다.')
+            this.$cookies.remove('auth-token')
+            this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+            this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+            this.$router.push('/')
+        })
+        }
       },
       updateuser() {
 
@@ -285,6 +293,7 @@ import { Carousel, Slide } from 'vue-carousel'
           .then((response) => {
             console.log(response)
             this.checkflag()
+            this.getlist(this.$route.params.userNo)
           })
           .catch((error) => {
             swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
@@ -307,6 +316,7 @@ import { Carousel, Slide } from 'vue-carousel'
             console.log(response)
             this.checkflag()
             console.log(this.followflag)
+            this.getlist(this.$route.params.userNo)
           })
         },
       level(grade){
@@ -324,11 +334,11 @@ import { Carousel, Slide } from 'vue-carousel'
       userdetail(userNo){
         this.$router.push('/profile/'+userNo)
       }
-      },
+    },
 
     beforeRouteUpdate (to, from, next){
-        this.getlist(to.params.userNo);
-        next();
+      this.getlist(to.params.userNo);
+      next();
     }
   }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>명예의 전당</h1>
-    <router-link to="/record" style="color:rgb(76, 75, 71);">내 정보</router-link>
+    <router-link to="/record" style="color:rgb(76, 75, 71);">내 기록</router-link>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <div class="mt-5">
       <div class="row">

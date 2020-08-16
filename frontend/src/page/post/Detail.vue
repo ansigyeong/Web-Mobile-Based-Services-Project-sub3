@@ -49,13 +49,24 @@
     <h2>{{replyitems.length}}개의 답변</h2>
     <span v-for="(item,idx) in replyitems" :key="idx">
         <b-media right-align>
-        <div class="bording" >
-            <div style="height:10px"></div>
-            <div v-html="item.contents" style="margin:20px"></div>
-            <div style="height:10px"></div>
+        <div>
+            <div style="float:left;">
+                <span v-if="item.exist=='좋아요'">
+                    <img src="../../assets/img/blackheart.png"  @click="replylike(item.rpNo,idx)" class="heart">
+                </span>
+                <span v-else-if="item.exist=='좋아요취소'">
+                    <img src="../../assets/img/redheart.png" @click="replylike(item.rpNo,idx)" class="heart">
+                </span>
+                <p style="margin-top:15px">{{item.rpLike}}</p>
+            </div>
+            <div class="bording" style="margin-left:50px" >
+                <div style="height:10px"></div>
+                <div v-html="item.contents" style="margin:20px"></div>
+                <div style="height:10px"></div>
+            </div>
         </div>
           <template v-slot:aside>
-            <div style="margin-right:20px">
+            <div>
                 <div class="userlanding">
                     <img :src="getimage(item.grade)" width="100px" height="100px" alt="">
                     <p style="margin-top:5px; margin-bottom:3px">
@@ -63,16 +74,9 @@
                     </p>
                 </div>
                 <p style="margin-bottom:3px"> 
-                    {{item.rpLike}}
                     <span v-if="$store.state.islogin">
-                        <span v-if="item.exist=='좋아요'">
-                            <img src="../../assets/img/blackheart.png"  @click="replylike(item.rpNo,idx)" class="heart">
-                        </span>
-                        <span v-else-if="item.exist=='좋아요취소'">
-                            <img src="../../assets/img/redheart.png" @click="replylike(item.rpNo,idx)" class="heart">
-                        </span>
                         <img src="../../assets/img/delete.png" @click="replydelete(item.rpNo)" class="photo">
-                        <img src="../../assets/img/update.png" @click="replyupdate(item.rpNo)" class="photo">   
+                        <img src="../../assets/img/update.png" @click="replyupdate(item.rpNo, item.contents)" class="photo">   
                     </span> 
                 </p>    
             </div>
@@ -88,7 +92,7 @@
             <div style="text-align:center">
                 <editor api-key="vem3wnp12tvfllgyuf92uzd6e04f9ddz4ke9mzv8uh71ctgq" :init="{
                     height: 300,
-                    width: 1000,
+                    width: 750,
                     menubar: ['file edit view insert format tools'],
                     plugins: [
                         'advlist autolink lists link image charmap print preview anchor',
@@ -170,6 +174,7 @@ import jwt_decode from 'jwt-decode'
                     }
                 })
                 .then((response) => {
+                    console.log(response)
                     var token = this.$store.state.token
                     var decoded = jwt_decode(token) //payload
 
@@ -177,7 +182,7 @@ import jwt_decode from 'jwt-decode'
                     this.user = response.data.data.user
                     this.replyitems = response.data.data.rpList
 
-                    if (decoded.sub == user.email){
+                    if (decoded.sub == this.user.email){
                         this.isme = true
                     }
                     else {
@@ -185,7 +190,11 @@ import jwt_decode from 'jwt-decode'
                     }
                 })
                 .catch((error) => {
-                    console.log(error)
+                    swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
+                    this.$cookies.remove('auth-token')
+                    this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+                    this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+                    this.$router.push('/login')
                 })
             },
             deletequestion() {
@@ -207,10 +216,17 @@ import jwt_decode from 'jwt-decode'
                         this.$router.go(-1)
                     }
                 })
-          
+                .catch((error) => {
+                    swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
+                    this.$cookies.remove('auth-token')
+                    this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+                    this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+                    this.$router.push('/login')
+                })
             },
             updatequestion(email) {
-                if (email == decoded.sub)
+
+                if (this.isme)
                 {
                     this.$store.commit("updateinfo",{
                         title : this.items.title,
@@ -269,7 +285,6 @@ import jwt_decode from 'jwt-decode'
                     }   
                 })
                 .then((response) => {
-                    console.log(response.data.status)
                     if (response.data.data != 'user fail') {
                         swal('', '댓글이 정상적으로 삭제 되었습니다.', 'success')
                         axios.get(this.$store.state.base_url +'/question/detail',{     
@@ -296,6 +311,14 @@ import jwt_decode from 'jwt-decode'
                     this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
                     this.$router.push('/login')
                 })
+            },
+            replyupdate(rpNo, contents) {
+                this.$store.commit("updateinfo",{
+                    title : '',
+                    contents : contents,
+                    lang : '',
+                })
+                this.$router.push('/updatereply/'+this.$route.params.queNo+'/'+this.$route.params.lang+'/'+rpNo)
             },
             replylike(rpNo,idx) {
                 let config = {
@@ -373,6 +396,13 @@ import jwt_decode from 'jwt-decode'
                 }
                 this.flag = temp
                 })
+            .catch((error) => {
+                swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
+                this.$cookies.remove('auth-token')
+                this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+                this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+                this.$router.push('/login')
+                })
             },
             selectdelete(queNo){
             axios.delete(this.$store.state.base_url +'/cart',{     
@@ -386,7 +416,14 @@ import jwt_decode from 'jwt-decode'
             .then((response) => {
                 swal('','찜 목록에서 삭제 되었습니다.', 'success')
                 this.checkflag()
-            })
+                })
+            .catch((error) => {
+                swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
+                this.$cookies.remove('auth-token')
+                this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+                this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+                this.$router.push('/login')
+                })
             },
             level(grade){
                 if (grade < 100){return 0}
@@ -442,8 +479,8 @@ code {
 }
 
 .userlanding{
-    border-radius: 10px;
-    border: skyblue 3px solid;
+    /* border-radius: 10px; */
+    /* border: black 1px solid; */
     margin-bottom: 8px;
 }
 
@@ -474,7 +511,8 @@ code {
 }
 
 .heart{
-    width: 25px;
-    height: 25px;
+    width: 40px;
+    height: 40px;
+    margin-top: 55px;
 }
 </style>
