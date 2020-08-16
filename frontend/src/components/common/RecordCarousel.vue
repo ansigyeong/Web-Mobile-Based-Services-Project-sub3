@@ -1,106 +1,54 @@
 <template>
-  <div>
-    <h1>지금 바로 <strong>백상아리</strong>에 도전하세요</h1>
-    <div id="carousel">
-      <carousel-3d  style="height: 480px;">
-        <span v-for="n in 7" :key="n">
-          <slide :index="n-1">
-            <div class="crs-bx" style="border: solid 7px #ffd700;">
-              <img class="grade-img" :src="require('../../assets/img/lv'+remainder(level(user.grade)+n-1)+'.png')"/>
+  <div id="carousel" >
+      <carousel-3d class="carousel-3d-container" style="height: 430px !important;" >
+        <span v-for="(item, idx) in items" :key="idx">
+          <slide :index="idx">
+            <div class="crs-bx" style="border: solid 3px #000; heigt: 400px;">
+              <img class="grade-img" :src="item.recordImg"/>
               <div class="text-box">
-                <h3>{{animal(remainder(level(user.grade)+n-1))}}</h3>
-                <h2>LV. {{remainder(level(user.grade)+n-1)+1}}</h2>
-                <h3>{{boundary[remainder(level(user.grade)+n-1)]}}</h3>
+                <h2>{{ item.level }}</h2>
+                <h3>{{ item.animal }}</h3>
               </div>
             </div>
           </slide>
         </span>
       </carousel-3d>
-    </div>
-  </div>  
+</div>
 </template>
 
 <script>
   import {Carousel3d, Slide}  from 'vue-carousel-3d'
-  import axios from 'axios'
   export default {
     name: 'RecordCarousel',
     components: {
       Carousel3d,
       Slide
     },
-    data () {
+    data() {
       return {
-        user : null,
-        boundary : [
-          '0 ~ 99 점',
-          '100 ~ 199 점',
-          '200 ~ 299 점',
-          '300 ~ 399 점',
-          '400 ~ 499 점',
-          '500 ~ 599 점',
-          '600 점 이상'],
-        line : [0,100,200,300,400,500,600],
-        grade: 650,
+            items : [
+            {animal: '🦈 백상아리 🦈', level: 'Lv. 7', score: '600 점 이상', recordImg: '@/assets/img/lv6.png' }, 
+            {animal: '🦠 플랑크톤 🦠', level: 'Lv. 1', score: '0 ~ 99 점', recordImg: '@/assets/img/lv0.png' }, 
+            {animal: '🐟 멸치 🐟', level: 'LV. 2', score: '100 ~ 199 점', recordImg: '@/assets/img/lv1.png'}, 
+            {animal: '🦐 새우 🦐', level: 'LV. 3', score: '200 ~ 299 점', recordImg: '@/assets/img/lv2.png'}, 
+            {animal: '🦑 해파리 🦑', level: 'LV. 4', score: '300 ~ 399 점', recordImg: '@/assets/img/lv3.png'}, 
+            {animal: '🐙 문어 🐙', level: 'LV. 5', score: '400 ~ 499 점', recordImg: '@/assets/img/lv4.png'}, 
+            {animal: '🐬 돌고래 ', level: 'LV. 6', score: '500 ~ 599 점', recordImg: '.@/assets/img/lv5.png'}
+            ]
       }
-    },
-    methods : {
-      getuser() {
-        axios.get(this.$store.state.base_url + '/info/mygrade',{
-          params: {
-          },
-          headers: {
-            "ACCESS-TOKEN" : this.$store.state.token
-            }
-        })
-        .then((response) => {
-          this.user = response.data.data.hof
-        })
-      },
-      level(grade){
-        if (grade < 100){return 0}
-        else if (grade>=100 && grade<200){return 1}
-        else if (grade>=200 && grade<300){return 2}
-        else if (grade>=300 && grade<400){return 3}
-        else if (grade>=400 && grade<500){return 4}
-        else if (grade>=500 && grade<600){return 5}
-        else {return 6}
-      },  
-      animal(level){
-        if (level==0){return '🦠 플랑크톤 🦠'}
-        else if (level==1){return '🐟 멸치 🐟'}
-        else if (level==2){return '🦐 새우 🦐'}
-        else if (level==3){return '🦑 해파리 🦑'}
-        else if (level==4){return '🐙 문어 🐙'}
-        else if (level==5){return '🦈 돌고래 🦈'}
-        else {return '🐳 백상아리 🐳'}
-      },
-      stage(level){
-        if (level==0){return '플랑크톤'}
-        else if (level==1){return '멸치'}
-        else if (level==2){return '새우'}
-        else if (level==3){return '해파리'}
-        else if (level==4){return '문어'}
-        else if (level==5){return '돌고래'}
-        else {return '백상아리'}   
-      },
-      remainder(val){
-        return val%7
-      }
-    },
-    created() {
-      this.getuser()
     }
   }
 </script>
 
 <style scoped>
-  body {
-    background-size: cover;
+  .carousel-3d-container {
+    position: relative;
+    bottom: -100px;
+    left: 235px;
   }
   .carousel-3d-slide {
-    height: auto !important;
-    margin-top: 20px;
+  height: 410px !important;
+  margin-top: 20px;
   }
   .crs-bx {
     padding-top: 20px;
@@ -108,7 +56,7 @@
     vertical-align: middle;
     border: solid 2px #000;
     background-color: white;
-    height: 450px;
+    height: 410px;
   }
   .grade-img {
     padding: 30px;

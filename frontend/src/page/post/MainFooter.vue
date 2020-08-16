@@ -90,7 +90,7 @@
 <script>
 // import '../../assets/css/mainfooter.scss'
 export default {
-    
+    name: 'MainFooter'
 }
 </script>
 

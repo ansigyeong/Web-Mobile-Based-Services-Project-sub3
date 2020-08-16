@@ -123,7 +123,12 @@ Vue.use(VueRouter)
     path: '/thirdmain',
     name: 'ThirdMain',
     component: ThirdMain
-  }
+  },
+  {
+    path: '/floatingicon',
+    name: 'FloatingIcon',
+    component: FloatingIcon
+  },
 
 ]
 

@@ -8,6 +8,7 @@
 <script>
 import '../../assets/css/ThirdMain.scss'
 export default {
+    name: 'ThirdMain'
     
 }
 </script>
