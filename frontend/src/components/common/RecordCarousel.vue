@@ -43,8 +43,8 @@
 <style scoped>
   .carousel-3d-container {
     position: relative;
-    bottom: -130px;
-    left: 300px;
+    bottom: -100px;
+    left: 235px;
   }
   .carousel-3d-slide {
   height: 410px !important;
