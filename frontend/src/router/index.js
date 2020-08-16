@@ -20,6 +20,7 @@ import NoticeModify from '../page/post/NoticeModify.vue'
 import MainFooter from '../page/post/MainFooter.vue'
 import ThirdMain from '../page/post/ThirdMain'
 import UpdateReply from '../page/post/UpdateReply.vue'
+import FloatingIcon from '../page/post/FloatingIcon.vue'
 
 Vue.use(VueRouter)
 

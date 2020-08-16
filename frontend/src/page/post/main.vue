@@ -52,18 +52,18 @@
 <div class="section">
     <div id="carousel">
       <carousel-3d  style="height: 550px;">
-        <span v-for="(item, idx) in items" :key="idx">
-             <slide :index="idx">
-           
-              <div class="crs-bx" style="border: solid 7px #ffd700;">
-                <img class="grade-img" :src="item.recodeImg"/>
-                <div class="text-box">
-                  <h2>{{item.level}}</h2>
-                  <h3>{{item.animal}}</h3>
+          <span v-for="(item, idx) in items" :key="idx">
+              <slide :index="idx">
+            
+                <div class="crs-bx" style="border: solid 7px #ffd700;">
+                  <img class="grade-img" :src="item.recodeImg"/>
+                  <div class="text-box">
+                    <h2>{{item.level}}</h2>
+                    <h3>{{item.animal}}</h3>
+                  </div>
                 </div>
-              </div>
-          
-        >
+          </span>
+        
           <!-- Text slides with image -->
           <b-carousel-slide
             caption="First slide"
@@ -92,7 +92,7 @@
               >
             </template>
           </b-carousel-slide>
-        </b-carousel>
+        </carousel-3d>
       </div>
 
       <!-- 2 -->
