@@ -149,7 +149,7 @@ import jwt_decode from 'jwt-decode'
                     rpNo: this.$route.params.rpNo,
                     contents: this.replycontents,
                 }
-                axios.put(this.$store.state.base_url +'/question', body, config)
+                axios.put(this.$store.state.base_url +'/reply', body, config)
                 .then((response) => {
                     console.log(response)
                     if (response.data.data == 'modifyReply success'){
