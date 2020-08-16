@@ -44,7 +44,7 @@
             bullist numlist outdent indent | removeformat | help'
         }" v-model="contents"  />
     </div>
-      <v-card-actions>
+      <v-card-actions style="float:right">
         <v-btn text @click="back">Cancel</v-btn>
         <v-spacer></v-spacer>
         <v-btn color="primary" text @click="submit">Submit</v-btn>

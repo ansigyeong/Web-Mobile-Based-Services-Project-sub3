@@ -24,7 +24,7 @@
         }" v-model="contents" />
     </div>
       <v-divider></v-divider>
-      <v-card-actions>
+      <v-card-actions style="float:right">
         <v-btn text @click="back">Cancel</v-btn>
         <v-spacer></v-spacer>
         <v-btn color="primary" text @click="update">Submit</v-btn>
