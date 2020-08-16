@@ -1,7 +1,6 @@
 <template>
   <div>
     <full-page :options="options" id="fullpage">
-
       <!-- 1 -->
       <div style="" class="section" >
         <b-carousel
@@ -16,13 +15,13 @@
           style="text-shadow: 1px 1px 2px #333;"
           @sliding-start="onSlideStart"
           @sliding-end="onSlideEnd"
-          
         >
           <!-- Text slides with image -->
           <b-carousel-slide
             caption="First slide"
             text="Nulla vitae elit libero, a pharetra augue mollis interdum."
             img-src="https://picsum.photos/1024/480/?image=52"
+
           ></b-carousel-slide>
 
           <!-- Slides with custom text -->
@@ -58,10 +57,15 @@
       <div class="section">
           <img class="screen3msg" src="@/assets/img/slide3text.png">
           <img  class="screen3img" src="@/assets/img/man.png">
+          <img class="underthesea" src="@/assets/img/underthesea.png" alt="">
+
       </div>
 
       <!-- 4 -->
       <div class="section">
+        <!-- <img class="screen4msg" src="@/assets/img/ThirdMain.png" alt="">
+        <img class="screen4img" src="@/assets/img/jinju.png" alt="">
+        <img class="underthesea" src="@/assets/img/underthesea.png" alt=""> -->
           <ThirdMain />
       </div>
 
@@ -181,6 +185,19 @@
 </script>
 
 <style scoped>
+
+            @font-face {
+    font-family: 'CookieRun-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+  * {
+      font-family: 'CookieRun-Regular';
+  }
+            
+
   .section_padding {
   padding: 100px 900px 0 0;
   font-weight: bolder;
@@ -206,12 +223,13 @@
     }
 
   body {
+    /* background-size: cover; */
     background-size: cover;
   }
 
   .carousel-3d-slide {
-    height: 550px !important;
-    margin-top: 20px;
+    height: 0px !important;
+    /* margin-top: 20px; */
   }
   .crs-bx {
     padding-top: 20px;
@@ -240,11 +258,34 @@
     /* 3번째 화면 */
   .screen3msg {
     float: left;
-    width: 680px;
-    height: 450px;
+    width: 600px;
+    height: 400px;
+    padding-left: 50px;
+
     z-index: 1;
   }
     .screen3img {
+    float: right;
+    width: 600px;
+    height: 500px;
+    position: relative;
+    bottom: -145px;
+    right: 100px;
+    margin-bottom: 0px;
+  }
+
+
+  /* 4번쨰 화면 */
+
+  .screen4msg {
+    float: left;
+    width: 600px;
+    height: 400px;
+    padding-left: 50px;
+
+    z-index: 1;
+  }
+    .screen4img {
     float: right;
     width: 600px;
     height: 500px;
@@ -253,5 +294,26 @@
     right: 100px;
     margin-bottom: 0px;
   }
+
+/* 
+  .footermsg {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    width: 600px;
+    height: 465px;
+    padding-top: 150px;
+    padding-left: 100px;
+    position: relative;
+    z-index: 1;
+} */
+
+.underthesea {
+    position: fixed;
+    bottom: 0;
+    width: 185px;
+    height: 120px;
+    right: 800px;
+}
 
 </style>

@@ -3,15 +3,6 @@
         <div >
             <img class="footermsg" src="../../assets/img/footermsg.png" alt="">
         </div>
-        <div style="text-align: left; padding-bottom: 30px;">
-            <h5>대표</h5>
-            <p style="margin-bottom: 3px;">백단비 | miinding21@gmail.com</p>
-            <p style="margin-bottom: 3px;">도정우 | miinding21@gmail.com</p>
-            <p style="margin-bottom: 3px;">김홍준 | miinding21@gmail.com</p>
-            <p style="margin-bottom: 3px;">안시경 | miinding21@gmail.com</p>
-            <p style="margin-bottom: 3px;">김민지 | miinding21@gmail.com</p>
-        </div>
-
 
         <div class="submarine__container">
             <div class="light"></div>
@@ -92,8 +83,40 @@
 export default {
     name: 'MainFooter'
 }
+
 </script>
+
+
 
 <style scoped>
 
+
+            @font-face {
+    font-family: 'CookieRun-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+  * {
+      font-family: 'CookieRun-Regular';
+  }
+
+html,body {
+  background:#130560;
+  overflow-x:hidden;
+  overflow-y: hidden;
+}
+.seaContainer {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  background: #130560;
+  overflow-x:hidden;
+  overflow-y: hidden;
+}
+
+            
 </style>

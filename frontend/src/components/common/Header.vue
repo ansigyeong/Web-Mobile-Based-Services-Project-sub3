@@ -96,7 +96,7 @@
               </template>
               <template v-else>
                 <v-btn text="text" >
-                    <router-link to="/login" style="color:rgb(76, 75, 71);">로그인</router-link>
+                    <router-link to="/login" style="color:rgb(76, 75, 71); font-family: 'NEXON Lv2 Gothic Bold';" >로그인</router-link>
                 </v-btn>
                 <v-btn text="text" >
                     <router-link to="/join" style="color:rgb(76, 75, 71);" >회원가입</router-link>
@@ -175,6 +175,13 @@
     }
 </script>
 <style >
+            @font-face {
+    font-family: 'NEXON Lv2 Gothic Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+            
 
     .v-toolbar__content,.v-navigation-drawer__content{
       /* background-color: #D0EEFF; */
@@ -183,9 +190,11 @@
     }
     .v-navigation-drawer{
       color: black;
+      font-family: 'NEXON Lv2 Gothic Bold';
     }
     .headerbar {
       position: sticky;
+      font-family: 'NEXON Lv2 Gothic Bold';
     }
   
 /* 
@@ -198,15 +207,18 @@
         padding-left: 20px;
         height: 70px;
         width: 80px;
+        font-family: 'NEXON Lv2 Gothic Bold';
     }
   .list-nav {
       color : black;
+      font-family: 'NEXON Lv2 Gothic Bold';
   }
 
   a:hover{
     text-decoration: none;
     text-decoration-color: rgb(179, 175, 164);
     color:rgb(76, 75, 71);
+    font-family: 'NEXON Lv2 Gothic Bold';
   }
 
   

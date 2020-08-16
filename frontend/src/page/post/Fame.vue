@@ -92,6 +92,18 @@
 </script>
 
 <style scoped>
+
+            @font-face {
+    font-family: 'CookieRun-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+  * {
+      font-family: 'CookieRun-Regular';
+  }
+            
   .card-img-top {
     padding-right: 20px;
     padding-left: 20px;
