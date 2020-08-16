@@ -1,84 +1,77 @@
 <template>
-<div>
+  <div>
+    <full-page :options="options" id="fullpage">
+      <!-- 1 -->
+      <div style="padding-top:50px;" class="section">
+        <b-carousel
+          id="carousel-1"
+          v-model="slide"
+          :interval="4000"
+          controls
+          indicators
+          background="#ababab"
+          img-width="1024"
+          img-height="480"
+          style="text-shadow: 1px 1px 2px #333;"
+          @sliding-start="onSlideStart"
+          @sliding-end="onSlideEnd"
+          
+        >
+          <!-- Text slides with image -->
+          <b-carousel-slide
+            caption="First slide"
+            text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+            img-src="https://picsum.photos/1024/480/?image=52"
+          ></b-carousel-slide>
 
+          <!-- Slides with custom text -->
+          <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
+            <h1>Hello world!</h1>
+          </b-carousel-slide>
 
-<full-page :options="options" id="fullpage">
-<!-- 1 -->
-  <div style="padding-top:50px;" class="section">
-    <b-carousel
-      id="carousel-1"
-      v-model="slide"
-      :interval="4000"
-      controls
-      indicators
-      background="#ababab"
-      img-width="1024"
-      img-height="480"
-      style="text-shadow: 1px 1px 2px #333;"
-      @sliding-start="onSlideStart"
-      @sliding-end="onSlideEnd"
-      
-    >
-      <!-- Text slides with image -->
-      <b-carousel-slide
-        caption="First slide"
-        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-        img-src="https://picsum.photos/1024/480/?image=52"
-      ></b-carousel-slide>
+          <!-- Slides with image only -->
+          <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
 
-      <!-- Slides with custom text -->
-      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
-        <h1>Hello world!</h1>
-      </b-carousel-slide>
+          <!-- Slides with img slot -->
+          <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
+          <b-carousel-slide>
+            <template v-slot:img>
+              <img
+                class="d-block img-fluid w-100"
+                width="1024"
+                height="480"
+                src="https://picsum.photos/1024/480/?image=55"
+                alt="image slot"
+              >
+            </template>
+          </b-carousel-slide>
+        </b-carousel>
+      </div>
 
-      <!-- Slides with image only -->
-      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
+      <!-- 2 -->
+      <div class="section">
+          <RecordCarousel />
+      </div>
 
-      <!-- Slides with img slot -->
-      <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
-      <b-carousel-slide>
-        <template v-slot:img>
-          <img
-            class="d-block img-fluid w-100"
-            width="1024"
-            height="480"
-            src="https://picsum.photos/1024/480/?image=55"
-            alt="image slot"
-          >
-        </template>
-      </b-carousel-slide>
-    </b-carousel>
+      <!-- 3 -->
+      <div class="section">
+          <img class="screen3msg" src="@/assets/img/slide3text.png">
+          <img  class="screen3img" src="@/assets/img/man.png">
+      </div>
+
+      <!-- 4 -->
+      <div class="section">
+          <ThirdMain />
+      </div>
+
+      <!-- 5 -->
+      <div class="section">
+            <!-- Text slides with image -->
+          <MainFooter />
+      </div>
+    </full-page>
   </div>
-<!-- 2 -->
-<div class="section">
-    <RecordCarousel />
-</div>
-
-<!-- 3 -->
-<div class="section">
-    <img class="screen3msg" src="@/assets/img/slide3text.png">
-    <img  class="screen3img" src="@/assets/img/man.png">
-</div>
-
-<!-- 4 -->
-<div class="section">
-    <ThirdMain />
-
-</div>
-<!-- 5 -->
-<div class="section">
-    
-      <!-- Text slides with image -->
-    <MainFooter />
-
-</div>
-  
-     </full-page>
-</div>
-
-
 </template>
-
 
 
 <script>
@@ -172,16 +165,16 @@
       console.log(lang)
       this.$router.push(path+lang); 
     }    
-
     }
   }
 </script>
 
 <style scoped>
-.section_padding{
+  .section_padding {
   padding: 100px 900px 0 0;
   font-weight: bolder;
-}
+  }
+
   .card-img-top {
     padding-right: 10px;
     padding-left: 10px;
@@ -192,16 +185,19 @@
     padding: 0.8rem 1rem;
     color: #000;
   }
+
   .card {
     border: 2px solid thin;
   }
-  .card:hover
-   {
+
+  .card:hover {
     box-shadow: 0 0 11px rgba(33,33,33,.2); 
     }
+
   body {
     background-size: cover;
   }
+
   .carousel-3d-slide {
     height: 550px !important;
     margin-top: 20px;
@@ -220,13 +216,16 @@
     width: 250px;
     height: 250px;
   }
+
   .text-box {
     margin: 20px;
     height: 186px;
   } 
+
   .grade-guide {
     padding: 0px;
   } 
+
     /* 3번째 화면 */
   .screen3msg {
     float: left;
