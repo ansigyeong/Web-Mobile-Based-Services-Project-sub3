@@ -24,10 +24,7 @@ export default {
 
   * {
       font-family: 'CookieRun-Regular';
+      background-color: #0000a9;
   }
             
-</style>
-    * {
-        background-color: #D0EEFF;
-    }
 </style>

@@ -258,25 +258,50 @@ import { Carousel, Slide } from 'vue-carousel'
           this.followflag = temp
           })
       },
-      deleteuser() {
-        if (confirm("정말로 회원탈퇴를 하시겠습니까?"))
-        {
-            axios.delete(this.$store.state.base_url +'/account/delete',{     
-            params: {
-            }, 
-            headers : {
-                'ACCESS-TOKEN' : this.$store.state.token
-            }   
-        })
-        .then((response) => {
-            alert('회원탈퇴 처리 되었습니다.')
-            this.$cookies.remove('auth-token')
-            this.$store.commit('checkToken',this.$cookies.get('auth-token'))
-            this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
-            this.$router.push('/')
-        })
-        }
-      },
+
+  
+
+    deleteuser() {
+      if (confirm("정말로 회원탈퇴를 하시겠습니까?"))
+      {
+          axios.delete(this.$store.state.base_url +'/account/delete',{     
+          params: {
+          }, 
+          headers : {
+              'ACCESS-TOKEN' : this.$store.state.token
+          }   
+      })
+      .then((response) => {
+          swal('', '회원탈퇴 처리 되었습니다.', 'success')
+          this.$cookies.remove('auth-token')
+          this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+          this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+          this.$router.push('/')
+      })
+      }
+    },
+
+
+      
+      // deleteuser() {
+      //   if (confirm("정말로 회원탈퇴를 하시겠습니까?"))
+      //   {
+      //       axios.delete(this.$store.state.base_url +'/account/delete',{     
+      //       params: {
+      //       }, 
+      //       headers : {
+      //           'ACCESS-TOKEN' : this.$store.state.token
+      //       }   
+      //   })
+      //   .then((response) => {
+      //       swal('', '회원탈퇴 처리 되었습니다.', 'success')
+      //       this.$cookies.remove('auth-token')
+      //       this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+      //       this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+      //       this.$router.push('/')
+      //   })
+      //   }
+      // },
       updateuser() {
 
       },

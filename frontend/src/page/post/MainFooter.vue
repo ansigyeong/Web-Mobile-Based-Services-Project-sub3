@@ -3,6 +3,9 @@
         <div >
             <img class="footermsg" src="../../assets/img/footermsg.png" alt="">
         </div>
+        <div>
+            <img class="ceo" src="../../assets/img/ceo.png" alt="">
+        </div>
 
         <div class="submarine__container">
             <div class="light"></div>
@@ -118,5 +121,8 @@ html,body {
   overflow-y: hidden;
 }
 
+.ceo {
+
+}
             
 </style>

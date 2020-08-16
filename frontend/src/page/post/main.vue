@@ -1,8 +1,15 @@
 <template>
+
   <div>
+
     <full-page :options="options" id="fullpage">
+      <FloatingIcon />
+      <!-- <a id="floating" href="javascript:" class="floating-sticker" style="opacity: 1; display: block;">
+        <img src="../../assets/img/mainsticker.png" alt="">
+      </a> -->
       <!-- 1 -->
       <div style="" class="section" >
+        <div class="carousel_main" style="">
         <b-carousel
           id="carousel-1"
           v-model="slide"
@@ -11,26 +18,26 @@
           indicators
           background="#ababab"
           img-width="1024"
-          img-height="480"
+          img-height="502"
           style="text-shadow: 1px 1px 2px #333;"
           @sliding-start="onSlideStart"
           @sliding-end="onSlideEnd"
+          
         >
           <!-- Text slides with image -->
           <b-carousel-slide
             caption="First slide"
             text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-            img-src="https://picsum.photos/1024/480/?image=52"
-
+            img-src="https://picsum.photos/1024/502/?image=52"
           ></b-carousel-slide>
 
           <!-- Slides with custom text -->
-          <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
+          <b-carousel-slide img-src="https://picsum.photos/1024/502/?image=54">
             <h1>Hello world!</h1>
           </b-carousel-slide>
 
           <!-- Slides with image only -->
-          <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=58"></b-carousel-slide>
+          <b-carousel-slide img-src="https://picsum.photos/1024/502/?image=58"></b-carousel-slide>
 
           <!-- Slides with img slot -->
           <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
@@ -40,37 +47,66 @@
                 class="d-block img-fluid w-100"
                 width="1024"
                 height="480"
-                src="https://picsum.photos/1024/480/?image=55"
+                src="https://picsum.photos/1024/502/?image=55"
                 alt="image slot"
               >
             </template>
           </b-carousel-slide>
         </b-carousel>
+        </div>
       </div>
-
       <!-- 2 -->
+      <p class="floating-icon">
+        <img src="@/assets/img/mainsticker.png" alt="">
+      </p>
+      
       <div class="section">
+          <img class="screen2msg" src="@/assets/img/firstmsg.png">
           <RecordCarousel />
+          
       </div>
 
       <!-- 3 -->
       <div class="section">
-          <img class="screen3msg" src="@/assets/img/slide3text.png">
-          <img  class="screen3img" src="@/assets/img/man.png">
+          <p class="floating-icon">
+            <img style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
+          </p>
+
+          <img class="screen3msg" src="@/assets/img/secondmsg.png">
+          <img class="screen3img movingimg" src="@/assets/img/man.png">
           <img class="underthesea" src="@/assets/img/underthesea.png" alt="">
 
+          <p class="scroll-icon">
+            <img style="width: 200px; height: 135px;" src="@/assets/img/underthesea.png" alt="">
+          </p>
       </div>
 
       <!-- 4 -->
       <div class="section">
-        <!-- <img class="screen4msg" src="@/assets/img/ThirdMain.png" alt="">
-        <img class="screen4img" src="@/assets/img/jinju.png" alt="">
-        <img class="underthesea" src="@/assets/img/underthesea.png" alt=""> -->
-          <ThirdMain />
+          <img style="width:100px; height:50px;" src="../../assets/img/cbtn.png" alt="">
+          <img style="width:100px; height:50px;" src="../../assets/img/cppbtn.png" alt="">
+          <img style="width:100px; height:50px;" src="../../assets/img/javabtn.png" alt="">
+          <img style="width:100px; height:50px;" src="../../assets/img/pythonbtn.png" alt="">
+
+
+          <p class="floating-icon" style="display:flex;"> 
+            <img style="width: 200px; height: 200px justfy-content:left; align-items:baseline;" src="@/assets/img/mainsticker.png" alt="">
+          </p>
+      <div>
+        <img class="screen4msg" src="@/assets/img/ThirdMain.png" alt="">
+      </div>
+
+        <img class="screen4img" src="@/assets/img/bookshelf2.png" alt="">
+        <p class="scroll-icon">
+          <img style="width: 200px; height: 135px;" src="@/assets/img/underthesea.png" alt="">
+        </p>
       </div>
 
       <!-- 5 -->
       <div class="section">
+          <p class="floating-icon">
+            <img style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
+          </p>
             <!-- Text slides with image -->
           <MainFooter />
       </div>
@@ -84,10 +120,12 @@
   import '../../assets/css/main.scss'
   import '../../assets/css/mainfooter.scss'
   import '../../assets/css/ThirdMain.scss'
+  import '../../assets/css/floatingicon.scss'
   import {Carousel3d, Slide}  from 'vue-carousel-3d'
   import RecordCarousel from '../../components/common/RecordCarousel.vue'
   import MainFooter from './MainFooter.vue'
   import ThirdMain from './ThirdMain.vue'
+  import FloatingIcon from './FloatingIcon.vue'
 
   export default {
     components: {
@@ -95,7 +133,8 @@
       Slide,
       RecordCarousel,
       MainFooter,
-      ThirdMain
+      ThirdMain,
+      FloatingIcon,
     },
     data() {
       return {
@@ -108,7 +147,8 @@
           // scrollBar: false,
           navigation: true,
           // anchors: ['page1', 'page2', 'page3'],
-          sectionsColor: ['#D0EEFF','#D0EEFF','#D0EEFF','#D0EEFF','#D0EEFF']
+          sectionsColor: ['#D0EEFF','#D0EEFF','#B2C8E6','#6B91C6','#D0EEFF']
+          //  sectionsColor: ['#D0EEFF','#D0EEFF','rgb(146, 187, 255)','rgb(100, 158, 255)','#D0EEFF']
         },
                 all: [
                 {
@@ -196,7 +236,8 @@
   * {
       font-family: 'CookieRun-Regular';
   }
-            
+
+
 
   .section_padding {
   padding: 100px 900px 0 0;
@@ -253,67 +294,76 @@
 
   .grade-guide {
     padding: 0px;
-  } 
+  }   
+    /* 2번째 화면 */
+  .screen2msg {
+    position: relative;
+    float: left;
+    margin-top: 100px;
+    width: 550px;
+    height: 350px;
+    margin-left: 65px;
+  }
 
     /* 3번째 화면 */
   .screen3msg {
     float: left;
-    width: 600px;
-    height: 400px;
-    padding-left: 50px;
+    width: 550px;
+    height: 350px;
+    margin-left: 150px;
+    margin-bottom: 180px;
 
     z-index: 1;
   }
     .screen3img {
     float: right;
-    width: 600px;
-    height: 500px;
+    width: 500px;
+    height: 400px;
     position: relative;
-    bottom: -145px;
-    right: 100px;
+    bottom: -250px;
+    right: 20%;
     margin-bottom: 0px;
   }
+
+  .scroll-icon {
+    position: absolute;
+    display: fixed;
+    bottom: -2%;
+    left: 20%;
+    width: 25%;
+    z-index: 100;
+  }
+
+
+  .floating-icon {
+    position: absolute;
+    display: block;
+    top: 20%;
+    right: 15%;
+    width: 25%;
+    z-index: 100;
+  }
+
 
 
   /* 4번쨰 화면 */
 
   .screen4msg {
     float: left;
-    width: 600px;
-    height: 400px;
-    padding-left: 50px;
+    width: 550px;
+    height: 350px;
+    margin-left: 150px;
+    margin-bottom: 180px;
 
-    z-index: 1;
   }
     .screen4img {
     float: right;
-    width: 600px;
-    height: 500px;
+    width: 350px;
+    height: 400px;
     position: relative;
-    bottom: -100px;
-    right: 100px;
+    bottom: -250px;
+    right: 23%;
     margin-bottom: 0px;
   }
-
-/* 
-  .footermsg {
-    display: flex;
-    justify-content: left;
-    align-items: left;
-    width: 600px;
-    height: 465px;
-    padding-top: 150px;
-    padding-left: 100px;
-    position: relative;
-    z-index: 1;
-} */
-
-.underthesea {
-    position: fixed;
-    bottom: 0;
-    width: 185px;
-    height: 120px;
-    right: 800px;
-}
 
 </style>

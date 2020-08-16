@@ -43,6 +43,7 @@
 
 
 <style scoped>
+
   .carousel-3d-container {
     position: relative;
     bottom: -100px;
@@ -53,7 +54,7 @@
   margin-top: 20px;
   }
   .crs-bx {
-    padding-top: 20px;
+    /* padding-top: 20px; */
     text-align: center;
     vertical-align: middle;
     border: solid 2px #000;
@@ -70,3 +71,4 @@
     margin: 20px;
   } 
 </style>
+
