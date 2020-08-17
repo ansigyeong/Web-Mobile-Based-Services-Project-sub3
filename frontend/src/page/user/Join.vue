@@ -152,16 +152,17 @@
 
 <style  scoped>
 
-    /* @font-face {
-        font-family: 'CookieRun-Regular';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
+    @font-face {
+        font-family: 'NEXON Lv2 Gothic Bold';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff') format('woff');
         font-weight: normal;
         font-style: normal;
     }
+            
 
     * {
-        font-family: 'CookieRun-Regular';
-    } */
+        font-family: 'NEXON Lv2 Gothic Bold';
+    }
 
 	/* @import url(https://fonts.googleapis.com/css?family=Roboto:400, 300, 500);
 	*:focus {

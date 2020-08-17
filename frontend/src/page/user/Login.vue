@@ -4,8 +4,8 @@
 			<div class="login-header">
 				<!-- <div class="tooltip">Click Me</div> -->
 			</div>
-			<div class="form" style="padding-bottom: 10px; padding-top: 10px;">
-				<img src="../../assets/img/hello_logo.png" style="width: 200px; height: 110px; padding-bottom: 20px;" alt="">
+			<div class="form" style="padding-bottom: 10px; padding-top: 40px;">
+				<img src="../../assets/img/hello_logo.png" style="width: 200px; height: 110px; padding-bottom: 30px;" alt="">
 				<!-- <h2 style="font-size: 21pt;">로그인</h2> -->
 				<form>
 					<input v-model="email" id="email" type="text" @keyup.enter="login" placeholder="이메일을 입력해주세요"/>
@@ -79,8 +79,8 @@
             },
             kakaoLogin(){
                 var vm = this;
-                 Kakao.Auth.login({
-                     success: response => {
+				Kakao.Auth.login({
+					success: response => {
                         // console.log(response)
                         // console.log('token: '+response.access_token)
                         Kakao.API.request({
@@ -91,7 +91,7 @@
                                 // console.log(vm.$store.state.base_url)
                                 // console.log('닉네임 : ' + res.kakao_account.profile.nickname)
                                 // console.log('email : ' + res.kakao_account.email)
-                                 axios
+								axios
                                 .get( 'http://localhost/kakao', {
                                     params: {
                                         name: res.kakao_account.profile.nickname,
@@ -123,14 +123,13 @@
                         console.log(err)
                     }
 
-                 })
+				})
             },
             kakaoLogout(){
                 Kakao.API.request({
                 url: '/v1/user/unlink',
                 success: function(response) {
                     console.log(response);
- 
                 },
                 fail: function(error) {
                     console.log(error);
@@ -143,7 +142,6 @@
                 constants,
                 email: '',
                 pw: '',
-              
             }
         }
 
@@ -152,16 +150,17 @@
 
 <style scoped>
 
-	/* @font-face {
-		font-family: 'CookieRun-Regular';
-		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
-		font-weight: normal;
-		font-style: normal;
-	}
+	@font-face {
+        font-family: 'NEXON Lv2 Gothic Bold';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+            
 
-  	* {
-    	font-family: 'CookieRun-Regular';
-  	} */
+    * {
+        font-family: 'NEXON Lv2 Gothic Bold';
+    }
 
 	body {
 		background: #e9e9e9;
@@ -172,39 +171,12 @@
 		-moz-osx-font-smoothing: grayscale;
 	}
 
-	/* Pen Title */
-	.pen-title {
-		padding: 50px 0;
-		text-align: center;
-		letter-spacing: 2px;
-	}
-
-	.pen-title h1 {
-		margin: 0 0 20px;
-		font-size: 48px;
-		font-weight: 300;
-	}
-
-	.pen-title span {
-		font-size: 12px;
-	}
-
-	.pen-title span .fa {
-		color: #33b5e5;
-	}
-
-	.pen-title span a {
-		color: #33b5e5;
-		font-weight: 600;
-		text-decoration: none;
-	}
-
 	/* Form Module */
 	.form-module {
 		position: relative;
 		background: #ffffff;
 		width: 400px;
-        height: 400x;
+        height: 450px;
 		border-top: 5px solid #33b5e5;
 		box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 		margin: 0 auto;
@@ -296,7 +268,7 @@
 		border: none;
 		border-radius: 2px;
 		color: #fff;
-		font-family: "Roboto", sans-serif;
+		font-family: 'NEXON Lv2 Gothic Bold';
 		font-weight: 500;
 		transition: 0.2s ease;
 		cursor: pointer;
@@ -308,6 +280,7 @@
 	} */
 
 	.kakao {
+		font-family: 'NEXON Lv2 Gothic Bold';
 		cursor: pointer;
 		margin-right: 10px;
 		height: 30px;
@@ -324,8 +297,6 @@
 		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 		transition: 0.2s ease;
 	}
-
-
 
 	button.social-signin {
 		background: #f9e000;
