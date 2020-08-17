@@ -30,6 +30,11 @@
         </div>
       </template>
     </b-table>
+    <div class="outter">
+        <a href="http://ncov.mohw.go.kr/baroView4.do?brdId=4&brdGubun=44/" target="_blank">
+           <img src="../../assets/img/covid.png"> 
+        </a>
+      </div>
     <b-pagination
         v-show="this.data.length>5"
         v-model="currentPage"
@@ -121,4 +126,13 @@ import axios from 'axios'
 .mr-1:hover{
   color:rgb(51, 54, 185);
 }
+
+.outter{
+    position: fixed;
+    right:50px;
+    bottom:0;
+    width: 190px;
+    top: 200px
+           /* padding: 150px 50px 0 0 */
+    }
 </style>

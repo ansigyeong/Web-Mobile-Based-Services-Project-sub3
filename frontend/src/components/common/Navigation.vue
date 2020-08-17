@@ -9,6 +9,7 @@
       </li>
       <template v-if="this.$store.state.islogin">
       <li><router-link to="/askquestion" style="font-family: 'NEXON Lv2 Gothic Bold'">질문</router-link> </li> 
+      <li><router-link to="/notice" style="font-family: 'NEXON Lv2 Gothic Bold'">공지사항</router-link> </li>       
       <li><router-link to="/bookmark" style="font-family: 'NEXON Lv2 Gothic Bold'">찜하기</router-link> </li> 
       <li><router-link to="/record" style="font-family: 'NEXON Lv2 Gothic Bold'">내기록</router-link></li>
       </template>
@@ -26,7 +27,7 @@
     data: () => ({
       item: '',
       items: [
-        'c', 'cpp', 'java' ,'python',
+        'c', 'cpp', 'java' ,'python','others','all'
       ],
       path: '/list'
     }),
@@ -101,7 +102,7 @@ li a:hover {
 }
 #que {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  color: lightgray;
+  color: black;
   padding: 0 30px 0 0;
   
 }

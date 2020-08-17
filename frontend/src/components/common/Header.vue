@@ -59,7 +59,7 @@
 
     <v-app-bar flat="flat" height="103%" class="headerbar" fixed="">
       
-        <v-app-bar-nav-icon @click="drawer = !drawer" />
+        <v-app-bar-nav-icon @click="drawer = !drawer"  v-if="isChecked" />
       
             <router-link to="/">
                 <img class="logo" src="../../assets/img/favicon.png"></router-link>
@@ -114,7 +114,11 @@
         name: 'Header',
 
         components: {},
-        computed: {},
+        computed: {
+            isChecked(){
+            return this.$route.name == 'Main'
+          }          
+        },
         watch: {},
         created() {
             this.$store.commit('checkToken',this.$cookies.get('auth-token'))

@@ -24,13 +24,13 @@
 
 <script>
 import '../../assets/css/FirstMain.scss'
-
 export default {
     name: 'FirstMain'
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+
     html,
     body {
         height: 100%;

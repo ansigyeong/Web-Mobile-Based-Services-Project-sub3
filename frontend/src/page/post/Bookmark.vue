@@ -48,7 +48,11 @@
         </div>
       </div>
       </template>
-
+      <div class="outter">
+          <router-link to="/quiz">
+           <img src="../../assets/img/quiz.png"> 
+          </router-link>    
+      </div>
   </div>
 </template>
 
@@ -295,5 +299,14 @@ import axios from 'axios'
   }
   .mypage{
     padding-top: 20px;
+  }
+
+  .outter{
+    position: fixed;
+    right:50px;
+    bottom:0;
+    width: 230px;
+    top: 250px
+           /* padding: 150px 50px 0 0 */
   }
 </style>
