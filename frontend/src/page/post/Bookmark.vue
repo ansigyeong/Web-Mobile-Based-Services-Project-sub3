@@ -24,7 +24,6 @@
         </div>
       </div>
 
-      <h2>{{this.$route.params.lang}}</h2>
       <template>
       <div class="que" v-for="item in items" :key="item.id"  >
         <div class="stats">
@@ -90,7 +89,9 @@ import axios from 'axios'
           if (language == null){
             this.$router.push('/bookmark/'+this.lang)
           }
+          
           this.items = response.data.data[language]
+          console.log(this.items)
         })
         .catch((error) => {
             swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')

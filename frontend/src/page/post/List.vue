@@ -3,7 +3,6 @@
     <div>
       <v-row>
         <v-col class="mainlang">
-          <h1>{{this.$route.params.lang}}</h1>
         </v-col>
         <v-col class="sort" cols="3" style="height:50px;">
           <v-btn v-show="this.sorting_type==0" color="success" text @click="one(lang,keyword)">최신순</v-btn>
