@@ -18,10 +18,12 @@
         <v-list-item-title v-text="bookmark.title"></v-list-item-title>
 
         </v-list-item>
+        
         <v-list-item 
-          @click="movePage('/notice')"
+          @click="movePage(notice.path)"
         >
-        <v-list-item-title v-text="'공지사항'"></v-list-item-title>
+        <v-list-item-icon><v-icon v-text="notice.icon"></v-icon></v-list-item-icon>
+        <v-list-item-title v-text="notice.title"></v-list-item-title>
         </v-list-item>
         
           <v-list-item 
@@ -122,7 +124,7 @@ export default {
             console.log(this.keyword)
             if(this.item==''){
               swal('', '언어를 선택하세요', 'warning')
-            } else if(this.keyword==''){
+            } else if(this.keyword==null || this.keyword== ''){
               swal('', '검색어를 입력하세요', 'warning')
             } else this.$router.push(path+lang+keyword); 
           },
@@ -148,7 +150,7 @@ export default {
         },
         data: () => ({
             items: [
-                'c', 'cpp', 'java', 'python', 'all', 
+                'c', 'cpp', 'java', 'python', 'others', 'all', 
             ],
             item: '',
             search: '',
@@ -156,8 +158,9 @@ export default {
             
               fame:   { path: '/fame', title: '명예의 전당', icon: 'fas fa-trophy' },
               bookmark:    { path: '/bookmark', title: '찜하기', icon: 'fas fa-bookmark' },
+              notice: {path: '/notice', title: '공지사항', icon: 'fas fa-bullhorn'},
               ask: {path: '/askquestion', title: '질문하기', icon:'ar fa-gem'},
-              que: {  title: 'Question', icon: 'mdi-account'  , lang: [{title : 'c'} ,{title : 'cpp'},{title : 'java'},{title : 'python'} ,{title : 'all'}] },
+              que: {  title: 'Question', icon: 'mdi-account'  , lang: [{title : 'c'} ,{title : 'cpp'},{title : 'java'},{title : 'python'},{title : 'others'} ,{title : 'all'}] },
               // myrecord : {path : '/record' , title : '내기록' , icon : 'mdi-account'},
            
         })

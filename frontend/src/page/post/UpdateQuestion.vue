@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>게시글 수정</h1>
+    <h1 style="margin: 20px;">✏️ 질문 수정 ✏️</h1>
     <v-form>
       <v-text-field v-model="title"
         label="제목을 입력해주세요"
@@ -71,7 +71,7 @@ export default {
             else {
               swal('', '질문 작성자만 수정이 가능 합니다.', 'warning')
             }
-            this.$router.push('/detail/'+this.$route.params.queNo)
+            this.$router.push('/detail/'+this.$route.params.queNo+'/'+ this.lang)
           })
         .catch((error) => {
             swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')

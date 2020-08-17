@@ -50,7 +50,7 @@ public class ReplyController {
             int userNo = account.getUserNo();
             reply.setUserNo(userNo);
             replyService.writeReply(reply);
-            accountService.grade(userNo, accountService.search(userNo).getGrade()+10);
+            accountService.grade(userNo, accountService.search(userNo).getGrade()+5);
             result.status = true;
             result.data = "writeReply success";
         } catch (Exception e) {
@@ -100,7 +100,7 @@ public class ReplyController {
             result.status = true;
             if(rp.getUserNo() == userNo){
                 replyService.deleteReply(rpNo);
-                accountService.grade(userNo, accountService.search(userNo).getGrade()-10);
+                accountService.grade(userNo, accountService.search(userNo).getGrade()-5);
                 result.data = "delteReply success";
             } else {
                 result.data = "user fail";

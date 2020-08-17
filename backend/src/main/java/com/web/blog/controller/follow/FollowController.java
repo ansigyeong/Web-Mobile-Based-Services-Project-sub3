@@ -59,7 +59,7 @@ public class FollowController {
                 follow.setUserNo(userNo);
                 follow.setFollowingNo(followingNo);
                 followService.regist(follow);
-                accountService.grade(followingNo, accountService.search(followingNo).getGrade()+10);
+                accountService.grade(followingNo, accountService.search(followingNo).getGrade()+5);
                 result.status = true;
                 result.data = "follow success";
             } catch (Exception e) {
@@ -82,7 +82,7 @@ public class FollowController {
             int userNo = account.getUserNo();
             try {
                 followService.delete(userNo, followingNo);
-                accountService.grade(followingNo, accountService.search(followingNo).getGrade()-10);
+                accountService.grade(followingNo, accountService.search(followingNo).getGrade()-5);
                 result.status = true;
                 result.data = "delete success";
             } catch (Exception e) {

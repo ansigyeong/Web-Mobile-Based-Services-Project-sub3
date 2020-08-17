@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+      <h1 style="margin: 20px;">✏️ 댓글 수정 ✏️</h1>
       <div style="text-align: left">
         <div style="display:flex; justify-content:space-between">
             <h2>{{this.items.title}}</h2>
@@ -158,7 +159,7 @@ import jwt_decode from 'jwt-decode'
                     else {
                     swal('', '질문 작성자만 수정이 가능 합니다.', 'warning')
                     }
-                    this.$router.push('/detail/'+this.$route.params.queNo)
+                    this.$router.push('/detail/'+this.$route.params.queNo+'/'+this.$store.state.updatebox.lang)
                 })
                 .catch((error) => {
                     swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')

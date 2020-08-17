@@ -115,7 +115,7 @@ public class AccountController {
             result.status = false;
         } else if (!passwordEncoder.matches(pw, account.getPw())) {
             System.out.println("잘못된 비밀번호입니다.");
-            map.put("msg", "비밀번호가 틀렷습니다.");
+            map.put("msg", "비밀번호가 틀렸습니다.");
             result.data = map;
             result.status = false;
         } else if (account != null) {
@@ -199,14 +199,21 @@ public class AccountController {
         if (principal == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         } else {
-            accountService.updateAccount(user);
-            Account account = accountService.selectAccount(user.getEmail());
-            Map<String, Object> map = new HashMap<>();
-            BasicResponse result = new BasicResponse();
-            map.put("user", account);
-            result.data = map;
-            result.status = true;
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            user.setEmail(principal.getName());
+            Account account = accountService.selectAccount(principal.getName());
+    
+            if(!passwordEncoder.matches(account.getPw(), user.getPw())){
+                return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
+            }else{
+                Map<String, Object> map = new HashMap<>();
+                BasicResponse result = new BasicResponse();
+                accountService.updateAccount(user);
+                map.put("user", account);
+                result.data = map;
+                result.status = true;
+                return new ResponseEntity<>(result, HttpStatus.OK);
+    
+            }
         }
     }
 
