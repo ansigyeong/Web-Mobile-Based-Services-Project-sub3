@@ -99,13 +99,13 @@ export default {
     -webkit-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
-    margin: 30px;
 }
 
 pre {
     background-color: #f0f0f0;
     border: 1px solid rgb(138, 138, 138);
     border-radius: 3%;
+    padding: 16px;
 
 }
 
