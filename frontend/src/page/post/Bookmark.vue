@@ -292,7 +292,7 @@ import axios from 'axios'
     font-weight: 400;
     word-wrap: break-word;
     word-break: break-word;
-    font-size: 18px;
+    font-size: 25px;
     line-height: 1.4;
     margin-bottom: .5em;
   }
