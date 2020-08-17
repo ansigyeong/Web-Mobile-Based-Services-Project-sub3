@@ -70,7 +70,7 @@ public class QuestionController {
             int userNo = account.getUserNo();
             question.setUserNo(userNo);
             questionService.writeQuestion(question);
-            accountService.grade(userNo, accountService.search(userNo).getGrade()+10);
+            accountService.grade(userNo, accountService.search(userNo).getGrade()+5);
 
             /////////////////////
             ArrayList<String> tag = new ArrayList<>();
@@ -137,7 +137,7 @@ public class QuestionController {
             result.status = true;
             if(userNo == q.getUserNo()){
                 questionService.deleteQuestion(queNo);
-                accountService.grade(userNo, accountService.search(userNo).getGrade()-10);
+                accountService.grade(userNo, accountService.search(userNo).getGrade()-5);
                 result.data = "deleteQuestion success";
             } else {
                 result.data = "user fail";
