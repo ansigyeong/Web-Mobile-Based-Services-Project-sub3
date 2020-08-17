@@ -42,7 +42,7 @@ public interface AccountMapper {
     public Account selectAccount(String email);
     
     //회원 수정
-    @Update("update user set name=#{user.name}, pw=#{user.pw}, lang=#{user.lang} where email = #{user.email}" )
+    @Update("update user set name=#{user.name}, lang=#{user.lang}, pw= #{user.newPw} where email = #{user.email} " )
     public void updateAccount(@Param("user") Account user); 
 
     //회원 탈퇴

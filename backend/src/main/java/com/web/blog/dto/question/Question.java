@@ -22,4 +22,5 @@ public class Question  {
     private String firstTag;
     private String secondTag;
     private String thirdTag;
+    private int rpCnt;
 }

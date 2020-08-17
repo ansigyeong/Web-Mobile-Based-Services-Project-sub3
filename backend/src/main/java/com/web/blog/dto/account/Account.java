@@ -22,4 +22,5 @@ public class Account  {
     private String authKey;
     private int authStatus;
     private String createDate;
+    private String newPw;
 }
