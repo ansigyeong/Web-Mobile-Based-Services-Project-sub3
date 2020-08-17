@@ -1,14 +1,26 @@
 <template>
   <div class="container">
     <h1>명예의 전당</h1>
-    <router-link to="/record" style="color:rgb(76, 75, 71);">내 기록</router-link>
+    <span v-if="$store.state.islogin">
+      <router-link to="/record" style="color:rgb(76, 75, 71);">내 기록</router-link>
+    </span>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <div class="mt-5">
       <div class="row">
         <div v-for="(item,index) in items" :key="index">
-          <div class="card" :class="'mark'+index">
+          <div class="card" :class="'mark'+index" >
             <img class="card-img-top" :src="require('../../assets/img/lv'+level(item.grade)+'.png')"/>
             <div class="card-body">
+                        <span v-if="index==0">
+            <img src="../../assets/img/silver.png" style="height:60px" alt="">
+          </span>
+          <span v-else-if="index==1">
+            <img src="../../assets/img/gold.png" style="height:70px" alt="">
+          </span>
+          <span v-else>
+            <img src="../../assets/img/bronz.png" style="height:55px" alt="">
+          </span>
               <h3>{{ item.name }}</h3>
               <p class="card-text">{{ description(level(item.grade))+' 등급' }}</p>
               <div class="content">
