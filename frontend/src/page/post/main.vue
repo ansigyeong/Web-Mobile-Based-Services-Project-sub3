@@ -3,67 +3,21 @@
   <div>
 
     <full-page :options="options" id="fullpage">
-      <FloatingIcon />
-      <!-- <a id="floating" href="javascript:" class="floating-sticker" style="opacity: 1; display: block;">
-        <img src="../../assets/img/mainsticker.png" alt="">
-      </a> -->
-      <!-- 1 -->
-      <div style="" class="section" >
-        <div class="carousel_main" style="">
-        <b-carousel
-          id="carousel-1"
-          v-model="slide"
-          :interval="4000"
-          controls
-          indicators
-          background="#ababab"
-          img-width="1024"
-          img-height="502"
-          style="text-shadow: 1px 1px 2px #333;"
-          @sliding-start="onSlideStart"
-          @sliding-end="onSlideEnd"
-          
-        >
-          <!-- Text slides with image -->
-          <b-carousel-slide
-            caption="First slide"
-            text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-            img-src="https://picsum.photos/1024/502/?image=52"
-          ></b-carousel-slide>
-
-          <!-- Slides with custom text -->
-          <b-carousel-slide img-src="https://picsum.photos/1024/502/?image=54">
-            <h1>Hello world!</h1>
-          </b-carousel-slide>
-
-          <!-- Slides with image only -->
-          <b-carousel-slide img-src="https://picsum.photos/1024/502/?image=58"></b-carousel-slide>
-
-          <!-- Slides with img slot -->
-          <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
-          <b-carousel-slide>
-            <template v-slot:img>
-              <img
-                class="d-block img-fluid w-100"
-                width="1024"
-                height="480"
-                src="https://picsum.photos/1024/502/?image=55"
-                alt="image slot"
-              >
-            </template>
-          </b-carousel-slide>
-        </b-carousel>
-        </div>
-      </div>
-      <!-- 2 -->
-      <p class="floating-icon">
-        <img src="@/assets/img/mainsticker.png" alt="">
-      </p>
       
+      <!-- 1 -->
       <div class="section">
-          <img class="screen2msg" src="@/assets/img/firstmsg.png">
-          <RecordCarousel />
-          
+        <FirstMain />
+
+      </div>
+
+      <!-- 2 -->
+      
+      <p class="slide2floating-icon">
+        <img style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
+      </p>
+      <div class="section">
+        <img class="slide2text" src="@/assets/img/firstmsg.png">
+        <RecordCarousel />
       </div>
 
       <!-- 3 -->
@@ -126,6 +80,7 @@
   import MainFooter from './MainFooter.vue'
   import ThirdMain from './ThirdMain.vue'
   import FloatingIcon from './FloatingIcon.vue'
+  import FirstMain from './FirstMain.vue'
 
   export default {
     components: {
@@ -135,6 +90,7 @@
       MainFooter,
       ThirdMain,
       FloatingIcon,
+      FirstMain,
     },
     data() {
       return {
@@ -239,6 +195,7 @@
 
 
 
+
   .section_padding {
   padding: 100px 900px 0 0;
   font-weight: bolder;
@@ -294,16 +251,36 @@
 
   .grade-guide {
     padding: 0px;
-  }   
+  }
+
+
+
     /* 2번째 화면 */
-  .screen2msg {
+  /* .screen2msg {
     position: relative;
     float: left;
     margin-top: 100px;
     width: 550px;
     height: 350px;
     margin-left: 65px;
+  } */
+
+  /* 두 번째 화면 */
+  .slide2text {
+    position: relative;
+    float: left;
+    width: 550px;
+    height: 350px;
   }
+  .slide2floating-icon {
+    position: absolute;
+    display: block;
+    top: 22%;
+    right: 0%;
+    width: 25%;
+    z-index: 100;
+  }
+
 
     /* 3번째 화면 */
   .screen3msg {
@@ -312,9 +289,9 @@
     height: 350px;
     margin-left: 150px;
     margin-bottom: 180px;
-
     z-index: 1;
   }
+  
     .screen3img {
     float: right;
     width: 500px;
