@@ -115,7 +115,7 @@ public class AccountController {
             result.status = false;
         } else if (!passwordEncoder.matches(pw, account.getPw())) {
             System.out.println("잘못된 비밀번호입니다.");
-            map.put("msg", "비밀번호가 틀렷습니다.");
+            map.put("msg", "비밀번호가 틀렸습니다.");
             result.data = map;
             result.status = false;
         } else if (account != null) {
