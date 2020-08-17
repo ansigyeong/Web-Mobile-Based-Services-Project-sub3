@@ -25,7 +25,7 @@
 				<img class="kakao" @click="kakaoLogin" src="../../assets/img/kakao.png" alt="">
 				<span style="margin-right: 10px;">카카오톡 간편 로그인</span>
 			</div> -->
-            <button class="social-signin kakao" @click="kakaoLogin"><img class="kakao" @click="kakaoLogin" src="../../assets/img/kakao.png" alt="">카카오계정으로 로그인</button>
+            <button class="social-signin" @click="kakaoLogin"><img class="kakao" @click="kakaoLogin" src="../../assets/img/kakao.png" alt="">카카오계정으로 로그인</button>
 		</div>
 	</div>
 
@@ -204,7 +204,7 @@
 		position: relative;
 		background: #ffffff;
 		width: 400px;
-        height: 400px;
+        height: 400x;
 		border-top: 5px solid #33b5e5;
 		box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 		margin: 0 auto;
@@ -325,11 +325,9 @@
 		transition: 0.2s ease;
 	}
 
-	button.social-signin.facebook {
-		background: #32508e;
-	}
 
-	button.social-signin.kakao {
+
+	button.social-signin {
 		background: #f9e000;
         color: #603030;
 	}
