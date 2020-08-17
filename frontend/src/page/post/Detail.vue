@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-      <p>sadsd</p>
       <div style="text-align: left">
         <div style="display:flex; justify-content:space-between">
             <h2>{{this.items.title}}</h2>
