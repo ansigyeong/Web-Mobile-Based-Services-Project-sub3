@@ -23,7 +23,7 @@
           </div>
       </div>
       <div class="summary">
-        <div class="title"><a class="tt" @click="detail(item.queNo,item.lang)"> Q: {{item.title}}</a></div>
+        <div class="title" style="text-align:left"><a class="tt" @click="detail(item.queNo,item.lang)"> Q: {{item.title}}</a></div><br>
         <div v-html="item.contents" style="text-align:left"></div>
         <div class="tags">
           <a class="post-tag" @click="moveTagList('/taglist/', item.tag1)" v-if="item.tag1!=''">{{item.tag1}}</a>
@@ -216,7 +216,6 @@ import axios from 'axios'
   .tags{
     line-height: 18px;
     float: left;
-    margin-left: 5%;
   }
   .post-tag{
     font-size: 12px;
