@@ -36,7 +36,7 @@
           </div>
       </div>
     </div>
-    <div class="pagination" style="float:right;">
+    <div class="pagination" v-show="pageCount!==0" style="float:right;">
       
       <button :disabled="pageNum === 0" @click="firstPage" class="page-btn"><i class="fas fa-caret-square-left"></i></button>
       <button :disabled="pageNum === 0" @click="prevPage" class="page-btn"><i class="far fa-caret-square-left"></i></button>

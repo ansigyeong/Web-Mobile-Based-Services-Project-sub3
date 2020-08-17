@@ -163,6 +163,7 @@ public class QuestionController {
                 list = questionService.allquestionList();
             }    
         } else {
+            if(lang.equals("others")) lang="etc";
             if(search.getKeyword()!=null){
                 String keyword = search.getKeyword();
                 list = questionService.searchQue(lang, keyword);
