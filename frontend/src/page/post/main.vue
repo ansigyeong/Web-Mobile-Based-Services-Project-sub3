@@ -11,19 +11,24 @@
       </div>
 
       <!-- 2 -->
-      
-      <p class="slide2floating-icon">
-        <img style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
-      </p>
       <div class="section">
-        <img class="slide2text" src="@/assets/img/firstmsg.png">
-        <RecordCarousel />
+          <p class="floating-icon">
+            <img @click="goAsk" class="ftbtn" style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
+          </p>
+
+          <img class="screen2msg" src="@/assets/img/firstmsg.png">
+          <img class="screen2img movingimg" src="@/assets/img/carousel.png">
+          <img class="underthesea" src="@/assets/img/underthesea.png" alt="">
+
+          <p class="scroll-icon">
+            <img style="width: 200px; height: 135px;" src="@/assets/img/underthesea.png" alt="">
+          </p>
       </div>
 
       <!-- 3 -->
       <div class="section">
           <p class="floating-icon">
-            <img style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
+            <img @click="goAsk" class="ftbtn" style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
           </p>
 
           <img class="screen3msg" src="@/assets/img/secondmsg.png">
@@ -36,30 +41,33 @@
       </div>
 
       <!-- 4 -->
+
       <div class="section">
-          <img style="width:100px; height:50px;" src="../../assets/img/cbtn.png" alt="">
-          <img style="width:100px; height:50px;" src="../../assets/img/cppbtn.png" alt="">
-          <img style="width:100px; height:50px;" src="../../assets/img/javabtn.png" alt="">
-          <img style="width:100px; height:50px;" src="../../assets/img/pythonbtn.png" alt="">
+        <p class="floating-icon">
+          <img @click="goAsk" class="ftbtn" style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
+        </p>
+        <p class="floating-btn">
+          <img @click="goCList" style="width:100px; height:50px;" class="forubtn ftbtn" src="../../assets/img/cbtn.png" alt="">
+          <img @click="goCppList" style="width:100px; height:50px;"  class="forubtn ftbtn" src="../../assets/img/cppbtn.png" alt="">
+          <img @click="goJavaList" style="width:100px; height:50px;"  class="forubtn ftbtn" src="../../assets/img/javabtn.png" alt="">
+          <img @click="goPythonList" style="width:100px; height:50px;"  class="forubtn ftbtn" src="../../assets/img/pythonbtn.png" alt="">
+        </p>
 
-
-          <p class="floating-icon" style="display:flex;"> 
-            <img style="width: 200px; height: 200px justfy-content:left; align-items:baseline;" src="@/assets/img/mainsticker.png" alt="">
-          </p>
       <div>
         <img class="screen4msg" src="@/assets/img/ThirdMain.png" alt="">
       </div>
-
         <img class="screen4img" src="@/assets/img/bookshelf2.png" alt="">
+
         <p class="scroll-icon">
           <img style="width: 200px; height: 135px;" src="@/assets/img/underthesea.png" alt="">
         </p>
+      
       </div>
 
       <!-- 5 -->
       <div class="section">
           <p class="floating-icon">
-            <img style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
+            <img @click="goAsk" class="ftbtn" style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
           </p>
             <!-- Text slides with image -->
           <MainFooter />
@@ -175,6 +183,26 @@
     moveList(path, lang){
       console.log(lang)
       this.$router.push(path+lang); 
+    },
+    goAsk() {
+      if (this.$store.state.islogin){
+        this.$router.push('/askquestion')
+      }
+      else{
+        this.$router.push('/login')
+      }
+    },
+    goCList() {
+      this.$router.push('/list/c')
+    },
+    goCppList() {
+      this.$router.push('/list/cpp')
+    },
+    goJavaList() {
+      this.$router.push('/list/java')
+    },
+    goPythonList() {
+      this.$router.push('/list/python')
     }    
     }
   }
@@ -253,7 +281,9 @@
     padding: 0px;
   }
 
-
+  .ftbtn {
+    cursor: pointer;
+  }
 
     /* 2번째 화면 */
   /* .screen2msg {
@@ -266,20 +296,25 @@
   } */
 
   /* 두 번째 화면 */
-  .slide2text {
-    position: relative;
+  .screen2msg {
     float: left;
     width: 550px;
     height: 350px;
+    margin-left: 150px;
+    margin-bottom: 180px;
+    z-index: 1;
   }
-  .slide2floating-icon {
-    position: absolute;
-    display: block;
-    top: 22%;
-    right: 0%;
-    width: 25%;
-    z-index: 100;
+  
+    .screen2img {
+    float: right;
+    width: 580px;
+    height: 350px;
+    position: relative;
+    bottom: -250px;
+    right: 20%;
+    margin-bottom: 0px;
   }
+
 
 
     /* 3번째 화면 */
@@ -324,6 +359,16 @@
 
 
   /* 4번쨰 화면 */
+  .fourbtn {
+    bottom: 100%;
+  }
+
+  .floating-btn {
+  position: absolute;
+  display: block;
+  top: 57%;
+  left: 14%;
+}
 
   .screen4msg {
     float: left;
