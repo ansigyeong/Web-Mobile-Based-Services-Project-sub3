@@ -8,7 +8,7 @@
 
     import '../../assets/css/floatingicon.scss'
 export default {
-
+    name: 'FloatingIcon'
 }
 </script>
 

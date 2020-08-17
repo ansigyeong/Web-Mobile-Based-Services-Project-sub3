@@ -4,20 +4,28 @@
 			<div class="login-header">
 				<!-- <div class="tooltip">Click Me</div> -->
 			</div>
-			<div class="form">
-				<h2>로그인</h2>
+			<div class="form" style="padding-bottom: 10px; padding-top: 10px;">
+				<img src="../../assets/img/hello_logo.png" style="width: 200px; height: 110px; padding-bottom: 20px;" alt="">
+				<!-- <h2 style="font-size: 21pt;">로그인</h2> -->
 				<form>
 					<input v-model="email" id="email" type="text" @keyup.enter="login" placeholder="이메일을 입력해주세요"/>
 					<input v-model="pw" id="pw" type="password" @keyup.enter="login" placeholder="영문, 숫자 혼용 8자 이상"/>
 				</form>
-					<button @click="login" >로그인</button>
+					<button @click="login">로그인</button>
 			</div>
+			<hr style="margin-left: 15px; margin-right: 15px; margin-top: 5px;">
+			
 			<!-- <div class="cta"><a href="http://andytran.me">Forgot your password?</a></div> -->
 
 			<!-- <button class="social-signin facebook">페이스북으로 회원가입</button> -->
 			<!-- <hr class="gubun">
             <h6 class="hidetext">SNS 간편로그인</h6> -->
-            <button class="social-signin kakao" @click="kakaoLogin">카카오톡으로 로그인</button>
+			<!-- <p style="margin-bottom: 10px;"> SNS 간편로그인</p> -->
+			<div style="float: right; background-color: yello; margin-left: 10px;">
+				<img class="kakao" @click="kakaoLogin" src="../../assets/img/kakao.png" alt="">
+				<span style="margin-right: 10px;">카카오톡 간편로그인</span>
+			</div>
+            <!-- <button class="social-signin kakao" @click="kakaoLogin">카카오톡으로 로그인</button> -->
 		</div>
 	</div>
 
@@ -144,6 +152,18 @@
 </script>
 
 <style scoped>
+
+            @font-face {
+    font-family: 'CookieRun-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+  * {
+      font-family: 'CookieRun-Regular';
+  }
+         
 	body {
 		background: #e9e9e9;
 		color: #666666;
@@ -200,28 +220,6 @@
 		line-height: 30px;
 		text-align: center;
 	}
-	/* .form-module .login-header .tooltip {
-		position: absolute;
-		top: 5px;
-		right: -65px;
-		display: block;
-		background: rgba(0, 0, 0, 0.6);
-		width: auto;
-		padding: 5px;
-		font-size: 10px;
-		line-height: 1;
-		text-transform: uppercase;
-	}  */
-	/* .form-module .login-header .tooltip:before {
-		content: '';
-		position: absolute;
-		top: 5px;
-		left: -5px;
-		display: block;
-		border-top: 5px solid transparent;
-		border-bottom: 5px solid transparent;
-		border-right: 5px solid rgba(0, 0, 0, 0.6);
-	} */
 	.form-module .form {
 		display: none;
 		padding: 40px;
@@ -290,6 +288,19 @@
 		font-weight: 500;
 		transition: 0.2s ease;
 		cursor: pointer;
+		font-family: CookieRun-Regular;
+	}
+
+	.kakao:hover {
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+		transition: 0.2s ease;
+	}
+
+	.kakao {
+		margin-right: 10px;
+		cursor:pointer;
+		 height: 50px;
+		  width: 50px;
 	}
 
 	button.social-signin:hover,
