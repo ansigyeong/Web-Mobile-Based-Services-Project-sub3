@@ -11,20 +11,16 @@
         </div>
         <div class="waves foreground"></div>
 
-        <!-- title -->
-        <div class="button">Neon 
-        Glow</div>
-
 
         <!-- logo -->
         <div class="center">
-            <h1>
-                <p class="bluecolor" style="margin:0">Hello</p>
-                <span class="words greencolor" id="y1">C</span>
-                <span class="words greencolor" id="y2">o</span>
-                <span class="words greencolor" id="y3">d</span>
-                <span class="words greencolor" style="margin-right: 20px;" id="y4">e</span>
-                <span class="words redcolor" >Sea</span>
+            <h1 style="padding: 10px;">
+                <p class="bluecolor" style="margin:0; margin-top: 15px;">Hello,</p>
+                <span class="words redcolor" style="margin-top:15px;" id="y1">C</span>
+                <span class="words yellowcolor" style="margin-top:15px;" id="y2">o</span>
+                <span class="words greencolor" style="margin-top:15px;" id="y3">d</span>
+                <span class="words yellowcolor" style="margin-top:15px; margin-right: 20px;" id="y4">e</span>
+                <span class="words bluecolor" style="margin-top:15px;">Sea</span>
             </h1>
         </div>
     </body>
@@ -34,11 +30,30 @@
 import '../../assets/css/FirstMain.scss'
 
 export default {
-    name: 'FirstMain'
+    name: 'FirstMain',
+    methods: {
+        goAsk() {
+            if (this.$store.state.islogin) {
+                this.$router.push('/askquestion')
+            }
+            else{
+                this.$router.push('/login')
+            }
+        }
+    }
 }
 </script>
 
 <style scoped>
+            @font-face {
+    font-family: 'yg-jalnan';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+            
+
+
     html,
     body {
         height: 100%;
@@ -212,19 +227,32 @@ body {
 
 .redcolor {
   color : #f44336;
+  text-shadow: 4px 4px #bbb;
+  font-family: 'yg-jalnan';
+  /* font-size: 120px; */
 }
 
 .bluecolor {
-  color : #2962ff;
+  color : #002690;
+  text-shadow: 4px 4px #bbb;
+  font-family: 'yg-jalnan';
+  margin-bottom: 10px;
+  /* font-size: 120px; */
 }
 
 .greencolor {
-  color : #4Caf50;
+  color : rgb(35, 173, 124);
+  text-shadow: 4px 4px #bbb;
+  font-family: 'yg-jalnan';
+  /* font-size: 120px;} */
 }
 
 .yellowcolor {
   color : #ffeb3b;
-}
+  text-shadow: 4px 4px #bbb;
+  font-family: 'yg-jalnan';
+  /* font-size: 120px; */
+  }
 
 h1 {
   text-align:justify;

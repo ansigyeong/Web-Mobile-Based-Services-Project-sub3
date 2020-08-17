@@ -13,7 +13,7 @@
       <!-- 2 -->
       <div class="section">
           <p class="floating-icon">
-            <img style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
+            <img @click="goAsk" class="ftbtn" style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
           </p>
 
           <img class="screen2msg" src="@/assets/img/firstmsg.png">
@@ -28,7 +28,7 @@
       <!-- 3 -->
       <div class="section">
           <p class="floating-icon">
-            <img style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
+            <img @click="goAsk" class="ftbtn" style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
           </p>
 
           <img class="screen3msg" src="@/assets/img/secondmsg.png">
@@ -44,13 +44,13 @@
 
       <div class="section">
         <p class="floating-icon">
-          <img style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
+          <img @click="goAsk" class="ftbtn" style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
         </p>
         <p class="floating-btn">
-          <img style="width:100px; height:50px;" class="forubtn" src="../../assets/img/cbtn.png" alt="">
-          <img style="width:100px; height:50px;"  class="forubtn" src="../../assets/img/cppbtn.png" alt="">
-          <img style="width:100px; height:50px;"  class="forubtn" src="../../assets/img/javabtn.png" alt="">
-          <img style="width:100px; height:50px;"  class="forubtn" src="../../assets/img/pythonbtn.png" alt="">
+          <img @click="goCList" style="width:100px; height:50px;" class="forubtn ftbtn" src="../../assets/img/cbtn.png" alt="">
+          <img @click="goCppList" style="width:100px; height:50px;"  class="forubtn ftbtn" src="../../assets/img/cppbtn.png" alt="">
+          <img @click="goJavaList" style="width:100px; height:50px;"  class="forubtn ftbtn" src="../../assets/img/javabtn.png" alt="">
+          <img @click="goPythonList" style="width:100px; height:50px;"  class="forubtn ftbtn" src="../../assets/img/pythonbtn.png" alt="">
         </p>
 
       <div>
@@ -58,19 +58,16 @@
       </div>
         <img class="screen4img" src="@/assets/img/bookshelf2.png" alt="">
 
-
         <p class="scroll-icon">
           <img style="width: 200px; height: 135px;" src="@/assets/img/underthesea.png" alt="">
         </p>
-
-     
       
       </div>
 
       <!-- 5 -->
       <div class="section">
           <p class="floating-icon">
-            <img style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
+            <img @click="goAsk" class="ftbtn" style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
           </p>
             <!-- Text slides with image -->
           <MainFooter />
@@ -186,6 +183,26 @@
     moveList(path, lang){
       console.log(lang)
       this.$router.push(path+lang); 
+    },
+    goAsk() {
+      if (this.$store.state.islogin){
+        this.$router.push('/askquestion')
+      }
+      else{
+        this.$router.push('/login')
+      }
+    },
+    goCList() {
+      this.$router.push('/list/c')
+    },
+    goCppList() {
+      this.$router.push('/list/cpp')
+    },
+    goJavaList() {
+      this.$router.push('/list/java')
+    },
+    goPythonList() {
+      this.$router.push('/list/python')
     }    
     }
   }
@@ -264,7 +281,9 @@
     padding: 0px;
   }
 
-
+  .ftbtn {
+    cursor: pointer;
+  }
 
     /* 2번째 화면 */
   /* .screen2msg {
