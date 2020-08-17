@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <h1 style="margin: 20px;">📢 공지 사항 📢</h1>
         <v-btn v-show="this.info=='ROLE_ADMIN'" style="float:right;" x-large outlined text @click="create">글작성</v-btn>
         <!-- <b-table
             :data="tableData"            

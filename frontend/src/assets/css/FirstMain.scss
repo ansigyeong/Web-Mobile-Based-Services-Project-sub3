@@ -1,0 +1,86 @@
+
+
+
+/* 하늘 */
+body {
+    background: #c7ecee;
+  }
+body {
+background: rgba(193, 224, 255, 0.7);
+}
+
+.sky {
+width: 260px;
+height: 50px;
+background: #fff;
+opacity: 0.5;
+border-radius: 20px;
+margin: 0 auto;
+position: absolute;
+top: 30%;
+left: 40%;
+animation: cloudsMove 24s linear infinite;
+box-shadow: -800px 0px 0px 0px #fff, 
+    -500px 250px 0px 0px #fff,
+    300px 250px 0px 0px #fff;
+&:after {
+    content: "";
+    width: 100px;
+    height: 100px;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: -50px;
+    left: 30px;
+    box-shadow: 90px -20px 0px 10px #fff, -790px -10px 0px 10px #fff,
+    -700px -30px 0px 10px #fff, -500px 240px 0px 0px #fff,
+    -400px 220px 0px 10px #fff, 400px 240px 0px 0px #fff,
+    300px 220px 0px 10px #fff;
+}
+&:before {
+    content: "";
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    top: 50px;
+    left: 20px;
+    background-image: radial-gradient(
+    circle 150px at 25% 33%,
+    white,
+    yellow,
+    lightyellow,
+    aqua
+    );
+    box-shadow: 0px 0px 100px 20px yellow;
+    margin-left: 40px;
+    z-index: -100;
+    animation: sunny 5s linear infinite alternate;
+}
+}
+
+@keyframes sunny {
+0% {
+    margin-top: 60px;
+}
+100% {
+    margin-top: 40px;
+}
+}
+@keyframes cloudsMove {
+0% {
+    left: -100%;
+}
+25% {
+    left: 20%;
+}
+50% {
+    left: 60%;
+}
+75% {
+    left: 100%;
+}
+100% {
+    left: 200%;
+}
+}

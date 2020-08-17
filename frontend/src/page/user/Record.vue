@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1 style="margin: 30px;">🏆 내 기록 🏆</h1>
+  <div class="container">
+    <h1 style="margin: 20px;">🏆 내 기록 🏆</h1>
     <div id="carousel">
       <carousel-3d class="carousel-3d-container" style="height: 550px !important;">
         <span v-for="n in 7" :key="n">
@@ -145,7 +145,6 @@
   .carousel-3d-container {
     width: 900px;
     position: relative;
-    left: 150px;
   }
   .carousel-3d-slide {
     height: 550px !important;
@@ -172,7 +171,6 @@
   .grade-guide {
     position: relative;
     bottom: 10px;
-    left: 100px;
     padding: 0px;
   }
 </style>

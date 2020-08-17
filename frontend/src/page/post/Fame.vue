@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>명예의 전당</h1>
+    <h1 style="margin: 20px;">👑 명예의 전당 👑</h1>
     <span v-if="$store.state.islogin">
       <router-link to="/record" style="color:rgb(76, 75, 71);">내 기록</router-link>
     </span>
