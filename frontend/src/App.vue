@@ -80,5 +80,34 @@ export default {
      padding-left: 170px;
      padding-right: 170px;
   }
+
+  .v-application code {
+    all: unset;
+    color: black;
+    background: none;
+    text-shadow: 0 1px white;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 1em;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    -moz-tab-size: 4;
+    tab-size: 4;
+    -webkit-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+    margin: 30px;
+}
+
+pre {
+    background-color: #f0f0f0;
+    border: 1px solid rgb(138, 138, 138);
+    border-radius: 3%;
+
+}
+
 </style>
 
