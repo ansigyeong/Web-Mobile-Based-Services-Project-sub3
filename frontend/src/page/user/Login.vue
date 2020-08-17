@@ -56,7 +56,7 @@
                     }
                 })
                 .then((response) => {
-                    
+                    console.log(response)
                     if (response.data.status) {
                         // console.log(response)
                         // console.log(response.data.data["ACCESS-TOKEN"])
