@@ -1,9 +1,26 @@
 <template>
   <div class="container">
+    <span v-if="this.$route.params.lang == 'java'">
+      <h1 style="margin: 20px;">📔 Java 📔</h1>
+    </span>
+    <span v-if="this.$route.params.lang == 'cpp'">
+      <h1 style="margin: 20px;">📔 C++ 📔</h1>
+    </span>
+    <span v-if="this.$route.params.lang == 'c'">
+      <h1 style="margin: 20px;">📔 C언어 📔</h1>
+    </span>
+    <span v-if="this.$route.params.lang == 'python'">
+      <h1 style="margin: 20px;">📔 Python 📔</h1>
+    </span>
+    <span v-if="this.$route.params.lang == 'all'">
+      <h1 style="margin: 20px;">📔 All 📔</h1>
+    </span>
+    <span v-if="this.$route.params.lang == 'others'">
+      <h1 style="margin: 20px;">📔 Others 📔</h1>
+    </span>
     <div>
       <v-row>
         <v-col class="mainlang">
-          <h1>{{this.$route.params.lang}}</h1>
         </v-col>
         <v-col class="sort" cols="3" style="height:50px;">
           <v-btn v-show="this.sorting_type==0" color="success" text @click="one(lang,keyword)">최신순</v-btn>
@@ -23,8 +40,10 @@
           </div>
       </div>
       <div class="summary">
-        <div class="title" style="text-align:left"><a class="tt" @click="detail(item.queNo,item.lang)"> Q: {{item.title}}</a></div><br>
-        <div v-html="item.contents" style="text-align:left"></div>
+        <div class="title" style="text-align:left"><a class="tt" @click="detail(item.queNo,item.lang)">Q: {{item.title}}</a></div>
+        <div class="text">
+          {{txt(item.contents)}}
+        </div>
         <div class="tags">
           <a class="post-tag" @click="moveTagList('/taglist/', item.tag1)" v-if="item.tag1!=''">{{item.tag1}}</a>
           <a class="post-tag" @click="moveTagList('/taglist/', item.tag2)" v-if="item.tag2!=''">{{item.tag2}}</a>
@@ -78,9 +97,11 @@ import axios from 'axios'
             keyword: keyword}
         })
         .then((response) => {
-          console.log(response)
           this.data = response.data.data.list
-          console.log(this.data)
+          if(this.data.length == 0){
+            swal('', '게시글이 존재하지 않습니다.\n첫번째 질문을 작성해 보세요.', 'warning')
+            this.$router.push('/askquestion')
+          }
         })
       },
       detail(queNo,lang) {
@@ -113,6 +134,15 @@ import axios from 'axios'
       },
       lastPage () {
         this.pageNum = this.pageCount-1;
+      },
+      txt(contents) {
+        var temp = contents.replace(/(<([^>]+)>)/ig,"")
+        var temp1 = temp.replace("&nbsp;", "")
+        var tem = temp1.substring(0,400)
+        if (contents.length > 400){
+          tem = tem + ' ...  '
+        }
+        return tem
       }
     },
     created() {
@@ -135,13 +165,9 @@ import axios from 'axios'
       paginatedData() {
         const start = this.pageNum*this.pageSize,
         end = start + this.pageSize;
-        console.log(start)
-        console.log(end)
-        console.log(this.data)
         if(this.data!=null)
         return this.data.slice(start, end);
       }
-
     }
   }
 </script>
@@ -201,7 +227,7 @@ import axios from 'axios'
     font-weight: 400;
     word-wrap: break-word;
     word-break: break-word;
-    font-size: 18px;
+    font-size: 25px;
     line-height: 1.4;
     margin-bottom: .5em;
   }
@@ -269,6 +295,12 @@ import axios from 'axios'
     padding-right: 5px;
     font-size: 1.3em;
     color: pink;
+  }
+  .text{
+    text-align:left; 
+    min-height:50px; 
+    margin-top:10px; 
+    margin-bottom:10px
   }
   /* .pagination {
     display: inline-block;

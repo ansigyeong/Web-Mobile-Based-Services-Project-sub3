@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+      <h1 style="margin-top:20px">📖 질문 상세보기 📖</h1>
       <div style="text-align: left">
         <div style="display:flex; justify-content:space-between">
             <h2>{{this.items.title}}</h2>
