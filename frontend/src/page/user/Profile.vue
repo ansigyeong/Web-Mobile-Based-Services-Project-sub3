@@ -26,7 +26,7 @@
     <hr>
     <!-- 팔로우-->
     <div>
-      <h2 class="prtitle">나를 팔로우한 사람</h2>
+      <h2 class="prtitle">팔로우한 사람</h2>
       <!-- count함수 사용해서 총 팔로우/팔로워수 집계 -->
       <p>{{follower.length}}명</p>
       <!-- <a @click="openfollow">dd</a> -->
@@ -71,7 +71,7 @@
     <hr>
     <!-- 팔로잉 -->
     <div>
-      <h2 class="prtitle">내가 팔로잉하는 사람</h2>
+      <h2 class="prtitle">팔로잉하는 사람</h2>
       <p>{{following.length}}명</p>
 
       <div>
@@ -135,7 +135,7 @@
           <slot></slot>
           <template v-slot:cell(replyactions)="row">
             <div size="sm" @click="detail(row.item.queNo)" class="mr-1"   variant="primary" style="background-color:white; width: 170px; height:27px; overflow: hidden;">
-              {{row.item.contents}}
+              <div v-html="row.item.contents"></div>
             </div>
           </template>
         </b-table>

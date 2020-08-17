@@ -71,7 +71,7 @@ export default {
             else {
               swal('', '질문 작성자만 수정이 가능 합니다.', 'warning')
             }
-            this.$router.push('/detail/'+this.$route.params.queNo)
+            this.$router.push('/detail/'+this.$route.params.queNo+'/'+ this.lang)
           })
         .catch((error) => {
             swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')

@@ -133,7 +133,11 @@ import axios from 'axios'
             this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
             this.$router.push('/login')
         })
-      }
+      },
+      moveTagList(path, tag){
+          console.log(this.tag)
+          this.$router.push(path+tag);
+      },
     },
     created() {
       this.getlist(this.$route.params.lang)

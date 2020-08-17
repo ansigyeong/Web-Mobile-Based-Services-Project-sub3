@@ -1,12 +1,13 @@
 <template>
   <div class="container">
+      <p>sadsd</p>
       <div style="text-align: left">
         <div style="display:flex; justify-content:space-between">
             <h2>{{this.items.title}}</h2>
         </div>
         <div style="display:flex; justify-content:space-between">
             <h7>작성 시간: {{this.items.createDate}}</h7>
-            <span v-if="$store.state.islogin & this.isme"> 
+            <span v-if="$store.state.islogin"> 
             <div>
                 <span v-if="this.flag">
                 <img  src='../../assets/img/nostar.png' class="land" width="40px"  @click="selectquestion">
@@ -14,8 +15,10 @@
                 <span v-else>
                 <img src='../../assets/img/star.png' class="land" width="40px" @click="selectdelete">
                 </span>
+                <span v-if="this.isme">
                 <a class="land" @click="deletequestion">글 삭제</a>
                 <a class="land" @click="updatequestion(user.email)">글 수정</a>
+                </span>
             </div>
             </span>   
             <span v-else>
@@ -76,7 +79,7 @@
                 <p style="margin-bottom:3px"> 
                     <span v-if="$store.state.islogin">
                         <img src="../../assets/img/delete.png" @click="replydelete(item.rpNo)" class="photo">
-                        <img src="../../assets/img/update.png" @click="replyupdate(item.rpNo, item.contents)" class="photo">   
+                        <img src="../../assets/img/update.png" @click="replyupdate(item.rpNo, item.contents, item.email)" class="photo">   
                     </span> 
                 </p>    
             </div>
@@ -137,7 +140,8 @@ import jwt_decode from 'jwt-decode'
                 flag: true,
                 selectlist: null,
                 user: null,
-                isme : null
+                isme : null,
+                myemail: null,
                 } 
         },
         beforeCreate() {
@@ -177,6 +181,7 @@ import jwt_decode from 'jwt-decode'
                     console.log(response)
                     var token = this.$store.state.token
                     var decoded = jwt_decode(token) //payload
+                    this.myemail = decoded.sub
 
                     this.items = response.data.data.question
                     this.user = response.data.data.user
@@ -312,13 +317,20 @@ import jwt_decode from 'jwt-decode'
                     this.$router.push('/login')
                 })
             },
-            replyupdate(rpNo, contents) {
-                this.$store.commit("updateinfo",{
-                    title : '',
-                    contents : contents,
-                    lang : '',
-                })
-                this.$router.push('/updatereply/'+this.$route.params.queNo+'/'+this.$route.params.lang+'/'+rpNo)
+            replyupdate(rpNo, contents, email) {
+                if (this.myemail == email)
+                {
+                    this.$store.commit("updateinfo",{
+                        title : '',
+                        contents : contents,
+                        lang : this.$route.params.lang,
+                    })
+                    this.$router.push('/updatereply/'+this.$route.params.queNo+'/'+this.$route.params.lang+'/'+rpNo)
+                }
+                else 
+                {
+                    swal('', '댓글 작성자만 수정이 가능합니다.', 'warning')
+                }
             },
             replylike(rpNo,idx) {
                 let config = {
@@ -462,17 +474,13 @@ import jwt_decode from 'jwt-decode'
 .media.box {
     width: 30px;
 }
-code {
-    color: black !important;
-    background-color: white !important;
-}
 
 .land {
     margin-left: 10px;
 }
 
 .bording {
-    background-color:#EEEEEE;
+    background-color: #e2f4ff;
     border-radius: 10px;
     text-align: left;
     min-height: 170px;
@@ -515,4 +523,5 @@ code {
     height: 40px;
     margin-top: 55px;
 }
+
 </style>
