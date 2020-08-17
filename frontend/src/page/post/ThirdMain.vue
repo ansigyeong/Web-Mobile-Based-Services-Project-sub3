@@ -1,6 +1,6 @@
 <template>
     <div style="height: 100px;">
-        <img class="footermsg" src="../../assets/img/ThirdMain.png" alt="">
+        <img class="footermsg" src="../../assets/img/slide3text.png" alt="">
         <img class="underthesea" src="../../assets/img/underthesea.png" alt="">
     </div>
 </template>
