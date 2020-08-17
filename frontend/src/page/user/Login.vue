@@ -11,7 +11,7 @@
 					<input v-model="email" id="email" type="text" @keyup.enter="login" placeholder="이메일을 입력해주세요"/>
 					<input v-model="pw" id="pw" type="password" @keyup.enter="login" placeholder="영문, 숫자 혼용 8자 이상"/>
 				</form>
-				<button @click="login">로그인</button>
+				<button @click="login" style="font-family: 'NEXON Lv2 Gothic Bold';">로그인</button>
 			</div>
 			<hr style="margin-left: 15px; margin-right: 15px; margin-top: 5px;">
 			
@@ -157,11 +157,6 @@
         font-style: normal;
     }
             
-
-    * {
-        font-family: 'NEXON Lv2 Gothic Bold';
-    }
-
 	body {
 		background: #e9e9e9;
 		color: #666666;

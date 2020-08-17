@@ -40,7 +40,7 @@
             <b-form-select v-model="lang" :options="options"></b-form-select>
 				
             <!-- <input style="font-family: 'CookieRun-Regular';" @click="submit" type="submit" name="signup_submit" value="회원가입" /> -->
-            <button class="submit-button" @click="submit">회원가입</button>
+            <button class="submit-button" @click="submit" style="font-family: 'NEXON Lv2 Gothic Bold';">회원가입</button>
             </div>
 		
 
@@ -157,11 +157,6 @@
         src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff') format('woff');
         font-weight: normal;
         font-style: normal;
-    }
-            
-
-    * {
-        font-family: 'NEXON Lv2 Gothic Bold';
     }
 
 	/* @import url(https://fonts.googleapis.com/css?family=Roboto:400, 300, 500);
