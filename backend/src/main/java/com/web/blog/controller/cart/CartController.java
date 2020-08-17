@@ -120,6 +120,7 @@ public class CartController {
                 q.setSecondTag(b);
                 q.setThirdTag(c);
                 q.setRpCnt(replyService.replyCount(q.getQueNo()));
+                q.setName(user.getName());
                 if(q.getLang().equals("c")){
                     cList.add(q);
                 } else if(q.getLang().equals("cpp")){
