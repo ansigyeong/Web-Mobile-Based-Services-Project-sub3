@@ -43,13 +43,13 @@
               </span>
 
                 <h2 class="title">
-                    <!-- You did {{ (score()>7?'an amazing':(score()<4?'a poor':'a good')) }} job! -->
+                    You did {{ (score()>7?'an amazing':(score()<4?'a poor':'a good')) }} job!
                 </h2>
                 <p class="subtitle">
                     Total score: {{ score() }} / {{ quiz.questions.length }}
                 </p>
                     <br>
-                    <a class="button" @click="restart()">restart <i class="fa fa-refresh"></i></a>
+                    <a class="button" @click="submit">restart <i class="fa fa-refresh"></i></a>
 
             </div>
 
@@ -63,8 +63,10 @@
 <script>
 import axios from 'axios'
   export default {
+    name: 'Quiz',
     data(){
       return {
+        grade: 0,
         quiz: quiz,
         questionIndex: 0,
         userResponses: userResponseSkelaton,
@@ -82,8 +84,8 @@ import axios from 'axios'
                  this.userResponses=Array(this.quiz.questions.length).fill(null);
          },
       selectOption: function(index) {
-         Vue.set(this.userResponses, this.questionIndex, index);
-         //console.log(this.userResponses);
+         this.$set(this.userResponses, this.questionIndex, index);
+         console.log(this.userResponses);
       },
       next: function() {
          if (this.questionIndex < this.quiz.questions.length)
@@ -106,10 +108,35 @@ import axios from 'axios'
                score = score + 1;
             }
          }
+         this.grade = score*5;
          return score;
 
          //return this.userResponses.filter(function(val) { return val }).length;
-      }
+      },
+submit() {
+         console.log(this.grade)
+        let config = {
+          headers: {
+            "ACCESS-TOKEN": this.$store.state.token
+          }
+        }
+        let body = {
+          contents: this.contents,
+          title: this.title,
+          grade: this.grade
+        }
+        axios.post(this.$store.state.base_url + '/quiz', body, config)
+        .then((response) => {
+           console.log(response)
+           if(response.data.data=="todayEnd")   swal('', '오늘의 퀴즈를 이미 완료하였습니다.', 'warning')
+           else swal('', '오늘의 퀴즈를 완료하였습니다.', 'success')
+        //   this.$router.push('/')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+   
    }
 }
 
@@ -117,73 +144,72 @@ import axios from 'axios'
       user: "Dave",
       questions: [
          {
-            text: "What is the full form of HTTP?",
+            text: "논리값(True 또는 False)을 나타내는 변수형은?",
             responses: [
-               { text: "Hyper text transfer package" },
-               { text: "Hyper text transfer protocol", correct: true },
-               { text: "Hyphenation text test program" },
-               { text: "None of the above" }
+               { text: "Logical" },
+               { text: "Integer",  },
+               { text: "Boolean" ,correct: true},
+               { text: "Long" }
             ]
          },
          {
-            text: "HTML document start and end with which tag pairs?",
+            text: "객체지향 프로그램에서 데이터를 추상화 하는 단위는?",
             responses: [
-               { text: "HTML", correct: true },
-               { text: "WEB" },
-               { text: "HEAD" },
-               { text: "BODY" }
+               { text: "메소드" },
+               { text: "클래스", correct: true },
+               { text: "상속성" },
+               { text: "메시지" }
             ]
          },
          {
-            text: "Which tag is used to create body text in HTML?",
+            text: "병행제어의 로킹(Locking)단위에 대한 설명으로 옳지 않은 것은?",
             responses: [
-               { text: "HEAD" },
-               { text: "BODY", correct: true },
-               { text: "TITLE" },
-               { text: "TEXT" }
+               { text: "데이터베이스, 파일, 레코드 등은 로킹 단위가 될 수 있다." },
+               { text: "로킹 단위가 작아지면 로킹 오버헤드가 감소한다.", correct: true },
+               { text: "로킹 단위가 작아지면 데이터베이스 공유도가 증가한다." },
+               { text: "한꺼번에 로킹 할 수 있는 객체의 크기를 로킹 단위라 한다." }
             ]
          },
          {
-            text: "Outlook Express is _________",
+            text: "DML에 해당하는 SQL명령으로만 나열 된 것은?",
             responses: [
-               { text: "E-Mail Client", correct: true },
-               { text: "Browser" },
+               { text: "DELETE, UPDATE, CREATE, ALTER" },
+               { text: "INSERT, DELETE, UPDATE, DROP" },
                {
-                  text: "Search Engine"
-               },
-               { text: "None of the above" }
+                  text: "SELECT, INSERT, DELETE, UPDATE", correct: true},
+               { text: "SELECT, INSERT, DELETE, ALTER" }
             ]
          },
          {
-            text: "What is a search engine?",
+            text: "TCP/IP 프로토콜 중 전송계층 프로토콜은?",
             responses: [
-               { text: "A hardware component " },
+               { text: "HTTP	 " },
                {
-                  text: "A machinery engine that search data"
+                  text: "SMTP"
                },
-               { text: "A web site that searches anything", correct: true },
-               { text: "A program that searches engines" }
-            ]
+               { text: "FTP" },
+               { text: "TCP" , correct: true} 
+               ]
          },
          {
             text:
-               "What does the .com domain represents?",
+               "애자일 선언문은 애자일 방법론이 추구하고 있는 가치를 요약하고 있다. 애자일 선언문의 내용으로 옳은 것은?",
             responses: [
-               { text: "Network" },
-               { text: "Education" },
-               { text: "Commercial", correct: true },
-               { text: "None of the above" }
+               { text: " 포괄적인 문서보다는 제대로 동작하는 소프트웨어에 더 가치를 둔다." , correct: true},
+               { text: "고객과의 협력보다는 계약 협상에 더 가치를 둔다." },
+               { text: "변화에 대응하는 것보다는 계획을 따르는 것에 더 가치를 둔다." },
+               { text: "개인과 상호작용보다는 도구나 프로세스에 더 가치를 둔다." }
             ]
          },
          {
-            text: "In Satellite based communication, VSAT stands for? ",
+            text: "스크럼(Scrum)의 제품 백로그(product backlog)에 대한 설명으로 옳지 않은 것은? ",
             responses: [
-               { text: " Very Small Aperture Terminal", correct: true },
-               { text: "Varying Size Aperture Terminal " },
+               { text: " 제품 백로그에 있는 업무 목록은 프로젝트를 수행하는 동안 수정되고 정제된다." },
+               { text: "제품 백로그의 업무 중 높은 우선순위를 갖는 항목부터 개발한다. " },
                {
-                  text: "Very Small Analog Terminal"
+                  text: "제품 백로그에 있는 업무의 우선순위를 결정한 후에는 변경하지 않는다.", correct: true
                },
-               { text: "None of the above" }
+               { text: " 제품 책임자(product owner)가 제품 백로그를 관리한다." }
             ]
          },
          {
@@ -197,23 +223,23 @@ import axios from 'axios'
          },
          {
             text:
-               "What is the full form of HTML?",
+               "다음 정렬(Sort)알고리즘 중 구현이 복잡하지만 가장 효율적인 정렬 알고리즘으로 올바른 것은?",
             responses: [
                {
-                  text: "Hyper text marking language"
+                  text: "선택 정렬(Selection Sort)"
                },
-               { text: "Hyphenation text markup language " },
-               { text: "Hyper text markup language", correct: true },
-               { text: "Hyphenation test marking language" }
+               { text: "삽입 정렬(Insertion Sort)" },
+               { text: "버블 정렬(Bubble Sort)"},
+               { text: "힙 정렬(Heap Sort)", correct: true }
             ]
          },
          {
-            text: "\"Yahoo\", \"Infoseek\" and \"Lycos\" are _________?",
+            text: "인터프리터(Interpreter) 방식의 언어로 옳지 않은 것은?",
             responses: [
-               { text: "Browsers " },
-               { text: "Search Engines", correct: true },
-               { text: "News Group" },
-               { text: "None of the above" }
+               { text: "JavaScript" },
+               { text: "C", correct: true },
+               { text: "Basic" },
+               { text: "LISP" }
             ]
          }
       ]
@@ -268,7 +294,7 @@ body {
     	
 	 background: #FAFAFA;
     position: relative;
-    left: 250px;
+    left: 200px;
     top: 50px;
     display: flex;
 	border-radius: 0.5rem;
@@ -287,9 +313,9 @@ body {
 		}
 		 .progressContainer {
        width: 60%;
-			 margin: 0 1000px 0 0;
+			 margin: 0 auto;
 			 >progress{
-				 margin:0;
+				 margin-left: 99px;
 				 border-radius: 5rem;
 				 overflow: hidden;
 				 border:none;
