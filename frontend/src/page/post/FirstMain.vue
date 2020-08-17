@@ -28,7 +28,6 @@
 
 <script scoped>
 import '../../assets/css/FirstMain.scss'
-
 export default {
     name: 'FirstMain',
     methods: {

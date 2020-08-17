@@ -55,6 +55,11 @@
           </div>
       </div>
     </div>
+    <div class="outter">
+  <a href="https://redmonk.com/sogrady/2020/02/28/language-rankings-1-20/?utm_source=rss&utm_medium=rss&utm_campaign=language-rankings-1-20" target="_blank">
+           <img src="../../assets/img/redmonk.png"> 
+        </a>      
+    </div>
     <div class="pagination" v-show="pageCount!==0" style="float:right;">
       
       <button :disabled="pageNum === 0" @click="firstPage" class="page-btn"><i class="fas fa-caret-square-left"></i></button>
@@ -311,4 +316,14 @@ import axios from 'axios'
     padding: 8px 16px;
     text-decoration: none;
 } */
+
+.outter{
+    position: fixed;
+    right:50px;
+    bottom:0;
+    height:px;
+    width: 170px;
+    top: 200px;
+           /* padding: 150px 50px 0 0 */
+}
 </style>

@@ -21,6 +21,7 @@ import MainFooter from '../page/post/MainFooter.vue'
 import ThirdMain from '../page/post/ThirdMain'
 import UpdateReply from '../page/post/UpdateReply.vue'
 import FloatingIcon from '../page/post/FloatingIcon.vue'
+import Quiz from '../page/post/Quiz.vue'
 
 Vue.use(VueRouter)
 
@@ -130,7 +131,11 @@ Vue.use(VueRouter)
     name: 'FloatingIcon',
     component: FloatingIcon
   },
-
+  {
+    path: '/quiz',
+    name: 'Quiz',
+    component: Quiz
+  }
 ]
 
 const router = new VueRouter({
