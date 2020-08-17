@@ -254,6 +254,11 @@ import jwt_decode from 'jwt-decode'
                     queNo: this.queNo,
                     contents: this.replycontents
                 }
+
+                if (this.replycontents == null | this.replycontents == '')
+                {
+                    
+                }
                 axios.post(this.$store.state.base_url +'/reply', body, config)
                 .then((response) => {
                     axios.get(this.$store.state.base_url +'/question/detail',{     
