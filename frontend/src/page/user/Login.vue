@@ -11,7 +11,7 @@
 					<input v-model="email" id="email" type="text" @keyup.enter="login" placeholder="이메일을 입력해주세요"/>
 					<input v-model="pw" id="pw" type="password" @keyup.enter="login" placeholder="영문, 숫자 혼용 8자 이상"/>
 				</form>
-					<button @click="login">로그인</button>
+				<button @click="login">로그인</button>
 			</div>
 			<hr style="margin-left: 15px; margin-right: 15px; margin-top: 5px;">
 			
@@ -21,11 +21,11 @@
 			<!-- <hr class="gubun">
             <h6 class="hidetext">SNS 간편로그인</h6> -->
 			<!-- <p style="margin-bottom: 10px;"> SNS 간편로그인</p> -->
-			<div style="float: right; background-color: yello; margin-left: 10px;">
+			<!-- <div style="float: right; background-color: yello; margin-left: 10px;">
 				<img class="kakao" @click="kakaoLogin" src="../../assets/img/kakao.png" alt="">
-				<span style="margin-right: 10px;">카카오톡 간편로그인</span>
-			</div>
-            <!-- <button class="social-signin kakao" @click="kakaoLogin">카카오톡으로 로그인</button> -->
+				<span style="margin-right: 10px;">카카오톡 간편 로그인</span>
+			</div> -->
+            <button class="social-signin kakao" @click="kakaoLogin"><img class="kakao" @click="kakaoLogin" src="../../assets/img/kakao.png" alt="">카카오계정으로 로그인</button>
 		</div>
 	</div>
 
@@ -41,7 +41,6 @@
         components: {
         },
         created(){
-          
         },
         watch: {
         },
@@ -153,17 +152,17 @@
 
 <style scoped>
 
-            @font-face {
-    font-family: 'CookieRun-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
+	/* @font-face {
+		font-family: 'CookieRun-Regular';
+		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+	}
 
-  * {
-      font-family: 'CookieRun-Regular';
-  }
-         
+  	* {
+    	font-family: 'CookieRun-Regular';
+  	} */
+
 	body {
 		background: #e9e9e9;
 		color: #666666;
@@ -179,17 +178,21 @@
 		text-align: center;
 		letter-spacing: 2px;
 	}
+
 	.pen-title h1 {
 		margin: 0 0 20px;
 		font-size: 48px;
 		font-weight: 300;
 	}
+
 	.pen-title span {
 		font-size: 12px;
 	}
+
 	.pen-title span .fa {
 		color: #33b5e5;
 	}
+
 	.pen-title span a {
 		color: #33b5e5;
 		font-weight: 600;
@@ -206,6 +209,7 @@
 		box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
 		margin: 0 auto;
 	}
+
 	.form-module .login-header {
 		cursor: pointer;
 		position: absolute;
@@ -220,13 +224,16 @@
 		line-height: 30px;
 		text-align: center;
 	}
+
 	.form-module .form {
 		display: none;
 		padding: 40px;
 	}
+
 	.form-module .form:nth-child(2) {
 		display: block;
 	}
+
 	.form-module h2 {
 		margin: 0 0 20px;
 		color: #33b5e5;
@@ -246,10 +253,12 @@
 		-webkit-transition: 0.3s ease;
 		transition: 0.3s ease;
 	}
+
 	.form-module input:focus {
 		border: 1px solid #33b5e5;
 		color: #333333;
 	}
+
 	.form-module button {
 		cursor: pointer;
 		background: #33b5e5;
@@ -260,9 +269,11 @@
 		-webkit-transition: 0.3s ease;
 		transition: 0.3s ease;
 	}
+
 	.form-module button:hover {
 		background: #178ab4;
 	}
+
 	.form-module .cta {
 		background: #f2f2f2;
 		width: 100%;
@@ -272,6 +283,7 @@
 		font-size: 12px;
 		text-align: center;
 	}
+
 	.form-module .cta a {
 		color: #333333;
 		text-decoration: none;
@@ -288,19 +300,18 @@
 		font-weight: 500;
 		transition: 0.2s ease;
 		cursor: pointer;
-		font-family: CookieRun-Regular;
 	}
 
-	.kakao:hover {
+	/* .kakao:hover {
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 		transition: 0.2s ease;
-	}
+	} */
 
 	.kakao {
+		cursor: pointer;
 		margin-right: 10px;
-		cursor:pointer;
-		 height: 50px;
-		  width: 50px;
+		height: 30px;
+		width: 30px;
 	}
 
 	button.social-signin:hover,
@@ -319,7 +330,7 @@
 	}
 
 	button.social-signin.kakao {
-		background: #ffd700;
+		background: #f9e000;
         color: #603030;
 	}
 
