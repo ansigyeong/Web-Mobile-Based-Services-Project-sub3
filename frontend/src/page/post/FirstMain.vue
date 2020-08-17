@@ -1,6 +1,9 @@
 <template>
     <body>
+        <!-- sky -->
+        <div class="sky"></div>
 
+        <!-- background -->
         <div class="waves background"></div>
         <div class="whale"></div>
         <div class="boat-wrapper">
@@ -8,21 +11,26 @@
         </div>
         <div class="waves foreground"></div>
 
+        <!-- title -->
+        <div class="button">Neon 
+        Glow</div>
 
-        <div class="center sign">
+
+        <!-- logo -->
+        <div class="center">
             <h1>
-                <p class="bluecolor sign__word" style="margin:0">Hello</p>
-                <span class="words greencolor sign__word" id="y1">C</span>
-                <span class="words greencolor sign__word" id="y2">o</span>
-                <span class="words greencolor sign__word" id="y3">d</span>
-                <span class="words greencolor sign__word" style="margin-right: 20px;" id="y4">e</span>
-                <span class="words redcolor sign__word" >Sea</span>
+                <p class="bluecolor" style="margin:0">Hello</p>
+                <span class="words greencolor" id="y1">C</span>
+                <span class="words greencolor" id="y2">o</span>
+                <span class="words greencolor" id="y3">d</span>
+                <span class="words greencolor" style="margin-right: 20px;" id="y4">e</span>
+                <span class="words redcolor" >Sea</span>
             </h1>
         </div>
     </body>
 </template>
 
-<script>
+<script scoped>
 import '../../assets/css/FirstMain.scss'
 
 export default {
@@ -30,7 +38,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     html,
     body {
         height: 100%;
@@ -74,7 +82,7 @@ export default {
     }
 
     .whale {
-        animation: whale 20s linear 0s infinite;
+        animation: whale 18s linear 0s infinite;
         background: no-repeat url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/59639/whale.png') center center;
         background-size: contain;
         bottom: 0;
@@ -246,95 +254,8 @@ h1 {
 }
 
 
-/* neon */
-
-html,
-body {
-    position: relative;
-  margin: 0;
-  height: 100%;
-}
-
-html {
-  font-size: 16px;
-}
-
-/* body {
-  font-family: "Vibur", cursive;
-  font-size: 1rem;
-  background-image: url("https://www.dropbox.com/s/2ct0i6kc61vp0bh/wall.jpg?raw=1");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: #aaf7ff;
-} */
 
 
-/*-- Sign Styles --*/
-
-.sign {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  &__word {
-    font-size: 5.6rem;
-    text-align: center;
-    line-height: 1;
-    color: #c6e2ff;
-    animation: neon .08s ease-in-out infinite alternate;
-  }
-
-}
-
-/*-- Animation Keyframes --*/
-
-/* // animation */
-
-@keyframes neon {
-  from {
-    text-shadow:
-    0 0 6px rgba(202,228,225,0.92),
-    0 0 30px rgba(202,228,225,0.34),
-    0 0 12px rgba(30,132,242,0.52),
-    0 0 21px rgba(30,132,242,0.92),
-    0 0 34px rgba(30,132,242,0.78),
-    0 0 54px rgba(30,132,242,0.92);
-  }
-  to {
-    text-shadow:
-    0 0 6px rgba(202,228,225,0.98),
-    0 0 30px rgba(202,228,225,0.42),
-    0 0 12px rgba(30,132,242,0.58),
-    0 0 22px rgba(30,132,242,0.84),
-    0 0 38px rgba(30,132,242,0.88),
-    0 0 60px rgba(30,132,242,1);
-  }
-}
-
-
-/* 
-// Link */
-.link {
-    position: absolute;
-    bottom: 10px; left: 10px;
-    color: #828282;
-    text-decoration: none;
-    
-    &:focus,
-    &:hover {
-    color: #c6e2ff;
-        text-shadow:
-    0 0 2px rgba(202,228,225,0.92),
-    0 0 10px rgba(202,228,225,0.34),
-    0 0 4px rgba(30,132,242,0.52),
-    0 0 7px rgba(30,132,242,0.92),
-    0 0 11px rgba(30,132,242,0.78),
-    0 0 16px rgba(30,132,242,0.92);
-    }
-}
 
 </style>
 
