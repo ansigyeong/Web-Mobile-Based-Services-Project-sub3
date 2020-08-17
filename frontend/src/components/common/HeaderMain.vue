@@ -115,13 +115,9 @@ export default {
             this.$router.push(path)
           },
           moveList(path, lang, keyword){
-            console.log(this.item)
-            console.log(this.keyword)
             this.$router.push(path+lang+keyword); 
           },
           moveList2(path, lang, keyword){
-            console.log(this.item)
-            console.log(this.keyword)
             if(this.item==''){
               swal('', '언어를 선택하세요', 'warning')
             } else if(this.keyword==null || this.keyword== ''){
