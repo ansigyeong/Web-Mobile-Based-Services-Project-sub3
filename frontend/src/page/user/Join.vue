@@ -40,7 +40,7 @@
             <!-- <label class="label" for="language">주사용 언어</label> -->
             <b-form-select v-model="lang" :options="options"></b-form-select>
 				
-            <input @click="submit" type="submit" name="signup_submit" value="회원가입" />
+            <input style="font-family: 'CookieRun-Regular';" @click="submit" type="submit" name="signup_submit" value="회원가입" />
 
             </div>
 		
@@ -152,6 +152,19 @@
 
 
 <style  scoped>
+
+            @font-face {
+    font-family: 'CookieRun-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+  * {
+      font-family: 'CookieRun-Regular';
+  }
+            
+
 
 	/* @import url(https://fonts.googleapis.com/css?family=Roboto:400, 300, 500);
 	*:focus {
