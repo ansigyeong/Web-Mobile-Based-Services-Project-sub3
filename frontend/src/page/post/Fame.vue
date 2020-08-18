@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <h1 style="margin: 20px;">👑 명예의 전당 👑</h1>
-    <span v-if="$store.state.islogin">
+    <!-- <span v-if="$store.state.islogin">
+                    
       <router-link to="/record" style="color:rgb(76, 75, 71);">내 기록</router-link>
-    </span>
-
+    </span> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <div class="mt-5">
       <div class="row">
@@ -48,8 +48,8 @@
     </div>
   </div>
 </template>
-
 <script>
+                    
   import axios from 'axios'
   export default {
     data () {
@@ -100,13 +100,16 @@
         this.$router.push('/profile/'+userNo)
       }
     },
+    userdetail(userNo){
+        this.$router.push('/profile/'+userNo)
+      },
     created() {
       this.getlist()
     }
   }
 </script>
-
 <style scoped>
+                    
   .container {
     margin-left: 250px;
   }
@@ -116,7 +119,6 @@
     font-weight: normal;
     font-style: normal;
   }
-
   * {
       font-family: 'CookieRun-Regular';
   }
@@ -161,20 +163,23 @@
     color: #000;
   }
   .mark0 {
-    border: 5px solid #c0c0c0;
+    border: 2px solid #c0c0c0;
     width: 290px;
     margin-top: 50px;
     margin-right: 16px;
+    box-shadow: 5px 5px 5px 5px gray;
   }
   .mark1 {
-    border: 5px solid #ffb52e;
+    border: 2px solid #ffb52e;
     width: 397px;
     margin-right: 16px;
+    box-shadow: 5px 5px 5px 5px gray;
   }
   .mark2 {
-    border: 5px solid #deb887;
+    border: 2px solid #c0c0c0;
     width: 290px;
     margin-top: 50px;
+    box-shadow: 5px 5px 5px 5px gray;
   }
   .container{
     padding-left: 100px;
