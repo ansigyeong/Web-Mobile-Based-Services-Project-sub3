@@ -49,7 +49,7 @@
                     Total score: {{ score() }} / {{ quiz.questions.length }}
                 </p>
                     <br>
-                    <a class="button" @click="restart()">restart <i class="fa fa-refresh"></i></a>
+                    <a class="button" @click="submit">restart <i class="fa fa-refresh"></i></a>
 
             </div>
 
@@ -67,6 +67,7 @@ import axios from 'axios'
       return {
         quiz: quiz,
         questionIndex: 0,
+        grade:0,
         userResponses: userResponseSkelaton,
         isActive: false
         }
@@ -76,11 +77,12 @@ import axios from 'axios'
          return String.fromCharCode(97 + i);
       }
    },
+  
    methods: {
-         restart: function(){
-                 this.questionIndex=0;
-                 this.userResponses=Array(this.quiz.questions.length).fill(null);
-         },
+         // restart: function(){
+         //         this.questionIndex=0;
+         //         this.userResponses=Array(this.quiz.questions.length).fill(null);
+         // },
       selectOption: function(index) {
          Vue.set(this.userResponses, this.questionIndex, index);
          //console.log(this.userResponses);
@@ -106,9 +108,34 @@ import axios from 'axios'
                score = score + 1;
             }
          }
+         this.grade = score;
          return score;
 
          //return this.userResponses.filter(function(val) { return val }).length;
+      },
+     
+      submit() {
+         console.log(this.grade)
+        let config = {
+          headers: {
+            "ACCESS-TOKEN": this.$store.state.token
+          }
+        }
+        let body = {
+          contents: this.contents,
+          title: this.title,
+          grade: this.grade
+        }
+        axios.post(this.$store.state.base_url + '/quiz', body, config)
+        .then((response) => {
+           console.log(response)
+           if(response.data.data=="todayEnd")   swal('', '오늘의 퀴즈를 이미 완료하였습니다.', 'warning')
+           else swal('', '오늘의 퀴즈를 완료하였습니다.', 'success')
+          this.$router.push('/')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
       }
    }
 }

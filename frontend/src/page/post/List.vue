@@ -103,6 +103,8 @@ import axios from 'axios'
         })
         .then((response) => {
           this.data = response.data.data.list
+          this.lang = lang;
+          this.keyword = keyword;
           if(this.data.length == 0){
             swal('', '게시글이 존재하지 않습니다.\n첫번째 질문을 작성해 보세요.', 'warning')
             this.$router.push('/askquestion')
@@ -120,10 +122,16 @@ import axios from 'axios'
         this.$router.push(path+tag);
       },
       one(lang,keyword){
+        if(keyword==null) keyword = '';
+        this.lang = lang;
+        this.keyword=keyword;
         this.sorting_type = 0;
         this.getlist(lang,keyword)
       },
       two(lang,keyword){
+        if(keyword==null) keyword = '';
+        this.lang = lang;
+        this.keyword=keyword;
         this.sorting_type = 1;
         this.getlist(lang,keyword)
 
