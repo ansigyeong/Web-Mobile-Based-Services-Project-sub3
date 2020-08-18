@@ -2,7 +2,7 @@
   <div class="container">
     <h1 style="margin: 20px;">🏆 내 기록 🏆</h1>
     <div id="carousel">
-      <carousel-3d class="carousel-3d-container" style="height: 550px !important;">
+      <carousel-3d class="carousel-3d-container" style="height: 550px !important; margin">
         <span v-for="n in 7" :key="n">
           <slide :index="n-1">
             <span v-if="n-1 == 0">
@@ -148,7 +148,7 @@
   .carousel-3d-container {
     width: 900px;
     position: relative;
-    left: 100px;
+    margin-bottom: 20px;
   }
 
   .carousel-3d-slide {

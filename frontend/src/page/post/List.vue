@@ -50,7 +50,7 @@
       </div>
       <div class="summary">
         <div class="title-detail" style="text-align:left"><a class="tt title-detail" @click="detail(item.queNo,item.lang)">Q: {{item.title}}</a></div>
-        <div class="text title">
+        <div class="text">
           {{txt(item.contents)}}
         </div>
         <div class="tags">
@@ -262,8 +262,9 @@ import axios from 'axios'
     float: left;
   }
   .post-tag{
-    font-size: 12px;
+    font-size: 15px;
     color: cadetblue;
+    font-family: 'CookieRun-Regular';
     background-color: rgb(211, 247, 247);
     border-color: transparent;
     display: inline-block;
@@ -356,7 +357,7 @@ import axios from 'axios'
   .title-detail {
     font-family: 'CookieRun-Regular';
     color:rgb(105, 0, 202);
-    font-size: 27px;   
+    font-size: 25px;   
     margin: 0;
     padding: 0;
   }

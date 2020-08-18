@@ -7,23 +7,20 @@
         </div>
         <div style="display:flex;">
             <h7 style="margin-top: 9px;">작성 시간: {{this.items.createDate}}</h7>
-            <span v-if="$store.state.islogin"> 
-            <div>
-                <span v-if="this.flag">
-                <img  src='../../assets/img/nostar.png' class="land" width="40px"  @click="selectquestion">
-                </span>
-                <span v-else>
-                <img src='../../assets/img/star.png' class="land" width="40px" @click="selectdelete">
-                </span>
-                <span v-if="this.isme">
-                <a class="land only-for-me-msg" @click="deletequestion">글 삭제</a>
-                <a class="land only-for-me-msg" @click="updatequestion(user.email)">글 수정</a>
-                </span>
-            </div>
-            </span>   
-            <span v-else>
-                <div style="width=175px; height=40px"></div>
-            </span>
+                <span v-if="$store.state.islogin"> 
+                    <div>
+                        <span v-if="this.flag">
+                        <img  src='../../assets/img/nostar.png' class="land" width="40px"  @click="selectquestion">
+                        </span>
+                        <span v-else>
+                        <img src='../../assets/img/star.png' class="land" width="40px" @click="selectdelete">
+                        </span>
+                        <span v-if="this.isme">
+                        <a class="land only-for-me-msg" @click="deletequestion">글 삭제</a>
+                        <a class="land only-for-me-msg" @click="updatequestion(user.email)">글 수정</a>
+                        </span>
+                    </div>
+                </span>   
         </div>
       </div>
 
@@ -55,12 +52,18 @@
         <b-media right-align>
         <div>
             <div style="float:left;">
+
+            <span v-if="$store.state.islogin">
                 <span v-if="item.exist=='좋아요'">
                     <img src="../../assets/img/heart.png"  @click="replylike(item.rpNo,idx)" class="heart">
                 </span>
                 <span v-else-if="item.exist=='좋아요취소'">
                     <img src="../../assets/img/pinkht.png" @click="replylike(item.rpNo,idx)" class="heart">
                 </span>
+            </span>
+            <span v-else>
+                <img src="../../assets/img/grayheart.png" class="heart">
+            </span>
                 <p style="margin-top:5px">{{item.rpLike}}</p>
             </div>
             <div class="bording" style="margin-left:50px" >
@@ -531,7 +534,8 @@ import jwt_decode from 'jwt-decode'
 }
 
 .post-tag{
-    font-size: 12px;
+    font-size: 15px;
+    font-family: 'CookieRun-Regular';
     color: cadetblue;
     background-color: rgb(211, 247, 247);
     border-color: transparent;
