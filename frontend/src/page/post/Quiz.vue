@@ -5,13 +5,13 @@
             <div class="questionContainer" v-if="questionIndex<quiz.questions.length" v-bind:key="questionIndex">
 
                 <header>
-                    <h1 class="title is-6">오늘의 Quiz</h1>
+                    <h1 class="title is-6" style="font-family: 'CookieRun-Regular'!important;">오늘의 Quiz</h1>
                     <div class="progressContainer">
                         <progress class="progress is-info is-small" :value="(questionIndex/quiz.questions.length)*100" max="100">{{(questionIndex/quiz.questions.length)*100}}%</progress>
                         <p>{{(questionIndex/quiz.questions.length)*100}}% complete</p>
                     </div>
                 </header>
-                <h2 class="titleContainer title">{{ quiz.questions[questionIndex].text }}</h2>
+                <h2 class="titleContainer title" style="font-family: 'CookieRun-Regular'!important;">{{ quiz.questions[questionIndex].text }}</h2>
 
                 <div class="optionContainer">
                     <div class="option" v-for="(response, index) in quiz.questions[questionIndex].responses" @click="selectOption(index)" :class="{ 'is-selected': userResponses[questionIndex] == index}" :key="index">
@@ -22,41 +22,47 @@
                 <footer class="questionFooter">
                     <nav class="pagination" role="navigation" aria-label="pagination">
 
-                        <a class="button" v-on:click="prev();" :disabled="questionIndex < 1">
-                    Back
-                  </a>
+                        <a class="button" v-on:click="prev();" :disabled="questionIndex < 1">Back</a>
 
                         <a class="button" :class="(userResponses[questionIndex]==null)?'':'is-active'" v-on:click="next();" :disabled="questionIndex>=quiz.questions.length">
                     {{ (userResponses[questionIndex]==null)?'Skip':'Next' }}
                   </a>
-
                     </nav>
 
                 </footer>
 
             </div>
+            
+               <div v-if="questionIndex == quiz.questions.length" > 
+                  <h2 class="result">결과확인</h2>
+                  <img class="Question_Block" @click="submit" src="../../assets/img/Question_Block.gif">
+               </div>
+            
+            <div v-if="questionIndex > quiz.questions.length" v-bind:key="questionIndex" class="quizCompleted has-text-centered">
+               <div>     
+                  <span class="icon">
+                     <i class="fa" :class="score()>3?'fa-check-circle-o is-active':'fa-times-circle'"></i>
+                  </span>
 
-            <div v-if="questionIndex >= quiz.questions.length" v-bind:key="questionIndex" class="quizCompleted has-text-centered">
-
-                <span class="icon">
-                <i class="fa" :class="score()>3?'fa-check-circle-o is-active':'fa-times-circle'"></i>
-              </span>
-
-                <h2 class="title">
-                    You did {{ (score()>7?'an amazing':(score()<4?'a poor':'a good')) }} job!
-                </h2>
-                <p class="subtitle">
-                    Total score: {{ score() }} / {{ quiz.questions.length }}
-                </p>
-                    <br>
-                    <a class="button" @click="submit">restart <i class="fa fa-refresh"></i></a>
+                     <!-- <h2 class="title">
+                        - 나의 점수 -
+                     </h2> -->
+                     <p class="subtitle">
+                        내 점수 : {{ score() }} / {{ quiz.questions.length }}
+                     </p>
+                        <br>
+                        <a class="button" @click="restart">restart <i class="fa fa-refresh"></i></a>
+               </div>
 
             </div>
+            
 
         </transition>
 
     </div>
-
+        <div class="outter">
+           <img src="../../assets/img/banner_quiz.png"> 
+      </div>
 </div>
 </template>
 
@@ -70,7 +76,7 @@ import axios from 'axios'
         quiz: quiz,
         questionIndex: 0,
         userResponses: userResponseSkelaton,
-        isActive: false
+        isActive: false,
         }
     },
     filters: {
@@ -125,16 +131,18 @@ submit() {
           title: this.title,
           grade: this.grade
         }
+        this.questionIndex++;
         axios.post(this.$store.state.base_url + '/quiz', body, config)
         .then((response) => {
-           console.log(response)
+         //   console.log(response)
            if(response.data.data=="todayEnd")   swal('', '오늘의 퀴즈를 이미 완료하였습니다.', 'warning')
            else swal('', '오늘의 퀴즈를 완료하였습니다.', 'success')
         //   this.$router.push('/')
         })
         .catch((error) => {
-          console.log(error)
-        })
+         //  console.log(error)
+         swal('','로그인 시 점수 획득이 가능합니다.','warning')
+           })
     },
    
    }
@@ -251,13 +259,21 @@ submit() {
 $trans_duration: 0.3s;
 $primary_color: #3D5AFE;
 
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,400i,700");
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
+            @font-face {
+    font-family: 'CookieRun-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+  * {
+      font-family: 'CookieRun-Regular' !important;
+  }
 
 body {
-   font-family: "Open Sans", sans-serif;
+   
    font-size: 14px;
-	
+      font-family: 'CookieRun-Regular';
 	height: 100vh;
 
 	background: #CFD8DC;
@@ -277,7 +293,7 @@ body {
 }
 .title,
 .subtitle {
-   font-family: Montserrat, sans-serif;
+   // font-family: Montserrat, sans-serif;
    font-weight: normal;
 }
 .animated {
@@ -354,6 +370,8 @@ body {
       }
    }
    .quizCompleted {
+      position: relative;
+
       width: 100%;
       padding: 1rem;
 		 text-align:center;
@@ -440,6 +458,7 @@ body {
 			
 		}
 	}
+   
 }
 
 // @media screen and (min-width: 769px) {
@@ -461,5 +480,30 @@ body {
    }
 }
 
+.result{
+   position: relative;
+   left: 150px;
+   top: 45px;
+}
 
+.submit{
+   position: relative;
+   left: 10px;
+   top: 250px;
+}
+
+.Question_Block{
+   position: relative;
+   left: 150px;
+   top: 90px;
+   cursor: pointer;
+}
+.outter{
+    position: fixed;
+    right:50px;
+    bottom:0;
+    width: 190px;
+    top: 200px
+           /* padding: 150px 50px 0 0 */
+    }
 </style>

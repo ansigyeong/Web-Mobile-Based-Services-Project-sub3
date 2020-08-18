@@ -220,7 +220,7 @@ import { Carousel, Slide } from 'vue-carousel'
               '이메일' : response.data.data.user.email,
               '가입 일자' : response.data.data.user.createDate,
               '언어' : response.data.data.user.lang,
-              '등급' : response.data.data.user.grade,
+              '점수' : response.data.data.user.grade,
               '랭킹' : response.data.data.hof.rank
             }]
             this.following = response.data.data.followingList
