@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="summary">
-          <div class="title" style="text-align:left"><a class="tt" @click="detail(item.queNo,item.lang)">Q: {{item.title}}</a></div>
+          <div class="title" style="text-align:left"><a class="tt title-detail" @click="detail(item.queNo,item.lang)">Q: {{item.title}}</a></div>
           <div class="text">
             {{txt(item.contents)}}
           </div>
@@ -63,7 +63,8 @@
             <a class="post-tag" @click="moveTagList('/taglist/', item.thirdTag)" v-if="item.thirdTag!=''">{{item.thirdTag}}</a>
             </div>
           <div class="others">
-            <a @click="userdetail(item.userNo)" class="writer">{{item.name}}</a>
+            <span class="writerlabel">작성자</span>
+            <a @click="userdetail(item.userNo)" class="writer nickname-in-detail">{{item.name}}</a>
             <span class="date">{{item.createDate}}</span>
             </div>
         </div>
@@ -284,7 +285,7 @@ import axios from 'axios'
   .like{
     padding: 7px 0 5px;
     border-radius: 3px;
-    background-color: #F0EECE;
+    background-color: #FEDFE6;
   }
   .summary{
     overflow-x:auto;
@@ -316,9 +317,10 @@ import axios from 'axios'
   .tags{
     line-height: 18px;
     float: left;
+    font-family: 'CookieRun-Regular'
   }
   .post-tag{
-    font-size: 12px;
+    font-size: 15px;
     color: cadetblue;
     background-color: rgb(211, 247, 247);
     border-color: transparent;
@@ -332,6 +334,7 @@ import axios from 'axios'
     border-width: 1px;
     border-style: solid;
     border-radius: 30%;
+    font-family: 'CookieRun-Regular'
   }
   .others{
     float: right;
@@ -433,5 +436,32 @@ import axios from 'axios'
   .langbtn {
       cursor: pointer;
       height: 60px;
+  }
+
+
+.writerlabel {
+  font-size: 0.9rem;
+}
+
+    .nickname-in-detail {
+        font-family: 'CookieRun-Regular';
+        color:rgb(105, 0, 202);
+        font-size: 1.1rem;
+    }
+
+    .nickname-in-detail:hover {
+        color: rgb(64, 0, 123);
+    }
+
+  .title-detail {
+    font-family: 'CookieRun-Regular';
+    color:rgb(105, 0, 202);
+    font-size: 25px;   
+    margin: 0;
+    padding: 0;
+  }
+
+  .title-detail:hover {
+      color: rgb(64, 0, 123);
   }
 </style>

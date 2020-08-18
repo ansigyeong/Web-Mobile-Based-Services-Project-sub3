@@ -5,7 +5,7 @@
     <h1 v-else>{{username}}님 정보</h1>
 
     <span v-if="this.iskakao">
-      <div class="row" style="border:yellow outset 3px; width:800px; height:330px; margin-left:50px">
+      <div class="row" style="border:yellow double 7px; width:800px; height:330px; margin-left:50px">
         <div class="col-1"><img src="../../assets/img/kacircle.png" style="width:50px; "></div>
         <div class="col-3">
           <img class="userprofile" :src="link">
@@ -18,7 +18,7 @@
     </span>
 
     <span v-else>
-      <div class="row" style="border:black outset 3px; width:800px; height:330px; margin-left:50px">
+      <div class="row" style="border:black double 7px; width:800px; height:330px; margin-left:50px">
         <div class="col-1"><img src="../../assets/img/favicon.png" style="width:50px; "></div>
         <div class="col-3">
           <img class="userprofile" :src="link">
