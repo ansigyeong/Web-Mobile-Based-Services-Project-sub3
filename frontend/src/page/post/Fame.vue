@@ -158,18 +158,18 @@
     color: #000;
   }
   .mark0 {
-    border: 2px solid #c0c0c0;
+    border: 5px solid #c0c0c0;
     width: 290px;
     margin-top: 50px;
     margin-right: 16px;
   }
   .mark1 {
-    border: 2px solid #ffb52e;
+    border: 5px solid #ffb52e;
     width: 397px;
     margin-right: 16px;
   }
   .mark2 {
-    border: 2px solid #deb887;
+    border: 5px solid #deb887;
     width: 290px;
     margin-top: 50px;
   }
