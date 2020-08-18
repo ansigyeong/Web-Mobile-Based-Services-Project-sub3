@@ -48,20 +48,7 @@
             </ul>
         </div>
       </div>
-
-    <div>
-      <v-row>
-        <v-col class="mainlang">
-        </v-col>
-        <v-col class="sort" cols="3" style="height:50px;">
-          <v-btn v-show="this.sorting_type==0" color="success" text @click="one(lang,keyword)">최신순</v-btn>
-          <v-btn v-show="this.sorting_type==1" color="primary" text @click="one(lang,keyword)">최신순</v-btn>
-          <v-btn v-show="this.sorting_type==0" color="primary" text @click="two(lang,keyword)">답글순</v-btn>
-          <v-btn v-show="this.sorting_type==1" color="success" text @click="two(lang,keyword)">답글순</v-btn>
-        </v-col>
-      </v-row>
-    </div>
-
+    <template>
       <div class="que" v-for="item in paginatedData" :key="item.id"  >
         <div class="stats">
           <h6 style="text-size:small;">답글수</h6>
@@ -400,7 +387,7 @@ import axios from 'axios'
     right:50px;
     bottom:0;
     width: 230px;
-    top: 250px
+    top: 250px;
            /* padding: 150px 50px 0 0 */
   }
   .mainlang{
