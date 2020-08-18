@@ -2,7 +2,7 @@
     <div class="sidenav">
     <ul class="menu">
       <li ><router-link to="/fame" style="font-family: 'NEXON Lv2 Gothic Bold'" >명예의 전당</router-link> </li> 
-      <li style="font-family: 'NEXON Lv2 Gothic Bold'" id="que">Qusetion
+      <li style="font-family: 'NEXON Lv2 Gothic Bold'" id="que">질문목록
           <ul class="langs">
             <li v-for="item in items" :key="item"><a style="font-family: 'NEXON Lv2 Gothic Bold'" @click="moveList('/list/', item,'')">{{item}}</a> </li>
           </ul>
