@@ -31,7 +31,7 @@
             <img @click="goAsk" class="ftbtn" style="width: 200px; height: 200px;" src="@/assets/img/mainsticker.png" alt="">
           </p>
 
-          <img class="screen3msg" src="@/assets/img/secondmsg.png">
+          <img class="screen3msg" src="@/assets/img/slide3text.png">
           <img class="screen3img movingimg" src="@/assets/img/man.png">
           <img class="underthesea" src="@/assets/img/underthesea.png" alt="">
 
@@ -54,7 +54,7 @@
         </p>
 
       <div>
-        <img class="screen4msg" src="@/assets/img/ThirdMain.png" alt="">
+        <img class="screen4msg" src="@/assets/img/screen4msg.png" alt="">
       </div>
         <img class="screen4img" src="@/assets/img/bookshelf2.png" alt="">
 
@@ -144,7 +144,7 @@
                     "PYTHON"
                 }
                 ],
-     items : [
+    items : [
         {index: '1', animal: '🦈 백상아리 🦈', level: 'Lv. 7', score: '600 점 이상', recodeImg: '../../assets/img/lv6.png' }, 
         {index: '2', animal: '🦠 플랑크톤 🦠', level: 'Lv. 1', score: '0 ~ 99 점', recodeImg: '../../assets/img/lv5.png' }, 
         {index: '3', animal: '🐟 멸치 🐟', level: 'LV. 2', score: '100 ~ 199 점', recodeImg: '../../assets/img/lv4.png'}, 
@@ -210,19 +210,16 @@
 
 <style scoped>
 
-            @font-face {
+  @font-face {
     font-family: 'CookieRun-Regular';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-}
+  }
 
   * {
       font-family: 'CookieRun-Regular';
   }
-
-
-
 
   .section_padding {
   padding: 100px 900px 0 0;

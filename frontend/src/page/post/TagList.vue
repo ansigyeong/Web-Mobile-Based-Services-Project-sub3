@@ -183,7 +183,7 @@ import axios from 'axios'
   .like{
     padding: 7px 0 5px;
     border-radius: 3px;
-    background-color: #d091d8;
+    background-color: #F0EECE;
   }
   .summary{
     overflow-x:auto;

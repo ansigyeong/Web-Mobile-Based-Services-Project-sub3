@@ -4,64 +4,46 @@
 
       <div class="mypage">
         <div class="bookmark_box">
-            <ul class="bookmark_list">
-              <li class="bookmark_li">
+              <!-- c -->
+              <p class="langbtns">
                 <span v-if="this.$route.params.lang == 'c'">
-                  <router-link :to="{ name: 'Bookmark', params: { lang: 'c' }}" style="color:red;">C</router-link>
+                  <img src="../../assets/img/cpbtn.png" class="langbtn" alt="">
                 </span>
                 <span v-else>
-                  <router-link :to="{ name: 'Bookmark', params: { lang: 'c' }}">C</router-link>
+                  <img @click="goCBmk" class="langbtn" src="../../assets/img/cbtn.png" alt="">
                 </span>
-              </li>
-              <li class="bookmark_li">
+              <!-- cpp -->
                 <span v-if="this.$route.params.lang == 'cpp'">
-                  <router-link :to="{ name: 'Bookmark', params: { lang: 'cpp' }}" style="color:red;">C++</router-link>
+                  <img src="../../assets/img/cpppbtn.png" class="langbtn" alt="">
                 </span>
                 <span v-else>
-                  <router-link :to="{ name: 'Bookmark', params: { lang: 'cpp' }}">C++</router-link>
+                  <img @click="goCppBmk" class="langbtn" src="../../assets/img/cppbtn.png" alt="">
                 </span>
-              </li>
-              <li class="bookmark_li">
+              <!-- java -->
                 <span v-if="this.$route.params.lang == 'java'">
-                  <router-link :to="{ name: 'Bookmark', params: { lang: 'java' }}" style="color:red;">Java</router-link>
+                  <img src="../../assets/img/javapbtn.png" class="langbtn" alt="">
                 </span>
                 <span v-else>
-                  <router-link :to="{ name: 'Bookmark', params: { lang: 'java' }}">Java</router-link>
+                  <img @click="goJavaBmk" class="langbtn" src="../../assets/img/javabtn.png" alt="">
                 </span>
-              </li>
-              <li class="bookmark_li">
+              <!-- python -->
                 <span v-if="this.$route.params.lang == 'python'">
-                  <router-link :to="{ name: 'Bookmark', params: { lang: 'python' }}" style="color:red;">Python</router-link>
+                  <img src="../../assets/img/pythonpbtn.png" class="langbtn" alt="">
                 </span>
                 <span v-else>
-                  <router-link :to="{ name: 'Bookmark', params: { lang: 'python' }}">Python</router-link>
+                  <img @click="goPythonBmk" class="langbtn" src="../../assets/img/pythonbtn.png" alt="">
                 </span>
-              </li>
-              <li class="bookmark_li">
+              <!-- others -->
                 <span v-if="this.$route.params.lang == 'etc'">
-                  <router-link :to="{ name: 'Bookmark', params: { lang: 'etc' }}" style="color:red;">Others</router-link>
+                  <img src="../../assets/img/otherspbtn.png" class="langbtn" alt="">
                 </span>
                 <span v-else>
-                  <router-link :to="{ name: 'Bookmark', params: { lang: 'etc' }}">Others</router-link>
+                  <img @click="goOthersBmk" class="langbtn" src="../../assets/img/othersbtn.png" alt="">
                 </span>
-              </li>
-            </ul>
+              </p>
         </div>
       </div>
-
-    <div>
-      <v-row>
-        <v-col class="mainlang">
-        </v-col>
-        <v-col class="sort" cols="3" style="height:50px;">
-          <v-btn v-show="this.sorting_type==0" color="success" text @click="one(lang,keyword)">최신순</v-btn>
-          <v-btn v-show="this.sorting_type==1" color="primary" text @click="one(lang,keyword)">최신순</v-btn>
-          <v-btn v-show="this.sorting_type==0" color="primary" text @click="two(lang,keyword)">답글순</v-btn>
-          <v-btn v-show="this.sorting_type==1" color="success" text @click="two(lang,keyword)">답글순</v-btn>
-        </v-col>
-      </v-row>
-    </div>
-       <template>
+    <template>
       <div class="que" v-for="item in paginatedData" :key="item.id"  >
         <div class="stats">
           <h6 style="text-size:small;">답글수</h6>
@@ -86,11 +68,9 @@
             </div>
         </div>
       </div>
-
-      </template>
       <div class="outter">
           <router-link to="/quiz">
-           <img src="../../assets/img/quiz.png"> 
+            <img src="../../assets/img/quiz.png"> 
           </router-link>    
       </div>
 
@@ -221,6 +201,27 @@ import axios from 'axios'
         this.getlist(lang,keyword)
 
       },
+
+      goCBmk() {
+        this.$router.push('/bookmark/c')
+      },
+
+      goCppBmk() {
+        this.$router.push('/bookmark/cpp')
+      },
+
+      goJavaBmk() {
+        this.$router.push('/bookmark/java')
+      },
+
+      goPythonBmk() {
+        this.$router.push('/bookmark/python')
+      },
+      goOthersBmk() {
+        this.$router.push('/bookmark/etc')
+      }
+
+
     },
     created() {
       this.getlist(this.$route.params.lang)
@@ -283,7 +284,7 @@ import axios from 'axios'
   .like{
     padding: 7px 0 5px;
     border-radius: 3px;
-    background-color: #d091d8;
+    background-color: #F0EECE;
   }
   .summary{
     overflow-x:auto;
@@ -372,17 +373,17 @@ import axios from 'axios'
   .bookmark_list{
     margin: 0;
     padding: 0px 700px 0px 0;
-    border-bottom: 1px solid #e9e9e9;
+    /* border-bottom: 1px solid #e9e9e9; */
     list-style: none;
     height: 55px;
     width: 785px;
   }
   .bookmark_box{
     padding: 0 700px 0 0;
-    border-top: 1px solid #e9e9e9;
+    /* border-top: 1px solid #e9e9e9; */
   }
   .bookmark_li{
-    border-right: 1px solid #e9e9e9;
+    /* border-right: 1px solid #e9e9e9; */
     display: inline;
     font-size: 30px;
     /* padding-left: 3rem;
@@ -401,7 +402,7 @@ import axios from 'axios'
     right:50px;
     bottom:0;
     width: 230px;
-    top: 250px
+    top: 250px;
            /* padding: 150px 50px 0 0 */
   }
   .mainlang{
@@ -419,5 +420,18 @@ import axios from 'axios'
     margin-top:10px; 
     margin-bottom:10px
 
+  }
+
+  .langbtns {
+  position: absolute;
+  display: block;
+  top: 23.5%;
+  left: 33%;
+  margin-bottom: 10px;
+}
+
+  .langbtn {
+      cursor: pointer;
+      height: 60px;
   }
 </style>

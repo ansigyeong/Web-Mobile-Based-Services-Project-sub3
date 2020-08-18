@@ -90,7 +90,12 @@ public class QuizController {
             Date now = new Date();
             SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String time = transFormat.format(now);
-            String qzDate = quizDate.substring(0, 4)+quizDate.substring(5, 7)+quizDate.substring(8, 10);
+
+            int dd = Integer.parseInt(quizDate.substring(8, 10));
+            int tt = Integer.parseInt(quizDate.substring(11, 13))+9;
+            if(tt/24==1)    dd++;
+            String day = Integer.toString(dd);
+            String qzDate = quizDate.substring(0, 4)+quizDate.substring(5, 7)+day;
             String nwDate = time.substring(0, 4)+time.substring(5, 7)+time.substring(8, 10);
             if(!qzDate.equals(nwDate)){
                 quizService.regist(userNo, quiz.getGrade());

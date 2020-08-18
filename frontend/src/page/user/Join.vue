@@ -2,8 +2,7 @@
    	<div calss="container" style="margin-top: 150px;">
 		<div id="signup-box">
 			<div class="left" style="border-top: solid 5px #33b5e5;">
-				<h1>회원가입</h1>
-
+                <img src="../../assets/img/hello_logo.png" style="width: 200px; height: 110px; padding-bottom: 20px;" alt="">
             <template v-if="isname" >
 				<input v-model="name" class="input_vaild" @input="isName(name)" type="text" name="username" placeholder="이름을 입력해주세요" />
             </template>
@@ -40,8 +39,8 @@
             <!-- <label class="label" for="language">주사용 언어</label> -->
             <b-form-select v-model="lang" :options="options"></b-form-select>
 				
-            <input style="font-family: 'CookieRun-Regular';" @click="submit" type="submit" name="signup_submit" value="회원가입" />
-
+            <!-- <input style="font-family: 'CookieRun-Regular';" @click="submit" type="submit" name="signup_submit" value="회원가입" /> -->
+            <button class="submit-button" @click="submit" style="font-family: 'NEXON Lv2 Gothic Bold';">회원가입</button>
             </div>
 		
 
@@ -150,18 +149,12 @@
 
 <style  scoped>
 
-            @font-face {
-    font-family: 'CookieRun-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-  * {
-      font-family: 'CookieRun-Regular';
-  }
-            
-
+    @font-face {
+        font-family: 'NEXON Lv2 Gothic Bold';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
 
 	/* @import url(https://fonts.googleapis.com/css?family=Roboto:400, 300, 500);
 	*:focus {
@@ -182,7 +175,7 @@
 		position: relative;
 		margin: 5% auto;
 		width: 400px;
-		height: 500px;
+		height: 550px;
 		background: #fff;
 		border-radius: 2px;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
@@ -266,4 +259,18 @@
         color: rgb(206, 70, 70);
     }
 
+    .submit-button {
+		cursor: pointer;
+		background: #33b5e5;
+		width: 100%;
+		border: 0;
+		padding: 10px 15px;
+		color: #ffffff;
+		-webkit-transition: 0.3s ease;
+		transition: 0.3s ease;
+        margin-top: 30px;
+	}
+    .submit-button:hover {
+		background: #178ab4;
+	}
 </style>

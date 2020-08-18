@@ -4,15 +4,17 @@
       <li ><router-link to="/fame" style="font-family: 'NEXON Lv2 Gothic Bold'" >명예의 전당</router-link> </li> 
       <li style="font-family: 'NEXON Lv2 Gothic Bold'" id="que">Qusetion
           <ul class="langs">
-            <li v-for="item in items" :key="item"><a style="font-family: 'NEXON Lv2 Gothic Bold'" @click="moveList(item)">{{item}}</a> </li>
+            <li v-for="item in items" :key="item"><a style="font-family: 'NEXON Lv2 Gothic Bold'" @click="moveList('/list/', item,'')">{{item}}</a> </li>
           </ul>
       </li>
       <template v-if="this.$store.state.islogin">
       <li><router-link to="/askquestion" style="font-family: 'NEXON Lv2 Gothic Bold'">질문</router-link> </li> 
       <li><router-link to="/notice" style="font-family: 'NEXON Lv2 Gothic Bold'">공지사항</router-link> </li>       
-      <li><router-link to="/bookmark" style="font-family: 'NEXON Lv2 Gothic Bold'">찜하기</router-link> </li> 
+      <li><router-link to="/bookmark" style="font-family: 'NEXON Lv2 Gothic Bold'">찜목록</router-link> </li> 
       <li><router-link to="/record" style="font-family: 'NEXON Lv2 Gothic Bold'">내기록</router-link></li>
       </template>
+      <li><router-link to="/quiz" style="font-family: 'NEXON Lv2 Gothic Bold'">오늘의 퀴즈</router-link></li>
+
     </ul>
        
     </div>
@@ -36,9 +38,9 @@
     this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
   },
   methods: {
-    moveList(lang){
-      this.$router.push('/list/'+lang)
-    }
+    moveList(path, lang, keyword){
+            this.$router.push(path+lang+keyword); 
+          }
   }
 
   }
@@ -109,7 +111,9 @@ li a:hover {
   text-align: left;
   
 }
-
+.lang:hover{
+  color: lightgray;
+}
 /* .sidenav a {
   padding: 6px 8px 6px 16px;
   text-decoration: none;

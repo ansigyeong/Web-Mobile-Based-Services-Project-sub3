@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 style="margin: 20px;">🏆 내 기록 🏆</h1>
+    <h1 style="margin: 20px; padding-left: 260px;">🏆 내 기록 🏆</h1>
     <div id="carousel">
       <carousel-3d class="carousel-3d-container" style="height: 550px !important;">
         <span v-for="n in 7" :key="n">
@@ -47,6 +47,7 @@
     </div>
   </div>  
 </template>
+
 <script>
   import {Carousel3d, Slide}  from 'vue-carousel-3d'
   import axios from 'axios'
@@ -126,13 +127,14 @@
     }
   }
 </script>
+
 <style scoped>
-            @font-face {
+  @font-face {
     font-family: 'CookieRun-Regular';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-}
+  }
 
   * {
       font-family: 'CookieRun-Regular';
@@ -142,14 +144,18 @@
   body {
     background-size: cover;
   }
+
   .carousel-3d-container {
     width: 900px;
     position: relative;
+    left: 100px;
   }
+
   .carousel-3d-slide {
     height: 550px !important;
     margin-top: 20px;
   }
+  
   .crs-bx {
     padding-top: 20px;
     text-align: center;
@@ -158,16 +164,19 @@
     background-color: white;
     height: 530px;
   }
+
   .grade-img {
     padding: 30px;
     border: solid 3px #E2E2E2;
     width: 250px;
     height: 250px;
   }
+
   .text-box {
     margin: 20px;
     height: 186px;
   } 
+
   .grade-guide {
     position: relative;
     bottom: 10px;
