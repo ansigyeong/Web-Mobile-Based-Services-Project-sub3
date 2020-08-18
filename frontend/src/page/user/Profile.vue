@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <!-- 프로필 -->
-    <h1 v-if="this.flag">내 정보</h1>
-    <h1 v-else>{{username}}님 정보</h1>
+    <h1 v-if="this.flag" style="margin: 20px;">👨 내 정보 👩</h1>
+    <h1 v-else style="margin: 20px;">👩 {{username}}님 정보 👨</h1>
 
     <span v-if="this.iskakao">
-      <div class="row" style="border:yellow double 7px; width:800px; height:330px; margin-left:50px">
+      <div class="row" style="border:yellow double 7px; width:800px; height:330px; margin-left:50px; margin-top:40px">
         <div class="col-1"><img src="../../assets/img/kacircle.png" style="width:50px; "></div>
         <div class="col-3">
           <img class="userprofile" :src="link">
