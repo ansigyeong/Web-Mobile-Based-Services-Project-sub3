@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 style="margin: 20px; padding-left: 260px;">🏆 내 기록 🏆</h1>
+    <h1 style="margin: 20px;">🏆 내 기록 🏆</h1>
     <div id="carousel">
       <carousel-3d class="carousel-3d-container" style="height: 550px !important;">
         <span v-for="n in 7" :key="n">

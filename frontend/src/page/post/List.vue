@@ -1,19 +1,19 @@
 <template>
   <div class="container">
     <span v-if="this.$route.params.lang == 'java'">
-      <h1 style="margin: 20px;">📔 Java 📔</h1>
+      <h1 style="margin: 20px;">📙 Java 📙</h1>
     </span>
     <span v-if="this.$route.params.lang == 'cpp'">
-      <h1 style="margin: 20px;">📔 C++ 📔</h1>
+      <h1 style="margin: 20px;">📘 C++ 📘</h1>
     </span>
     <span v-if="this.$route.params.lang == 'c'">
-      <h1 style="margin: 20px;">📔 C언어 📔</h1>
+      <h1 style="margin: 20px;">📕 C언어 📕</h1>
     </span>
     <span v-if="this.$route.params.lang == 'python'">
-      <h1 style="margin: 20px;">📔 Python 📔</h1>
+      <h1 style="margin: 20px;">📗  Python 📗</h1>
     </span>
     <span v-if="this.$route.params.lang == 'all'">
-      <h1 style="margin: 20px;">📔 All 📔</h1>
+      <h1 style="margin: 20px;">📓 All 📓</h1>
     </span>
     <span v-if="this.$route.params.lang == 'others'">
       <h1 style="margin: 20px;">📔 Others 📔</h1>
@@ -29,6 +29,15 @@
           <v-btn v-show="this.sorting_type==1" color="success" text @click="two(lang,keyword)">답글순</v-btn>
         </v-col>
       </v-row>
+    </div>
+    <div style="margin-top:20px">
+      <span v-if="this.data.length == 0 & this.$route.params.keyword == null">
+        <h2>게시물이 존재하지 않습니다.</h2>
+        <h2>첫번째 게시글을 작성해 보세요.</h2>
+      </span>
+      <span v-else-if="this.data.length == 0 & this.$route.params.keyword != null">
+        <h2>검색 결과가 없습니다.</h2>
+      </span>
     </div>
     <template>
     <div class="que" v-for="item in paginatedData" :key="item.id"  >
@@ -105,10 +114,6 @@ import axios from 'axios'
           this.data = response.data.data.list
           this.lang = lang;
           this.keyword = keyword;
-          if(this.data.length == 0){
-            swal('', '게시글이 존재하지 않습니다.\n첫번째 질문을 작성해 보세요.', 'warning')
-            this.$router.push('/askquestion')
-          }
         })
       },
       detail(queNo,lang) {

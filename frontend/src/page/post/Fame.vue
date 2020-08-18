@@ -21,7 +21,7 @@
           <span v-else>
             <img src="../../assets/img/bronz.png" style="height:55px" alt="">
           </span>
-              <a @click="userdetail(item.userNo)" style="display: block;">{{item.name}}</a>
+              <h3 class="touch" @click="userdetail(item.userNo)" href="">{{ item.name }}</h3>
               <p class="card-text">{{ description(level(item.grade))+' 등급' }}</p>
               <div class="content">
                 <div class="data">
@@ -96,6 +96,9 @@
         else if (level == 5) {return '돌고래'}
         else {return '백상아리'}
       },
+      userdetail(userNo){
+        this.$router.push('/profile/'+userNo)
+      }
     },
     userdetail(userNo){
         this.$router.push('/profile/'+userNo)
@@ -181,5 +184,8 @@
   .container{
     padding-left: 100px;
     padding-right: 100px;
+  }
+  .touch {
+    cursor: pointer;
   }
 </style>

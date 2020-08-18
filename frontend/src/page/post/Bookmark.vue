@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-      <h1 style="margin: 20px;">📑 찜 목록 📑</h1>
+      <h1 style="margin: 20px;">🏷️ 찜 목록 🏷️</h1>
 
       <div class="mypage">
         <div class="bookmark_box">
@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <div class="que" v-for="item in paginatedData" :key="item.id"  >
+      <div class="que" style="margin-top:40px" v-for="item in paginatedData" :key="item.id"  >
         <div class="stats">
           <h6 style="text-size:small;">답글수</h6>
           <div class="like">
