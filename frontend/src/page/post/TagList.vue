@@ -1,26 +1,27 @@
 <template>
   <div class="container">
-    <a class="maintag">{{this.$route.params.tag}}</a>
+    <a class="maintag" style="margin: 20px;">{{this.$route.params.tag}}</a>
     <template>
     <div class="que" v-for="item in paginatedData" :key="item.id"  >
       <div class="stats">
         <h6 style="text-size:small;">답글수</h6>
         <div class="like">
-          <!-- <p >답글수</p> -->
           <strong>{{item.rpCnt}}</strong>
           <span>개</span>
           </div>
       </div>
+
       <div class="summary">
-        <div class="title"><a class="tt" @click="detail(item.queNo,item.lang)"> Q: {{item.title}}</a></div>
-        <div v-html="item.contents" style="text-align:left"></div>
+        <div class="title" style="text-align:left"><a class="tt" @click="detail(item.queNo,item.lang)">Q: {{item.title}}</a></div>
+        <div class="text">
+          {{txt(item.contents)}}
+        </div>
         <div class="tags">
           <a class="post-tag" @click="moveTagList('/taglist/', item.tag1)" v-if="item.tag1!=''">{{item.tag1}}</a>
           <a class="post-tag" @click="moveTagList('/taglist/', item.tag2)" v-if="item.tag2!=''">{{item.tag2}}</a>
           <a class="post-tag" @click="moveTagList('/taglist/', item.tag3)" v-if="item.tag3!=''">{{item.tag3}}</a>
           </div>
         <div class="others">
-          <!-- <span class="lang">{{item.lang}}</span> -->
           <a @click="userdetail(item.userNo)" class="writer">{{item.name}}</a>
           <span class="date">{{item.createDate}}</span>
           </div>
@@ -36,21 +37,6 @@
     </div>
     </template>
 
-
-    <!-- <b-table :items="data" :fields="fields" :per-page="perPage" :current-page="currentPage" striped responsive="sm">
-      <slot></slot>
-      
-      <template v-slot:cell(useractions)="row">
-        <a size="sm" @click="userdetail(row.item.userNo)" class="mr-1">
-          {{row.item.name}}
-        </a>
-      </template>
-      <template v-slot:cell(actions)="row">
-        <b-button size="sm" @click="detail(row.item.queNo)" class="mr-1">
-          상세보기
-        </b-button>
-      </template>
-    </b-table> -->
   </div>
 </template>
 
@@ -112,6 +98,15 @@ import axios from 'axios'
       },
       lastPage () {
         this.pageNum = this.pageCount-1;
+      },
+      txt(contents) {
+        var temp = contents.replace(/(<([^>]+)>)/ig,"")
+        var temp1 = temp.replace("&nbsp;", "")
+        var tem = temp1.substring(0,400)
+        if (contents.length > 400){
+          tem = tem + ' ...  '
+        }
+        return tem
       }
     },
     created() {
@@ -156,7 +151,6 @@ import axios from 'axios'
   * {
       font-family: 'CookieRun-Regular';
   }
-            
 
   .container{
     padding-left: 130px;
@@ -200,7 +194,7 @@ import axios from 'axios'
     font-weight: 400;
     word-wrap: break-word;
     word-break: break-word;
-    font-size: 18px;
+    font-size: 25px;
     line-height: 1.4;
     margin-bottom: .5em;
   }
@@ -208,14 +202,13 @@ import axios from 'axios'
     word-wrap: break-word;
     word-break: break-word;
     padding-bottom: 5px;
-    height: px;
+    height: 50px;
     overflow: hidden;
   }
 
   .tags{
     line-height: 18px;
     float: left;
-    margin-left: 5%;
   }
   .post-tag{
     font-size: 12px;
@@ -248,14 +241,11 @@ import axios from 'axios'
   .date{
     font-size: 12px;
   }
-  .maintag{
-    font-size: 30px;
+  .h1{
     color: cadetblue;
     background-color: rgb(211, 247, 247);
     border-color: transparent;
     display: inline-block;
-    padding: .4em .5em;
-    margin: 7px 7px 7px 7px;
     line-height: 1;
     white-space: nowrap;
     text-decoration: none;
@@ -273,4 +263,35 @@ import axios from 'axios'
     font-size: 1.3em;
     color: pink;
   }
+  .text{
+    text-align:left; 
+    min-height:50px; 
+    margin-top:10px; 
+    margin-bottom:10px
+  }
+  .maintag{
+    font-size: 30px;
+    color: cadetblue;
+    background-color: rgb(211, 247, 247);
+    border-color: transparent;
+    display: inline-block;
+    padding: .4em .5em;
+    margin: 7px 7px 7px 7px;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 30%;
+  }
+
+.outter{
+    position: fixed;
+    right:50px;
+    bottom:0;
+    width: 190px;
+    top: 200px
+           /* padding: 150px 50px 0 0 */
+    }
 </style>
