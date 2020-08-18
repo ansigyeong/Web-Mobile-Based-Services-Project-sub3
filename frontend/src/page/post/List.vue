@@ -20,6 +20,9 @@
     </span>
     <div>
       <v-row>
+
+        <img @click="goAsk" class="askbtn" style="width: 120px; height: 50px;" src="../../assets/img/questionbtn.png" alt="">
+
         <v-col class="mainlang">
         </v-col>
         <v-col class="sort" cols="3" style="height:50px;">
@@ -161,7 +164,16 @@ import axios from 'axios'
           tem = tem + ' ...  '
         }
         return tem
+      },
+      goAsk() {
+        if(this.$store.state.islogin) {
+          this.$router.push('/askquestion')
+        }
+        else{
+          this.$router.push('/login')
+        }
       }
+      
     },
     created() {
       this.getlist(this.$route.params.lang,this.$route.params.keyword)
@@ -364,5 +376,18 @@ import axios from 'axios'
 
   .title-detail:hover {
       color: rgb(64, 0, 123);
+  }
+
+  .question-btn {
+    position: absolute;
+    display: block;
+    top: 31%;
+    right: 14%;
+    width: 25%;
+    z-index: 100;
+  }
+
+  .askbtn {
+    cursor: pointer;
   }
 </style>
