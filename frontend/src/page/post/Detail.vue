@@ -5,8 +5,8 @@
         <div style="display:flex; justify-content:space-between">
             <h2>{{this.items.title}}</h2>
         </div>
-        <div style="display:flex; justify-content:space-between">
-            <h7>작성 시간: {{this.items.createDate}}</h7>
+        <div style="display:flex;">
+            <h7 style="margin-top: 9px;">작성 시간: {{this.items.createDate}}</h7>
             <span v-if="$store.state.islogin"> 
             <div>
                 <span v-if="this.flag">
@@ -16,8 +16,8 @@
                 <img src='../../assets/img/star.png' class="land" width="40px" @click="selectdelete">
                 </span>
                 <span v-if="this.isme">
-                <a class="land" @click="deletequestion">글 삭제</a>
-                <a class="land" @click="updatequestion(user.email)">글 수정</a>
+                <a class="land only-for-me-msg" @click="deletequestion">글 삭제</a>
+                <a class="land only-for-me-msg" @click="updatequestion(user.email)">글 수정</a>
                 </span>
             </div>
             </span>   
@@ -26,13 +26,14 @@
             </span>
         </div>
       </div>
+
         <hr style="margin-top:10px">
         <b-media>
           <template v-slot:aside>
             <div class="userlanding">
                 <img :src="getimage(user.grade)" width="100px" height="100px" alt="">
                 <p style="margin-top:5px; margin-bottom:3px">
-                    <a @click="userdetail(user.userNo)" style="color: blueviolet">{{user.name}}</a>
+                    <a @click="userdetail(user.userNo)" class="nickname-in-detail">{{user.name}}</a>
                 </p>
             </div>
           </template>
@@ -55,12 +56,12 @@
         <div>
             <div style="float:left;">
                 <span v-if="item.exist=='좋아요'">
-                    <img src="../../assets/img/blackheart.png"  @click="replylike(item.rpNo,idx)" class="heart">
+                    <img src="../../assets/img/heart.png"  @click="replylike(item.rpNo,idx)" class="heart">
                 </span>
                 <span v-else-if="item.exist=='좋아요취소'">
-                    <img src="../../assets/img/redheart.png" @click="replylike(item.rpNo,idx)" class="heart">
+                    <img src="../../assets/img/pinkht.png" @click="replylike(item.rpNo,idx)" class="heart">
                 </span>
-                <p style="margin-top:15px">{{item.rpLike}}</p>
+                <p style="margin-top:5px">{{item.rpLike}}</p>
             </div>
             <div class="bording" style="margin-left:50px" >
                 <div style="height:10px"></div>
@@ -73,7 +74,7 @@
                 <div class="userlanding">
                     <img :src="getimage(item.grade)" width="100px" height="100px" alt="">
                     <p style="margin-top:5px; margin-bottom:3px">
-                        <a @click="userdetail(item.userNo)" style="color: blueviolet">{{item.name}}</a>
+                        <a @click="userdetail(item.userNo)" class="nickname-in-detail">{{item.name}}</a>
                     </p>
                 </div>
                 <p style="margin-bottom:3px"> 
@@ -95,7 +96,7 @@
             <div style="text-align:center">
                 <editor api-key="vem3wnp12tvfllgyuf92uzd6e04f9ddz4ke9mzv8uh71ctgq" :init="{
                     height: 300,
-                    width: 750,
+                    width: 800,
                     menubar: ['file edit view insert format tools'],
                     plugins: [
                         'advlist autolink lists link image charmap print preview anchor',
@@ -109,10 +110,10 @@
                     }" v-model="replycontents" />
             </div>
             </div>
-            <b-button @click="writereply">답변 등록</b-button>
+            <b-button class="dd" @click="writereply">답변 등록</b-button>
     </b-container>
     </span>
-<i class="fas fa-heart"></i>
+
   </div>
 </template>
 
@@ -471,11 +472,20 @@ import jwt_decode from 'jwt-decode'
 
 <style scoped>
             @font-face {
-    font-family: 'CookieRun-Regular';
+    font-family: 'CookieRun-Regular' !important;
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-}
+}   
+    .nickname-in-detail {
+        font-family: 'CookieRun-Regular';
+        color:rgb(105, 0, 202);
+        font-size: 1.2rem;
+    }
+
+    .nickname-in-detail:hover {
+        color: rgb(64, 0, 123);
+    }
 
   * {
       font-family: 'CookieRun-Regular';
@@ -538,9 +548,35 @@ import jwt_decode from 'jwt-decode'
 }
 
 .heart{
-    width: 40px;
-    height: 40px;
-    margin-top: 55px;
+    width: 30px;
+    height: 30px;
+    margin-top: 0;
+    margin-left: 0px;
 }
 
+
+  .dd{
+      margin-top: 15px;
+    color: rgb(11, 13, 15);
+    border: rgb(11, 13, 15);
+    background-color: rgb(140, 180, 231);
+  }
+
+  .for-star {
+    position: absolute;
+    display: block;
+    top: 21%;
+    left: 37.3%;
+    /* width: 25%; */
+    z-index: 100;
+  }
+
+.only-for-me-msg {
+    font-family: 'CookieRun-Regular';
+    color: rgb(91, 91, 91);
+}
+
+.only-for-me-msg:hover {
+    color:rgb(59, 59, 59)
+}
 </style>
