@@ -135,7 +135,7 @@
           <slot></slot>
           <template v-slot:cell(replyactions)="row">
             <div size="sm" @click="detail(row.item.queNo)" class="mr-1"   variant="primary" style="background-color:white; width: 170px; height:27px; overflow: hidden;">
-              <div v-html="row.item.contents"></div>
+              <div>{{txt(row.item.contents)}}</div>
             </div>
           </template>
         </b-table>
@@ -258,7 +258,13 @@ import { Carousel, Slide } from 'vue-carousel'
           this.followflag = temp
           })
       },
+      txt(contents) {
+        var temp = contents.replace(/(<([^>]+)>)/ig,"")
+        var temp1 = temp.replace("&nbsp;", "")
+        var tem = temp1.substring(0,400)
 
+        return tem
+      },
   
 
     deleteuser() {

@@ -4,7 +4,7 @@
       <li ><router-link to="/fame" style="font-family: 'NEXON Lv2 Gothic Bold'" >명예의 전당</router-link> </li> 
       <li style="font-family: 'NEXON Lv2 Gothic Bold'" id="que">Qusetion
           <ul class="langs">
-            <li class="lang" v-for="item in items" :key="item"><a style="font-family: 'NEXON Lv2 Gothic Bold'" @click="moveList(item)">{{item}}</a> </li>
+            <li v-for="item in items" :key="item"><a style="font-family: 'NEXON Lv2 Gothic Bold'" @click="moveList('/list/', item,'')">{{item}}</a> </li>
           </ul>
       </li>
       <template v-if="this.$store.state.islogin">
@@ -40,10 +40,9 @@
     console.log(this.$store.state.islogin)
   },
   methods: {
-    moveList(lang){
-      console.log(lang)
-      this.$router.push('/list/'+lang)
-    }
+    moveList(path, lang, keyword){
+            this.$router.push(path+lang+keyword); 
+          }
   }
 
   }

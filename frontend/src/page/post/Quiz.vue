@@ -75,6 +75,7 @@ import axios from 'axios'
         grade: 0,
         quiz: quiz,
         questionIndex: 0,
+        grade:0,
         userResponses: userResponseSkelaton,
         isActive: false,
         }
@@ -84,11 +85,12 @@ import axios from 'axios'
          return String.fromCharCode(97 + i);
       }
    },
+  
    methods: {
-         restart: function(){
-                 this.questionIndex=0;
-                 this.userResponses=Array(this.quiz.questions.length).fill(null);
-         },
+         // restart: function(){
+         //         this.questionIndex=0;
+         //         this.userResponses=Array(this.quiz.questions.length).fill(null);
+         // },
       selectOption: function(index) {
          this.$set(this.userResponses, this.questionIndex, index);
          console.log(this.userResponses);

@@ -1,32 +1,50 @@
 <template>
   <div class="container">
-      <h1>찜 목록</h1>
+      <h1 style="margin: 20px;">📑 찜 목록 📑</h1>
 
       <div class="mypage">
         <div class="bookmark_box">
-            <ul class="bookmark_list">
-              <li class="bookmark_li">
-                <router-link :to="{ name: 'Bookmark', params: { lang: 'c' }}">C</router-link>
-              </li>
-              <li class="bookmark_li">
-                 <router-link :to="{ name: 'Bookmark', params: { lang: 'cpp' }}">C++</router-link>
-              </li>
-              <li class="bookmark_li">
-                 <router-link :to="{ name: 'Bookmark', params: { lang: 'java' }}">Java</router-link>
-              </li>
-              <li class="bookmark_li">
-                 <router-link :to="{ name: 'Bookmark', params: { lang: 'python' }}">Python</router-link>
-              </li>
-              <li class="bookmark_li">
-                 <router-link :to="{ name: 'Bookmark', params: { lang: 'etc' }}">Others</router-link>
-              </li>
-            </ul>
+              <!-- c -->
+              <p class="langbtns">
+                <span v-if="this.$route.params.lang == 'c'">
+                  <img src="../../assets/img/cpbtn.png" class="langbtn" alt="">
+                </span>
+                <span v-else>
+                  <img @click="goCBmk" class="langbtn" src="../../assets/img/cbtn.png" alt="">
+                </span>
+              <!-- cpp -->
+                <span v-if="this.$route.params.lang == 'cpp'">
+                  <img src="../../assets/img/cpppbtn.png" class="langbtn" alt="">
+                </span>
+                <span v-else>
+                  <img @click="goCppBmk" class="langbtn" src="../../assets/img/cppbtn.png" alt="">
+                </span>
+              <!-- java -->
+                <span v-if="this.$route.params.lang == 'java'">
+                  <img src="../../assets/img/javapbtn.png" class="langbtn" alt="">
+                </span>
+                <span v-else>
+                  <img @click="goJavaBmk" class="langbtn" src="../../assets/img/javabtn.png" alt="">
+                </span>
+              <!-- python -->
+                <span v-if="this.$route.params.lang == 'python'">
+                  <img src="../../assets/img/pythonpbtn.png" class="langbtn" alt="">
+                </span>
+                <span v-else>
+                  <img @click="goPythonBmk" class="langbtn" src="../../assets/img/pythonbtn.png" alt="">
+                </span>
+              <!-- others -->
+                <span v-if="this.$route.params.lang == 'etc'">
+                  <img src="../../assets/img/otherspbtn.png" class="langbtn" alt="">
+                </span>
+                <span v-else>
+                  <img @click="goOthersBmk" class="langbtn" src="../../assets/img/othersbtn.png" alt="">
+                </span>
+              </p>
         </div>
       </div>
-
-      <h2>{{this.$route.params.lang}}</h2>
-      <template>
-      <div class="que" v-for="item in items" :key="item.id"  >
+    <template>
+      <div class="que" v-for="item in paginatedData" :key="item.id"  >
         <div class="stats">
           <h6 style="text-size:small;">답글수</h6>
           <div class="like">
@@ -35,7 +53,10 @@
             </div>
         </div>
         <div class="summary">
-          <div class="title"><a class="tt" @click="detail(item.queNo,item.lang)"> Q: {{item.title}}</a></div>
+          <div class="title" style="text-align:left"><a class="tt" @click="detail(item.queNo,item.lang)">Q: {{item.title}}</a></div>
+          <div class="text">
+            {{txt(item.contents)}}
+          </div>
           <div class="tags">
             <a class="post-tag" @click="moveTagList('/taglist/', item.firstTag)" v-if="item.firstTag!=''">{{item.firstTag}}</a>
             <a class="post-tag" @click="moveTagList('/taglist/', item.secondTag)" v-if="item.secondTag!=''">{{item.secondTag}}</a>
@@ -47,12 +68,22 @@
             </div>
         </div>
       </div>
-      </template>
       <div class="outter">
           <router-link to="/quiz">
-           <img src="../../assets/img/quiz.png"> 
+            <img src="../../assets/img/quiz.png"> 
           </router-link>    
       </div>
+
+      <div class="pagination" v-show="pageCount!==0" style="float:right;">
+        
+        <button :disabled="pageNum === 0" @click="firstPage" class="page-btn"><i class="fas fa-caret-square-left"></i></button>
+        <button :disabled="pageNum === 0" @click="prevPage" class="page-btn"><i class="far fa-caret-square-left"></i></button>
+        <span class="page-count" style="padding-left:5px;padding-right:5px;font-size:1.2em;">{{ pageNum + 1 }} / {{ pageCount }}</span>
+        <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn"><i class="far fa-caret-square-right"></i></button>
+        <button :disabled="pageNum >= pageCount - 1" @click="lastPage" class="page-btn"><i class="fas fa-caret-square-right"></i></button>
+      </div>
+
+
   </div>
 </template>
 
@@ -61,32 +92,31 @@ import axios from 'axios'
   export default {
     data(){
       return {
-          cpp : null,
-          python : null,
-          c : null,
-          java : null,
-            fields: [{key:'rpCnt', label:'답글 수'},
-            {key:'title', label: '제목'},
-            {key: 'createDate', label: '작성 시간'},
-            {key: 'actions', label: '상세 보기' },
-            {key: 'deletebtn', label:'찜 삭제'}],
-          
-          langname : ['C','C++','Java','Python'],
-          langs : null,
-          lang: null,
-          items: null,
-
+        data : null,
+        pageNum: 0,
+        type: 0,
+        sorting_type: 0,
+      }
+    },
+    props: {
+      pageSize:{
+        type: Number,
+        required: false,
+        default:7
       }
     },
     methods: {
       getlist(language) {
         axios.get(this.$store.state.base_url +'/cart',{     
-            params: null, 
+            params: {
+              type: this.sorting_type,
+            }, 
             headers : {
                 'ACCESS-TOKEN' : this.$store.state.token
             }   
         })
         .then((response) => {
+          console.log(response)
           this.lang = response.data.data.user.lang
           if (this.lang == null){
             this.lang = 'etc'
@@ -94,18 +124,39 @@ import axios from 'axios'
           if (language == null){
             this.$router.push('/bookmark/'+this.lang)
           }
-          this.items = response.data.data[language]
+          this.data = response.data.data[language]
         })
         .catch((error) => {
-            swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
-            this.$cookies.remove('auth-token')
-            this.$store.commit('checkToken',this.$cookies.get('auth-token'))
-            this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
-            this.$router.push('/login')
+          swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
+          this.$cookies.remove('auth-token')
+          this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+          this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+          this.$router.push('/login')
         })
       },
       detail(queNo,lang) {
         this.$router.push('/detail/'+queNo+'/'+lang)
+      },
+      txt(contents) {
+        var temp = contents.replace(/(<([^>]+)>)/ig,"")
+        var temp1 = temp.replace("&nbsp;", "")
+        var tem = temp1.substring(0,400)
+        if (contents.length > 400){
+          tem = tem + ' ...  '
+        }
+        return tem
+      },
+      nextPage () {
+      this.pageNum += 1;
+      },
+      prevPage () {
+        this.pageNum -= 1;
+      },
+      firstPage () {
+        this.pageNum = 0;
+      },
+      lastPage () {
+        this.pageNum = this.pageCount-1;
       },
       selectdelete(queNo,num){
         axios.delete(this.$store.state.base_url +'/cart',{     
@@ -142,6 +193,36 @@ import axios from 'axios'
           console.log(this.tag)
           this.$router.push(path+tag);
       },
+      one(lang,keyword){
+        this.sorting_type = 0;
+        this.getlist(lang,keyword)
+      },
+      two(lang,keyword){
+        this.sorting_type = 1;
+        this.getlist(lang,keyword)
+
+      },
+
+      goCBmk() {
+        this.$router.push('/bookmark/c')
+      },
+
+      goCppBmk() {
+        this.$router.push('/bookmark/cpp')
+      },
+
+      goJavaBmk() {
+        this.$router.push('/bookmark/java')
+      },
+
+      goPythonBmk() {
+        this.$router.push('/bookmark/python')
+      },
+      goOthersBmk() {
+        this.$router.push('/bookmark/etc')
+      }
+
+
     },
     created() {
       this.getlist(this.$route.params.lang)
@@ -150,6 +231,23 @@ import axios from 'axios'
         this.getlist(to.params.lang);
         next();
     },
+    computed:{
+      pageCount() {
+        let listleng = this.data.length,
+        listSize = this.pageSize,
+        page = Math.floor(listleng/listSize)
+
+        if(listleng % listSize > 0) page +=1;
+
+        return page;
+      },
+      paginatedData() {
+        const start = this.pageNum*this.pageSize,
+        end = start + this.pageSize;
+        if(this.data!=null)
+        return this.data.slice(start, end);
+      }
+    }
   }
 </script>
 
@@ -204,7 +302,7 @@ import axios from 'axios'
     font-weight: 400;
     word-wrap: break-word;
     word-break: break-word;
-    font-size: 18px;
+    font-size: 25px;
     line-height: 1.4;
     margin-bottom: .5em;
   }
@@ -219,7 +317,6 @@ import axios from 'axios'
   .tags{
     line-height: 18px;
     float: left;
-    margin-left: 5%;
   }
   .post-tag{
     font-size: 12px;
@@ -277,17 +374,17 @@ import axios from 'axios'
   .bookmark_list{
     margin: 0;
     padding: 0px 700px 0px 0;
-    border-bottom: 1px solid #e9e9e9;
+    /* border-bottom: 1px solid #e9e9e9; */
     list-style: none;
     height: 55px;
     width: 785px;
   }
   .bookmark_box{
     padding: 0 700px 0 0;
-    border-top: 1px solid #e9e9e9;
+    /* border-top: 1px solid #e9e9e9; */
   }
   .bookmark_li{
-    border-right: 1px solid #e9e9e9;
+    /* border-right: 1px solid #e9e9e9; */
     display: inline;
     font-size: 30px;
     /* padding-left: 3rem;
@@ -295,18 +392,47 @@ import axios from 'axios'
     padding: 5.7px 49px 7px 52px;
     text-align: center;
   }
-  .mypage .bookmark_box .bookmark_list li a{
-  }
+
   .mypage{
     padding-top: 20px;
   }
+
 
   .outter{
     position: fixed;
     right:50px;
     bottom:0;
     width: 230px;
-    top: 250px
+    top: 250px;
            /* padding: 150px 50px 0 0 */
+  }
+  .mainlang{
+    margin-left: 25%;
+  }
+  .page-btn{
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 1.3em;
+    color: pink;
+  }
+  .text{
+    text-align:left; 
+    min-height:50px; 
+    margin-top:10px; 
+    margin-bottom:10px
+
+  }
+
+  .langbtns {
+  position: absolute;
+  display: block;
+  top: 23.5%;
+  left: 33%;
+  margin-bottom: 10px;
+}
+
+  .langbtn {
+      cursor: pointer;
+      height: 60px;
   }
 </style>

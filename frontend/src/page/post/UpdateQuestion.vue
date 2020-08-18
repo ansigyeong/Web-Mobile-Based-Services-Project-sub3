@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>게시글 수정</h1>
+    <h1 style="margin: 20px;">✏️ 질문 수정 ✏️</h1>
     <v-form>
       <v-text-field v-model="title"
         label="제목을 입력해주세요"

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>명예의 전당</h1>
+    <h1 style="margin: 20px;">👑 명예의 전당 👑</h1>
     <span v-if="$store.state.islogin">
       <router-link to="/record" style="color:rgb(76, 75, 71);">내 기록</router-link>
     </span>
@@ -104,13 +104,15 @@
 </script>
 
 <style scoped>
-
-            @font-face {
+  .container {
+    margin-left: 250px;
+  }
+  @font-face {
     font-family: 'CookieRun-Regular';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-}
+  }
 
   * {
       font-family: 'CookieRun-Regular';

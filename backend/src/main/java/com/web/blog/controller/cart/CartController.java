@@ -14,6 +14,7 @@ import com.web.blog.service.account.AccountService;
 import com.web.blog.service.cart.CartService;
 import com.web.blog.service.question.QuestionService;
 import com.web.blog.service.quetag.QueTagService;
+import com.web.blog.service.reply.ReplyService;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,8 @@ public class CartController {
     AccountService accountService;
     @Autowired
     QueTagService quetagService;
+    @Autowired
+    ReplyService replyService;
 
     @PostMapping("cart")
     @ApiOperation(value ="찜등록")
@@ -116,6 +119,8 @@ public class CartController {
                 q.setFirstTag(a);
                 q.setSecondTag(b);
                 q.setThirdTag(c);
+                q.setRpCnt(replyService.replyCount(q.getQueNo()));
+                q.setName(user.getName());
                 if(q.getLang().equals("c")){
                     cList.add(q);
                 } else if(q.getLang().equals("cpp")){
