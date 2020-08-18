@@ -86,11 +86,9 @@
             </div>
         </div>
       </div>
-
-      </template>
       <div class="outter">
           <router-link to="/quiz">
-           <img src="../../assets/img/quiz.png"> 
+            <img src="../../assets/img/quiz.png"> 
           </router-link>    
       </div>
 
@@ -404,7 +402,7 @@ import axios from 'axios'
     width: 230px;
     top: 250px
            /* padding: 150px 50px 0 0 */
-
+  }
   .mainlang{
     margin-left: 25%;
   }
