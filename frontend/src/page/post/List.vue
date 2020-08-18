@@ -21,7 +21,7 @@
     <div>
       <v-row>
 
-        <img @click="goAsk" class="askbtn" style="width: 120px; height: 50px;" src="../../assets/img/questionbtn.png" alt="">
+        <img @click="goAsk" class="askbtn" style="width: 120px; height: 50px;" src="../../assets/img/askgray.png" alt="">
 
         <v-col class="mainlang">
         </v-col>
