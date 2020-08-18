@@ -55,7 +55,7 @@ import axios from 'axios'
       return {
         currentPage:1,
         perPage:5,
-        data: null,
+        data: [],
         info: '',
         fields: [
         {key:'noticeNo', label: '번호'},
@@ -80,17 +80,14 @@ import axios from 'axios'
             }
         })
         .then((response) => {
-            console.log(response)
             this.data = response.data.data.list;
             this.info = response.data.data.user.role;
-            console.log(this.info)
           })
         .catch((error) => {
           console.log(error)
         })
       },
       detail(noticeNo) {
-        console.log(noticeNo)
         this.$router.push('/noticedetail/'+noticeNo)
       },
       create(){

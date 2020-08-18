@@ -76,15 +76,15 @@ import jwt_decode from 'jwt-decode'
         },
         data () {
             return {
-                items: null,
+                items: {'title':null, 'grade':null},
                 title: null,
                 contents: null,
                 lang: null,
                 replycontents: this.$store.state.updatebox.contents,
-                replyitems: null,
+                replyitems: [],
                 flag: true,
                 selectlist: null,
-                user: null,
+                user: {'grade':null},
                 isme : null
                 } 
         },
@@ -136,7 +136,6 @@ import jwt_decode from 'jwt-decode'
                 this.$router.push('/profile/'+userNo)
             },     
             moveTagList(path, tag){
-                console.log(this.tag)
                 this.$router.push(path+tag);
             },
             update() {
@@ -152,7 +151,6 @@ import jwt_decode from 'jwt-decode'
                 }
                 axios.put(this.$store.state.base_url +'/reply', body, config)
                 .then((response) => {
-                    console.log(response)
                     if (response.data.data == 'modifyReply success'){
                     swal('', '성공적으로 질문이 수정 되었습니다.', 'success')
                     }

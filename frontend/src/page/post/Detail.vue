@@ -131,15 +131,15 @@ import jwt_decode from 'jwt-decode'
         },
         data () {
             return {
-                items: null,
+                items: {'title':null, 'grade':null},
                 title: null,
                 contents: null,
                 lang: null,
                 replycontents: null,
-                replyitems: null,
+                replyitems: [],
                 flag: true,
                 selectlist: null,
-                user: null,
+                user: {'grade':null},
                 isme : null,
                 myemail: null,
                 } 
@@ -159,7 +159,6 @@ import jwt_decode from 'jwt-decode'
             },
             tracklang: function()
             {
-                console.log('language is changed')
                 return this.lang
             }
         },
@@ -168,30 +167,37 @@ import jwt_decode from 'jwt-decode'
                 this.$router.push('/profile/'+userNo)
             },
             getdetail() {
-                axios.get(this.$store.state.base_url +'/question/detail',{     
-                    params: {
+                let headers = null;
+                let params = {
                         queNo: this.queNo,
                         type: 0
-                    },
-                    headers : {
+                    };
+                if (this.$store.state.islogin){
+                    headers  = {
                         "ACCESS-TOKEN": this.$store.state.token
                     }
+                }
+                axios.get(this.$store.state.base_url +'/question/detail',{     
+                    params,
+                    headers
                 })
                 .then((response) => {
-                    console.log(response)
-                    var token = this.$store.state.token
-                    var decoded = jwt_decode(token) //payload
-                    this.myemail = decoded.sub
-
                     this.items = response.data.data.question
                     this.user = response.data.data.user
                     this.replyitems = response.data.data.rpList
 
-                    if (decoded.sub == this.user.email){
-                        this.isme = true
-                    }
-                    else {
-                        this.isme = false
+                    var token = this.$store.state.token
+                    if (this.$store.state.islogin)
+                    {
+                        var decoded = jwt_decode(token) //payload
+                        this.myemail = decoded.sub
+
+                        if (decoded.sub == this.user.email){
+                            this.isme = true
+                        }
+                        else {
+                            this.isme = false
+                        }
                     }
                 })
                 .catch((error) => {
@@ -212,7 +218,6 @@ import jwt_decode from 'jwt-decode'
                     }   
                 })
                 .then((response) => {
-                    console.log(response)
                     if (response.data.data == 'user fail') {
                         swal('', '작성자만 삭제가 가능합니다.', 'warning')
                     }
@@ -360,7 +365,6 @@ import jwt_decode from 'jwt-decode'
                     .then((response) =>{ 
                         this.replyitems = response.data.data.rpList
                         this.user.grade = response.data.data.user.grade
-                        console.log(this.replyitems)
                         }
                     )
                 })
@@ -395,31 +399,32 @@ import jwt_decode from 'jwt-decode'
                 })
             },
             checkflag() {
-                axios.get(this.$store.state.base_url +'/cart',{     
-                params: null, 
-                headers : {
-                    'ACCESS-TOKEN' : this.$store.state.token
-                }   
-            })
-            .then((response) => {
-                this.selectlist = response.data.data[this.$route.params.lang]
-                console.log(this.selectlist)
-                var temp = true
-                for (var i in this.selectlist){
-                    if (this.queNo == this.selectlist[i].queNo){
-                        temp = false
-                        break
+                if (this.$store.state.islogin){
+                    axios.get(this.$store.state.base_url +'/cart',{     
+                    params: null, 
+                    headers : {
+                        'ACCESS-TOKEN' : this.$store.state.token
+                    }   
+                })
+                .then((response) => {
+                    this.selectlist = response.data.data[this.$route.params.lang]
+                    var temp = true
+                    for (var i in this.selectlist){
+                        if (this.queNo == this.selectlist[i].queNo){
+                            temp = false
+                            break
+                        }
                     }
+                    this.flag = temp
+                    })
+                .catch((error) => {
+                    swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
+                    this.$cookies.remove('auth-token')
+                    this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+                    this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+                    this.$router.push('/login')
+                    })
                 }
-                this.flag = temp
-                })
-            .catch((error) => {
-                swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
-                this.$cookies.remove('auth-token')
-                this.$store.commit('checkToken',this.$cookies.get('auth-token'))
-                this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
-                this.$router.push('/login')
-                })
             },
             selectdelete(queNo){
             axios.delete(this.$store.state.base_url +'/cart',{     
@@ -458,7 +463,6 @@ import jwt_decode from 'jwt-decode'
                 this.$router.push('/profile/'+userNo)
             },     
             moveTagList(path, tag){
-                console.log(this.tag)
                 this.$router.push(path+tag);
             },
     },

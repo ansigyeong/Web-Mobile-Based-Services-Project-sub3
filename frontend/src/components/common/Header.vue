@@ -146,11 +146,9 @@
             Kakao.API.request({
               url: '/v1/user/unlink',
               success: function(response) {
-                  console.log(response);
  
               },
               fail: function(error) {
-                   console.log(error);
               },
             });
             
@@ -165,7 +163,7 @@
             item: '',
             search: '',
             drawer: false,
-            
+            keyword: null,
               fame:   { path: '/fame', title: '명예의 전당', icon: 'fas fa-trophy' },
               bookmark:    { path: '/bookmark', title: '찜하기', icon: 'fas fa-bookmark' },
               notice: {path: '/notice', title: '공지사항', icon: 'fas fa-bullhorn'},

@@ -58,7 +58,7 @@
     },
     data () {
       return {
-        user : null,
+        user : {'grade':null},
         boundary : [
           '0 ~ 99 점',
           '100 ~ 199 점',

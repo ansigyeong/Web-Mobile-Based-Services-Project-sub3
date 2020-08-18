@@ -196,26 +196,36 @@ public class AccountController {
     @PutMapping(value = "account/update")
     @ApiOperation(value = "회원 정보 수정")
     public Object updateAccount(@RequestBody Account user, Principal principal) {
+        System.out.println("role: "+ user.getRole());
+        AuthenticationRequest account;
         if (principal == null) {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        } else {
+        } else if(user.getRole().equals("ROLE_USER")) {
+            System.out.println("11111");
             user.setEmail(principal.getName());
-            Account account = accountService.selectAccount(principal.getName());
-    
-            if(!passwordEncoder.matches(account.getPw(), user.getPw())){
+            account = accountService.findByUsername(principal.getName());
+            if(!passwordEncoder.matches( user.getPw(),account.getPw())){
+                System.out.println("2222");
                 return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
-            }else{
-                Map<String, Object> map = new HashMap<>();
+            }else {
                 BasicResponse result = new BasicResponse();
+                System.out.println("3333");
+
+                user.setNewPw(passwordEncoder.encode(user.getNewPw()));
                 accountService.updateAccount(user);
-                map.put("user", account);
-                result.data = map;
                 result.status = true;
                 return new ResponseEntity<>(result, HttpStatus.OK);
     
             }
+        } else {
+            BasicResponse result = new BasicResponse();
+            user.setEmail(principal.getName());
+            System.err.println(user);
+            accountService.updateKakao(user);
+            result.status = true;              
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
-    }
+    } 
 
     @DeleteMapping(value = "account/delete")
     @ApiOperation(value = "회원 탈퇴")

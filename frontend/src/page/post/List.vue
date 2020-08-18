@@ -80,7 +80,7 @@ import axios from 'axios'
       return {
         pageNum: 0,
         type: 0,
-        data: null,
+        data: [],
         sorting_type: 0,
         lang: this.$route.params.lang,
         keyword: this.$route.params.keyword
@@ -116,7 +116,6 @@ import axios from 'axios'
         this.$router.push('/profile/'+userNo)
       },
       moveTagList(path, tag){
-        console.log(this.tag)
         this.$router.push(path+tag);
       },
       one(lang,keyword){

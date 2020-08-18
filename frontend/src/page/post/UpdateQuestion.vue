@@ -47,9 +47,6 @@ export default {
       lang: this.$store.state.updatebox.lang,
       }
   },
-  created(){
-    console.log(this.$store.state.updatebox)
-  },
   methods: {
     update() {
         let config = {
@@ -80,6 +77,9 @@ export default {
             this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
             this.$router.push('/login')
         })
+    },
+    back() {
+      this.$router.go(-1)
     }
   }
 }

@@ -16,7 +16,7 @@
     <span v-if="this.flag"> 
     <div>
         <b-button @click="deleteuser" class="dd"  variant="primary" style="margin:7px 7px 0 0 ">회원 탈퇴</b-button>
-        <b-button @click="updateuser" class="dd"  variant="primary" style="margin:7px 0 0 7px">정보 수정</b-button>
+        <b-button @click="updateuser(userNo.userNo)" class="dd"  variant="primary" style="margin:7px 0 0 7px">정보 수정</b-button>
     </div>
     </span>
     <span v-else>    
@@ -119,7 +119,7 @@
             <div size="sm" @click="detail(row.item.queNo)" class="mr-1" variant="primary" style="background-color:white;width:170px; height:27px; overflow: hidden;">
               {{row.item.title}}
             </div>
-          </template>
+          </template>a
         </b-table>
         <b-pagination
             v-show="this.data.length>5"
@@ -163,26 +163,28 @@ import { Carousel, Slide } from 'vue-carousel'
         perPage:5,
         currentPage2:1,
         perPage2:5,
-        data: null,
+        data: [],
         fields: [
         {key:'lang', label: '언어'},
         {key:'actions', label: '제목'},
         {key: 'createDate', label: '작성 시간'},
         ],
-        replydata : null,
+        replydata : [],
         replyfields: [
           {key:'rpLike', label: '좋아요'},
           {key:'replyactions', label: '내용'},
           {key:'createDate', label: '작성일'},
         ],
         useritems:null,
-        following: null,
-        follower: null,
+        following: [],
+        follower: [],
         link: null,
         username: null,
         flag: null,
         followflag :null,
-        selectlist: null
+        selectlist: [],
+        userNo: {'userNo':[]},
+        iskakao: false
       }
     },
     created() {
@@ -208,24 +210,30 @@ import { Carousel, Slide } from 'vue-carousel'
             }
         })
         .then((response) => {
+            console.log(response)
+            this.userNo = response.data.data.user.userNo
             this.flag = response.data.data.modify
             this.link =  require('../../assets/img/lv'+this.level(response.data.data.user.grade)+'.png')
             this.username = response.data.data.user.name;
             this.data = response.data.data.myque;
             this.replydata = response.data.data.myrp;
-            console.log('re')
-            console.log(response.data.data.myrp)
             this.useritems =[{
               '이름': response.data.data.user.name,
               '이메일' : response.data.data.user.email,
               '가입 일자' : response.data.data.user.createDate,
               '언어' : response.data.data.user.lang,
               '등급' : response.data.data.user.grade,
-              '랭킹' : response.data.data.hof.rank
+              '랭킹' : response.data.data.hof.rank,
             }]
+            if (response.data.data.user.role == "ROLE_KAKAO"){
+              this.iskakao = true
+              this.useritems[0]['이메일'] += ' (카카오)'
+            }
+            this.userNo = {
+              'userNo':response.data.data.user.userNo
+            }
             this.following = response.data.data.followingList
             this.follower = response.data.data.followerList
-            // console.log(this.follower)
           })
         .catch((error) => {
             swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
@@ -247,7 +255,6 @@ import { Carousel, Slide } from 'vue-carousel'
       })
       .then((response) => {
           this.selectlist = response.data.data.followingList
-          console.log(this.selectlist)
           var temp = true
           for (var i in this.selectlist){
               if (this.$route.params.userNo == this.selectlist[i].userNo){
@@ -286,30 +293,13 @@ import { Carousel, Slide } from 'vue-carousel'
       })
       }
     },
-
-
-      
-      // deleteuser() {
-      //   if (confirm("정말로 회원탈퇴를 하시겠습니까?"))
-      //   {
-      //       axios.delete(this.$store.state.base_url +'/account/delete',{     
-      //       params: {
-      //       }, 
-      //       headers : {
-      //           'ACCESS-TOKEN' : this.$store.state.token
-      //       }   
-      //   })
-      //   .then((response) => {
-      //       swal('', '회원탈퇴 처리 되었습니다.', 'success')
-      //       this.$cookies.remove('auth-token')
-      //       this.$store.commit('checkToken',this.$cookies.get('auth-token'))
-      //       this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
-      //       this.$router.push('/')
-      //   })
-      //   }
-      // },
-      updateuser() {
-
+      updateuser(userNo) {  
+        if (this.iskakao){
+          this.$router.push('/updateuser/'+userNo+'/kakao')
+        }
+        else {
+          this.$router.push('/updateuser/' + userNo)
+        }
       },
       follow() {
           let config = {
@@ -322,7 +312,6 @@ import { Carousel, Slide } from 'vue-carousel'
           }
           axios.post(this.$store.state.base_url +'/follow',body, config)
           .then((response) => {
-            console.log(response)
             this.checkflag()
             this.getlist(this.$route.params.userNo)
           })
@@ -344,9 +333,7 @@ import { Carousel, Slide } from 'vue-carousel'
           }   
         })
           .then((response) => {
-            console.log(response)
             this.checkflag()
-            console.log(this.followflag)
             this.getlist(this.$route.params.userNo)
           })
         },

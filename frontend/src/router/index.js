@@ -22,6 +22,7 @@ import ThirdMain from '../page/post/ThirdMain'
 import UpdateReply from '../page/post/UpdateReply.vue'
 import FloatingIcon from '../page/post/FloatingIcon.vue'
 import Quiz from '../page/post/Quiz.vue'
+import Userupdate from '../page/user/UpdateUser.vue'
 
 Vue.use(VueRouter)
 
@@ -30,6 +31,11 @@ Vue.use(VueRouter)
     path: '/updatereply/:queNo/:lang/:rpNo',
     name: 'updatereply',
     component: UpdateReply
+  },
+  {
+    path: '/updateuser/:userNo/:kakao?',
+    name: 'updateuser',
+    component: Userupdate
   },
   {
     path: '/join',
