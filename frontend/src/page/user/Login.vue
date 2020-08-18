@@ -46,8 +46,6 @@
         },
         methods: {
             login() {
-                // console.log("경로:::")
-                // console.log(this.$store.state.base_url)
                 axios.get(this.$store.state.base_url +'/account/login',{
                 params: {
                         email: this.email,
@@ -57,14 +55,10 @@
                 .then((response) => {
                     console.log(response)
                     if (response.data.status) {
-                        // console.log(response)
-                        // console.log(response.data.data["ACCESS-TOKEN"])
                         this.$cookies.set('auth-token', response.data.data["ACCESS-TOKEN"])
                         swal('', '로그인 되었습니다.', 'success')
                         this.$store.commit('checkToken',this.$cookies.get('auth-token'))
                         this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
-                        // console.log(this.$store.state.token)
-                        // console.log(this.$store.state.islogin)
                         this.$router.push('/')
                     }
                     else {
@@ -73,25 +67,16 @@
                 })
                 .catch((error) => {
                     swal('', error, 'error')
-                    // console.log('error')
-                    // console.log(error)
                 }) 
             },
             kakaoLogin(){
                 var vm = this;
-				Kakao.Auth.login({
-					success: response => {
-                        // console.log(response)
-                        // console.log('token: '+response.access_token)
+                 Kakao.Auth.login({
+                     success: response => {
                         Kakao.API.request({
                             url: '/v2/user/me',
                             success: function(res) {
-                                console.log(res)
-                                // console.log('경로:::::');
-                                // console.log(vm.$store.state.base_url)
-                                // console.log('닉네임 : ' + res.kakao_account.profile.nickname)
-                                // console.log('email : ' + res.kakao_account.email)
-								axios
+                                 axios
                                 .get( 'http://localhost/kakao', {
                                     params: {
                                         name: res.kakao_account.profile.nickname,
@@ -99,21 +84,14 @@
                                     }
                                 })
                                 .then(function (response) {
-                                    // console.log(response)
-                                    // console.log(response.data.data["ACCESS-TOKEN"])
-                                    // console.log('success')
                                     swal('', '로그인 되었습니다.', 'success')
                                     vm.$cookies.set('auth-token', response.data.data["ACCESS-TOKEN"])
                                     vm.$store.commit('checkToken', vm.$cookies.get('auth-token'))
                                     vm.$store.commit('checklogin', vm.$cookies.isKey('auth-token'))
-                                    // console.log(vm.$store.state.token)
-                                    // console.log(vm.$store.state.islogin)
                                     vm.$router.push('/')
                                 })
                                 .catch((error) => {
                                     swal('', 'error', 'error')
-                                    console.log('error')
-                                    console.log(error)
                                 }) 
 
                             }
@@ -129,10 +107,9 @@
                 Kakao.API.request({
                 url: '/v1/user/unlink',
                 success: function(response) {
-                    console.log(response);
+ 
                 },
                 fail: function(error) {
-                    console.log(error);
                 },
                 });
             },

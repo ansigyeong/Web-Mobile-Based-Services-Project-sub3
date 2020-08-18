@@ -97,7 +97,6 @@ import Editor from '@tinymce/tinymce-vue'
         let tT = '~'
         
         for(let tag of this.tags){
-          console.log(tag)
           if(i==0)  fT = tag
           if(i==1)  sT = tag
           if(i==2)  tT = tag

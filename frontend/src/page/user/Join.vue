@@ -85,7 +85,6 @@
                     lang: this.lang
                 })
                 .then((response) => {
-                    console.log(response)
                     swal('', '회원가입 되었습니다.\n가입하신 이메일의 인증 메일을 확인해주세요.', 'success')
                     this.$router.push('/')
                 })
@@ -108,7 +107,6 @@
                     flag = true;
                 }
                 this.isconfirm = flag
-                console.log(this.isconfirm)
             },
             isName(asValue) {
                 var flag = true;
@@ -138,7 +136,6 @@
                     swal('언어를 선택 하세요.', 'warning')
                 }
                 else {
-                    console.log(this.name)
                     this.signup()
                 }
 

@@ -92,10 +92,11 @@ import axios from 'axios'
   export default {
     data(){
       return {
-        data : null,
+        data : [],
         pageNum: 0,
         type: 0,
         sorting_type: 0,
+        item : {'contents':[]}
       }
     },
     props: {
@@ -116,7 +117,6 @@ import axios from 'axios'
             }   
         })
         .then((response) => {
-          console.log(response)
           this.lang = response.data.data.user.lang
           if (this.lang == null){
             this.lang = 'etc'
@@ -190,7 +190,6 @@ import axios from 'axios'
         })
       },
       moveTagList(path, tag){
-          console.log(this.tag)
           this.$router.push(path+tag);
       },
       one(lang,keyword){

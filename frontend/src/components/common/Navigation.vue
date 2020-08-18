@@ -36,8 +36,6 @@
     created() {
     this.$store.commit('checkToken',this.$cookies.get('auth-token'))
     this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
-    console.log(this.$store.state.token)
-    console.log(this.$store.state.islogin)
   },
   methods: {
     moveList(path, lang, keyword){

@@ -41,9 +41,13 @@ public interface AccountMapper {
     @Select("select * from user where email = #{email}")
     public Account selectAccount(String email);
     
-    //회원 수정
+    //회원 수정(일반 계정)
     @Update("update user set name=#{user.name}, lang=#{user.lang}, pw= #{user.newPw} where email = #{user.email} " )
     public void updateAccount(@Param("user") Account user); 
+
+    //회원 수정(카카오 계정)
+    @Update("update user set name=#{user.name}, lang=#{user.lang} where email = #{user.email}")
+    public void updateKakao(@Param("user") Account user);
 
     //회원 탈퇴
     @Delete("delete from user where email = #{email} ")

@@ -135,6 +135,11 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
         accountDao.insertKakao(user);
     }
 
+    @Override
+    public void updateKakao(Account user) {
+        accountDao.updateKakao(user);
+    }
+
   
 
 }

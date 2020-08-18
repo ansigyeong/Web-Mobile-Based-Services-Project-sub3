@@ -156,7 +156,7 @@ export default {
             item: '',
             search: '',
             drawer: false,
-            
+            keyword: null,
               fame:   { path: '/fame', title: '명예의 전당', icon: 'fas fa-trophy' },
               bookmark:    { path: '/bookmark', title: '찜목록', icon: 'fas fa-bookmark' },
               notice: {path: '/notice', title: '공지사항', icon: 'fas fa-bullhorn'},

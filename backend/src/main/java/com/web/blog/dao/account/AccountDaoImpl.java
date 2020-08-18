@@ -70,6 +70,11 @@ public class AccountDaoImpl implements AccountDao{
         accountMapper.insertKakao(user);
     }
 
+    @Override
+    public void updateKakao(Account user) {
+        accountMapper.updateKakao(user);
+    }
+
    
 
 }
