@@ -265,34 +265,37 @@ import jwt_decode from 'jwt-decode'
                     contents: this.replycontents
                 }
 
-                if (this.replycontents == null | this.replycontents == '')
+                if (this.replycontents == null | this.noblank(this.replycontents) == '')
                 {
-                    
+                    swal('', '내용을 입력하세요.', 'warning')
                 }
-                axios.post(this.$store.state.base_url +'/reply', body, config)
-                .then((response) => {
-                    axios.get(this.$store.state.base_url +'/question/detail',{     
-                        params: {
-                            queNo: this.queNo,
-                            type: 0
-                        },
-                        headers : {
-                            "ACCESS-TOKEN": this.$store.state.token
-                        }
+                else
+                {
+                    axios.post(this.$store.state.base_url +'/reply', body, config)
+                    .then((response) => {
+                        axios.get(this.$store.state.base_url +'/question/detail',{     
+                            params: {
+                                queNo: this.queNo,
+                                type: 0
+                            },
+                            headers : {
+                                "ACCESS-TOKEN": this.$store.state.token
+                            }
+                        })
+                        .then((response) =>{ 
+                            this.replyitems = response.data.data.rpList
+                            this.replycontents = ''
+                            swal('', '댓글이 등록 되었습니다.', 'success')
+                        })
                     })
-                    .then((response) =>{ 
-                        this.replyitems = response.data.data.rpList
-                        this.replycontents = ''
-                        swal('', '댓글이 등록 되었습니다.', 'success')
+                    .catch((error) => {
+                        swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
+                        this.$cookies.remove('auth-token')
+                        this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+                        this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+                        this.$router.push('/login')
                     })
-                })
-                .catch((error) => {
-                    swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
-                    this.$cookies.remove('auth-token')
-                    this.$store.commit('checkToken',this.$cookies.get('auth-token'))
-                    this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
-                    this.$router.push('/login')
-                })
+                }
             },
             replydelete(rpNo) {
                 axios.delete(this.$store.state.base_url +'/reply',{
@@ -468,6 +471,9 @@ import jwt_decode from 'jwt-decode'
             },     
             moveTagList(path, tag){
                 this.$router.push(path+tag);
+            },
+            noblank(contents){
+                return contents.replace(/(\s*)/g, "").replace("&nbsp;", "")
             },
     },
     }
