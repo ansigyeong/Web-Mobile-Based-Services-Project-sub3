@@ -116,7 +116,7 @@
             },
             isName(asValue) {
                 var flag = true;
-                if (asValue == null || asValue == ''){
+                if (asValue == null || this.noblank(asValue) == ''){
                     flag = false
                 }
                 this.isname = flag
@@ -158,8 +158,10 @@
                     }
                 }
 
-            }
-
+            },
+            noblank(contents){
+                return contents.replace(/(\s*)/g, "").replace(/&nbsp;/g, "")
+            },
         }
     }
 
