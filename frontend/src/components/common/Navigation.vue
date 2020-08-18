@@ -10,9 +10,11 @@
       <template v-if="this.$store.state.islogin">
       <li><router-link to="/askquestion" style="font-family: 'NEXON Lv2 Gothic Bold'">질문</router-link> </li> 
       <li><router-link to="/notice" style="font-family: 'NEXON Lv2 Gothic Bold'">공지사항</router-link> </li>       
-      <li><router-link to="/bookmark" style="font-family: 'NEXON Lv2 Gothic Bold'">찜하기</router-link> </li> 
+      <li><router-link to="/bookmark" style="font-family: 'NEXON Lv2 Gothic Bold'">찜목록</router-link> </li> 
       <li><router-link to="/record" style="font-family: 'NEXON Lv2 Gothic Bold'">내기록</router-link></li>
       </template>
+      <li><router-link to="/quiz" style="font-family: 'NEXON Lv2 Gothic Bold'">오늘의 퀴즈</router-link></li>
+
     </ul>
        
     </div>
@@ -111,7 +113,9 @@ li a:hover {
   text-align: left;
   
 }
-
+.lang:hover{
+  color: lightgray;
+}
 /* .sidenav a {
   padding: 6px 8px 6px 16px;
   text-decoration: none;

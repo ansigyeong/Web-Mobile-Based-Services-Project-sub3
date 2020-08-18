@@ -51,7 +51,12 @@
 
 
           </v-list-group>
-
+        <v-list-item 
+          @click="movePage(quiz.path)"
+        >
+        <v-list-item-icon><v-icon v-text="quiz.icon"></v-icon></v-list-item-icon>
+        <v-list-item-title v-text="quiz.title"></v-list-item-title>
+        </v-list-item>
 
     </v-list>
     
@@ -153,12 +158,11 @@ export default {
             drawer: false,
             
               fame:   { path: '/fame', title: '명예의 전당', icon: 'fas fa-trophy' },
-              bookmark:    { path: '/bookmark', title: '찜하기', icon: 'fas fa-bookmark' },
+              bookmark:    { path: '/bookmark', title: '찜목록', icon: 'fas fa-bookmark' },
               notice: {path: '/notice', title: '공지사항', icon: 'fas fa-bullhorn'},
               ask: {path: '/askquestion', title: '질문하기', icon:'ar fa-gem'},
               que: {  title: 'Question', icon: 'mdi-account'  , lang: [{title : 'c'} ,{title : 'cpp'},{title : 'java'},{title : 'python'},{title : 'others'} ,{title : 'all'}] },
-              // myrecord : {path : '/record' , title : '내기록' , icon : 'mdi-account'},
-           
+              quiz : {path : '/quiz' , title : '오늘의 퀴즈' , icon : 'fab fa-quora'},
         })
 }
 </script>
