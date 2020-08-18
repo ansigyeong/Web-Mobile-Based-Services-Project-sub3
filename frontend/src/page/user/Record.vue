@@ -47,6 +47,7 @@
     </div>
   </div>  
 </template>
+
 <script>
   import {Carousel3d, Slide}  from 'vue-carousel-3d'
   import axios from 'axios'
