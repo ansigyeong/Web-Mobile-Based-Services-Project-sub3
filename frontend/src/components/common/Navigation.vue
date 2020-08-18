@@ -8,7 +8,7 @@
           </ul>
       </li>
       <template v-if="this.$store.state.islogin">
-      <li><router-link to="/askquestion" style="font-family: 'NEXON Lv2 Gothic Bold'">질문</router-link> </li> 
+      <li><router-link to="/askquestion" style="font-family: 'NEXON Lv2 Gothic Bold'">질문하기</router-link> </li> 
       <li><router-link to="/notice" style="font-family: 'NEXON Lv2 Gothic Bold'">공지사항</router-link> </li>       
       <li><router-link to="/bookmark" style="font-family: 'NEXON Lv2 Gothic Bold'">찜목록</router-link> </li> 
       <li><router-link to="/record" style="font-family: 'NEXON Lv2 Gothic Bold'">내기록</router-link></li>
