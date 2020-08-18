@@ -43,7 +43,7 @@
               </p>
         </div>
       </div>
-    <template>
+
       <div class="que" v-for="item in paginatedData" :key="item.id"  >
         <div class="stats">
           <h6 style="text-size:small;">답글수</h6>
