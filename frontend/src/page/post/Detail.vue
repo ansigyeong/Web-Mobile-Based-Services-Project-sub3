@@ -2,7 +2,7 @@
   <div class="container">
       <h1 style="margin-top:20px">📖 질문 상세보기 📖</h1>
       <div style="text-align: left">
-        <div style="display:flex; justify-content:space-between">
+        <div style="display:flex; justify-content:space-between; margin-top:30px">
             <h2>{{this.items.title}}</h2>
         </div>
         <div style="display:flex;">

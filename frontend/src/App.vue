@@ -2,7 +2,7 @@
   <v-app>
     <Header v-if="!isCheckedMain"/>
     <header-main v-if="isCheckedMain"/>
-    <Navigation v-if="!isCheckedMain && !isCheckedLogin && !isCheckedJoin "/>
+    <Navigation class="side" v-if="!isCheckedMain && !isCheckedLogin && !isCheckedJoin "/>
     <div>
       <router-view/>
     </div>
@@ -59,18 +59,6 @@ export default {
   color: #2c3e50;
 }
 
-// #nav {
-//   padding: 30px;
-
-//   a {
-//     font-weight: bold;
-//     color: #2c3e50;
-
-//     &.router-link-exact-active {
-//       color: #42b983;
-//     }
-//   }
-// }
   .container {
      padding-top: 100px;
      padding-left: 170px;
@@ -105,5 +93,13 @@ pre {
 
 }
 
+@media screen and (max-width: 500px){
+  .side{
+    display: none;
+  }
+  .container {
+     padding-top: 100px;
+  }
+}
 </style>
 

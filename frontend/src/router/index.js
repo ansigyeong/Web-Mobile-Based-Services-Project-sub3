@@ -10,7 +10,6 @@ import Detail from '../page/post/Detail.vue'
 import List from '../page/post/List.vue'
 import Bookmark from '../page/post/Bookmark.vue'
 import UpdateQuestion from '../page/post/UpdateQuestion.vue'
-import Test from '../page/post/test.vue'
 import Main from '../page/post/main.vue'
 import TagList from '../page/post/TagList.vue'
 import Notice from '../page/post/Notice.vue'
@@ -86,11 +85,6 @@ Vue.use(VueRouter)
     path: '/updatequestion/:queNo',
     name: 'UpdateQuestion',
     component: UpdateQuestion
-  },
-  {
-    path: '/test',
-    name: 'Test',
-    component: Test
   },
   {
     path: '/',
