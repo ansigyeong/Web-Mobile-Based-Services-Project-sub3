@@ -134,7 +134,6 @@ import Editor from '@tinymce/tinymce-vue'
             thirdTag : tT
           }
         }
-        console.log(this.noblank(this.title))
         if (this.noblank(this.title) == '' | this.title == null){
           swal('', '제목을 입력해 주세요.', 'warning')
         }

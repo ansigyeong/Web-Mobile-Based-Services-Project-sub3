@@ -149,7 +149,6 @@ import jwt_decode from 'jwt-decode'
                 } 
         },
         beforeCreate() {
-            console.log(this.lang)
         },
         created() {
             this.checkflag();

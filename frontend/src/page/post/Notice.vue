@@ -2,27 +2,7 @@
     <div class="container">
         <h1 style="margin: 20px;">📢 공지 사항 📢</h1>
         <v-btn v-show="this.info=='ROLE_ADMIN'" style="float:right;" x-large outlined text @click="create">글작성</v-btn>
-        <!-- <b-table
-            :data="tableData"            
-            striped
-            narrowed
-            hoverable
-            mobile-cards
-            :loading="loading">
-             <template slot-scope="props">
-                <b-table-column :label="header" :field="index" v-for="(data, index) in data" :key="index" sortable numeric>
-                    {{ props.row[index] }}
-                </b-table-column>
-            </template>            
-        </b-table>     -->
-        
-    <!-- <b-table :items="data" :fields="fields" :per-page="perPage" :current-page="currentPage" @row-clicked="detail(index)" bordered responsive="sm">
-      <template v-slot:cell(actions)="row">
-        <b-button size="sm" @click="detail(row.item.noticeNo)" class="mr-1">
-          dd
-        </b-button>
-      </template>
-    </b-table> -->
+       
     <b-table :items="data" :fields="fields" :per-page="perPage" :current-page="currentPage" responsive="sm">
       <slot></slot>
       <template v-slot:cell(actions)="row">
@@ -93,10 +73,6 @@ import axios from 'axios'
       create(){
         this.$router.push('/noticecreate')
       },
-      ck(a,b){
-        console.log(a)
-        console.log(b)
-      }
     },
 
     beforeRouteUpdate (to, from, next){

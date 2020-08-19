@@ -181,7 +181,6 @@
       }
     },
     moveList(path, lang){
-      console.log(lang)
       this.$router.push(path+lang); 
     },
     goAsk() {

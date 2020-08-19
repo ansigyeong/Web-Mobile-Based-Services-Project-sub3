@@ -74,7 +74,6 @@ import axios from 'axios'
             tag: tag}
         })
         .then((response) => {
-          console.log(response)
           this.data = response.data.data.list
         })
       },
@@ -85,7 +84,6 @@ import axios from 'axios'
         this.$router.push('/profile/'+userNo)
       },
       moveTagList(path, tag){
-        console.log(this.tag)
         this.$router.push(path+tag);
       },
       nextPage () {
@@ -130,9 +128,6 @@ import axios from 'axios'
       paginatedData() {
         const start = this.pageNum*this.pageSize,
         end = start + this.pageSize;
-        console.log(start)
-        console.log(end)
-        console.log(this.data)
         if(this.data!=null)
         return this.data.slice(start, end);
       }

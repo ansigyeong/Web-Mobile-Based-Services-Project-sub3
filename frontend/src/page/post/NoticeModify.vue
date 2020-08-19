@@ -66,7 +66,6 @@ import Editor from '@tinymce/tinymce-vue'
             else {
               swal('', '질문 작성자만 수정이 가능 합니다.', 'warning')
             }
-            console.log(this.$route.params.noticeNo)
             this.$router.push('/noticedetail/'+this.$route.params.noticeNo)
           })
         .catch((error) => {

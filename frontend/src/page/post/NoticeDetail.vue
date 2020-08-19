@@ -110,7 +110,6 @@ import axios from 'axios'
                     }   
                 })
                 .then((response) => {
-                    console.log(response)
                     if (response.data.status) {
                         swal('', '공지가 성공적으로 삭제 되었습니다.', 'success')
                         this.$router.go(-1)
@@ -122,7 +121,6 @@ import axios from 'axios'
           
             },
             updatenotice(noticeNo) {
-                console.log('up')
                 this.$store.commit("updateinfo",{
                     title : this.title,
                     contents : this.contents,

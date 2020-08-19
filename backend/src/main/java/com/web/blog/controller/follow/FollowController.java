@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
         @ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
         @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
-@CrossOrigin(origins = { "http://3.34.42.229:3000" })
+@CrossOrigin(origins = { "http://3.34.42.229:5000" })
 @RestController // spring4.1부터 추가. 기존controller + responseBody
 public class FollowController {
 

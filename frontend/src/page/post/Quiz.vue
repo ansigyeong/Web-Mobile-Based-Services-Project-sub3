@@ -35,7 +35,7 @@
             
                <div v-if="questionIndex == quiz.questions.length" > 
                   <h2 class="result">결과확인</h2>
-                  <img class="Question_Block" @click="submit" src="../../assets/img/Question_Block.gif">
+                  <img class="Question_Block" @click="submit(score())" src="../../assets/img/Question_Block.gif">
                </div>
             
             <div v-if="questionIndex > quiz.questions.length" v-bind:key="questionIndex" class="quizCompleted has-text-centered">
@@ -74,7 +74,6 @@ import axios from 'axios'
     name: 'Quiz',
     data(){
       return {
-        grade: 0,
         quiz: quiz,
         questionIndex: 0,
         grade:0,
@@ -95,7 +94,6 @@ import axios from 'axios'
          // },
       selectOption: function(index) {
          this.$set(this.userResponses, this.questionIndex, index);
-         console.log(this.userResponses);
       },
       next: function() {
          if (this.questionIndex < this.quiz.questions.length)
@@ -123,8 +121,7 @@ import axios from 'axios'
 
          //return this.userResponses.filter(function(val) { return val }).length;
       },
-submit() {
-         console.log(this.grade)
+submit(num) {
         let config = {
           headers: {
             "ACCESS-TOKEN": this.$store.state.token
@@ -133,18 +130,15 @@ submit() {
         let body = {
           contents: this.contents,
           title: this.title,
-          grade: this.grade
+          grade: num*5
         }
         this.questionIndex++;
         axios.post(this.$store.state.base_url + '/quiz', body, config)
         .then((response) => {
-         //   console.log(response)
            if(response.data.data=="todayEnd")   swal('', '오늘의 퀴즈를 이미 완료하였습니다.', 'warning')
            else swal('', '오늘의 퀴즈를 완료하였습니다.', 'success')
-        //   this.$router.push('/')
         })
         .catch((error) => {
-         //  console.log(error)
          swal('','로그인 시 점수 획득이 가능합니다.','warning')
            })
     },
