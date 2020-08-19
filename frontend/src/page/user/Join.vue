@@ -7,24 +7,24 @@
 				<input v-model="name" class="input_vaild" @input="isName(name)" type="text" name="username" placeholder="이름을 입력해주세요" />
             </template>
             <template v-else>
-                <input v-model="name" @input="isName(name)" type="text" name="name" placeholder="이름을 입력해주세요" />
-                <p class="warn" ><small>이름을 입력해 주세요.</small></p>
+                <input v-model="name" @input="isName(name)" type="text" name="name" style="font-family: 'NEXON Lv2 Gothic Light';" placeholder="이름을 입력해주세요" />
+                <p class="warn" style="font-family: 'NEXON Lv2 Gothic Light';" ><small>이름을 입력해 주세요.</small></p>
             </template>
             
             <template v-if="isemail">
-				<input v-model="email" class="input_vaild" @input="isEmail(email)" type="text" name="email" placeholder="이메일을 입력해주세요" />
+				<input v-model="email" class="input_vaild" @input="isEmail(email)" type="text" name="email" style="font-family: 'NEXON Lv2 Gothic Light';" placeholder="이메일을 입력해주세요" />
             </template>
             <template v-else>
-                <input v-model="email"  @input="isEmail(email)" type="text" name="email" placeholder="이메일을 입력해주세요" />
-                    <p class="warn" ><small>이메일 형식이 아닙니다.</small></p>
+                <input v-model="email"  @input="isEmail(email)" type="text" name="email" style="font-family: 'NEXON Lv2 Gothic Light';" placeholder="이메일을 입력해주세요" />
+                    <p class="warn" style="font-family: 'NEXON Lv2 Gothic Light';" ><small>이메일 형식이 아닙니다.</small></p>
             </template>
 
             <template v-if="ispassword">
-				<input v-model="pw" class="input_vaild" @input="isPassword(pw)" type="password" name="password" placeholder="비밀번호를 입력해주세요" />
+				<input v-model="pw" class="input_vaild" @input="isPassword(pw)" type="password" name="password" style="font-family: 'NEXON Lv2 Gothic Light';" placeholder="비밀번호를 입력해주세요" />
             </template>
             <template v-else>
-            	<input v-model="pw"  @input="isPassword(pw)" type="password" name="password" placeholder="비밀번호를 입력해주세요" />
-                <p class="warn"><small>영문자와 숫자의 8~10자리 조합만 유효합니다.</small></p>
+            	<input v-model="pw"  @input="isPassword(pw)" type="password" name="password" style="font-family: 'NEXON Lv2 Gothic Light';" placeholder="비밀번호를 입력해주세요" />
+                <p class="warn" style="font-family: 'NEXON Lv2 Gothic Light';"><small>영문자와 숫자의 8~10자리 조합만 유효합니다.</small></p>
             </template>
 
             <template v-if="isconfirm">
@@ -32,12 +32,12 @@
             </template>
             <template v-else>
 				<input v-model="passwordConfirm" @input="isConfirm(passwordConfirm)" type="password" name="password2" placeholder="비밀번호를 한번 더 입력해주세요" />
-                <p class="warn" ><small>비밀번호와 같지 않습니다.</small></p>
+                <p class="warn" style="font-family: 'NEXON Lv2 Gothic Light';"><small>비밀번호와 같지 않습니다.</small></p>
             </template>
 
             
             <!-- <label class="label" for="language">주사용 언어</label> -->
-            <b-form-select v-model="lang" :options="options"></b-form-select>
+            <b-form-select v-model="lang" :options="options" style="font-family: 'NEXON Lv2 Gothic Light';"></b-form-select>
 				
             <!-- <input style="font-family: 'CookieRun-Regular';" @click="submit" type="submit" name="signup_submit" value="회원가입" /> -->
             <button class="submit-button" @click="submit" style="font-family: 'NEXON Lv2 Gothic Bold';">회원가입</button>
@@ -110,7 +110,7 @@
             },
             isName(asValue) {
                 var flag = true;
-                if (asValue == null || asValue == ''){
+                if (asValue == null || this.noblank(asValue) == ''){
                     flag = false
                 }
                 this.isname = flag
@@ -139,15 +139,22 @@
                     this.signup()
                 }
 
+            },
+            noblank(contents){
+                return contents.replace(/(\s*)/g, "").replace(/&nbsp;/g, "")
             }
-
         }
     }
-
 </script>
 
 
 <style  scoped>
+    @font-face {
+        font-family: 'NEXON Lv2 Gothic Light';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Light.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
 
     @font-face {
         font-family: 'NEXON Lv2 Gothic Bold';
@@ -257,6 +264,7 @@
     .warn{
         margin-bottom : 10px;
         color: rgb(206, 70, 70);
+        text-align: left;
     }
 
     .submit-button {

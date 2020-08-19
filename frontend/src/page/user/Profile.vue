@@ -1,18 +1,35 @@
 <template>
   <div class="container">
     <!-- 프로필 -->
-    <h1 v-if="this.flag">내 정보</h1>
-    <h1 v-else>{{username}}님 정보</h1>
-    <div class="row" style="border:black solid 1px; width:800px; height:330px; margin:0 100px 0 100px">
-      <div class="col-1"></div>
-      <div class="col-3">
-        <img class="userprofile" :src="link">
+    <h1 v-if="this.flag" style="margin: 20px;">👨 내 정보 👩</h1>
+    <h1 v-else style="margin: 20px;">👩 {{username}}님 정보 👨</h1>
+
+    <span v-if="this.iskakao">
+      <div class="row" style="border:yellow double 7px; width:800px; height:330px; margin-left:50px; margin-top:40px">
+        <div class="col-1"><img src="../../assets/img/kacircle.png" style="width:50px; "></div>
+        <div class="col-3">
+          <img class="userprofile" :src="link">
+        </div>
+        <div class="col-1"></div>
+        <div class="col-6">
+          <b-table stacked :items="useritems" class = "custom" borderless="false"></b-table>
+        </div>
       </div>
-      <div class="col-1"></div>
-      <div class="col-6">
-        <b-table stacked :items="useritems" class = "custom" borderless="false"></b-table>
+    </span>
+
+    <span v-else>
+      <div class="row" style="border:black double 7px; width:800px; height:330px; margin-left:50px">
+        <div class="col-1"><img src="../../assets/img/favicon.png" style="width:50px; "></div>
+        <div class="col-3">
+          <img class="userprofile" :src="link">
+        </div>
+        <div class="col-1"></div>
+        <div class="col-6">
+          <b-table stacked :items="useritems" class = "custom" borderless="false"></b-table>
+        </div>
+
       </div>
-    </div>
+    </span>
     <span v-if="this.flag"> 
     <div>
         <b-button @click="deleteuser" class="dd"  variant="primary" style="margin:7px 7px 0 0 ">회원 탈퇴</b-button>
@@ -26,7 +43,7 @@
     <hr>
     <!-- 팔로우-->
     <div>
-      <h2 class="prtitle">팔로우한 사람</h2>
+      <h2 class="prtitle">팔로워</h2>
       <!-- count함수 사용해서 총 팔로우/팔로워수 집계 -->
       <p>{{follower.length}}명</p>
       <!-- <a @click="openfollow">dd</a> -->
@@ -35,7 +52,7 @@
         <b-button v-b-modal.modal-scrollable class="dd"  variant="primary">팔로워 전체보기</b-button>
 
         <b-modal id="modal-scrollable" scrollable title="나를 팔로우하는 사람들">
-          <div class="my-4" v-for="(k,i) in following.slice(0,follower.length/2+1)" :key="i">
+          <div class="my-4" v-for="(k,i) in follower.slice(0,follower.length/2+1)" :key="i">
             <div class="container row allfollowers">
                 <div class="col-6 allfollower" v-for="item in follower.slice(2*i,2*i+2)" :key="item">
                   <img class="allfollowerimg" width="120px" height="120px" :src="getimage(item.grade)" alt="">
@@ -71,11 +88,11 @@
     <hr>
     <!-- 팔로잉 -->
     <div>
-      <h2 class="prtitle">팔로잉하는 사람</h2>
+      <h2 class="prtitle">팔로잉</h2>
       <p>{{following.length}}명</p>
 
       <div>
-        <b-button v-b-modal.modal-tall  class="dd"  variant="primary">팔로잉 전체보기</b-button>
+        <b-button  v-b-modal.modal-tall  class="dd"  variant="primary">팔로잉 전체보기</b-button>
 
         <b-modal id="modal-tall" scrollable title="내가 팔로우하는 사람들">
           <div class="my-4" v-for="(k,i) in following.slice(0,following.length/2+1)" :key="i">
@@ -210,7 +227,6 @@ import { Carousel, Slide } from 'vue-carousel'
             }
         })
         .then((response) => {
-            console.log(response)
             this.userNo = response.data.data.user.userNo
             this.flag = response.data.data.modify
             this.link =  require('../../assets/img/lv'+this.level(response.data.data.user.grade)+'.png')
@@ -227,7 +243,6 @@ import { Carousel, Slide } from 'vue-carousel'
             }]
             if (response.data.data.user.role == "ROLE_KAKAO"){
               this.iskakao = true
-              this.useritems[0]['이메일'] += ' (카카오)'
             }
             this.userNo = {
               'userNo':response.data.data.user.userNo
@@ -272,7 +287,7 @@ import { Carousel, Slide } from 'vue-carousel'
 
         return tem
       },
-  
+
 
     deleteuser() {
       if (confirm("정말로 회원탈퇴를 하시겠습니까?"))
@@ -285,14 +300,36 @@ import { Carousel, Slide } from 'vue-carousel'
           }   
       })
       .then((response) => {
+        if (response) {
           swal('', '회원탈퇴 처리 되었습니다.', 'success')
           this.$cookies.remove('auth-token')
           this.$store.commit('checkToken',this.$cookies.get('auth-token'))
           this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
           this.$router.push('/')
+        }
       })
       }
     },
+
+    // deleteuser() {
+    //   if (confirm("정말로 회원탈퇴를 하시겠습니까?"))
+    //   {
+    //       axios.delete(this.$store.state.base_url +'/account/delete',{     
+    //       params: {
+    //       }, 
+    //       headers : {
+    //           'ACCESS-TOKEN' : this.$store.state.token
+    //       }   
+    //   })
+    //   .then((response) => {
+    //       swal('', '회원탈퇴 처리 되었습니다.', 'success')
+    //       this.$cookies.remove('auth-token')
+    //       this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+    //       this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+    //       this.$router.push('/')
+    //   })
+    //   }
+    // },
       updateuser(userNo) {  
         if (this.iskakao){
           this.$router.push('/updateuser/'+userNo+'/kakao')
@@ -379,7 +416,9 @@ import { Carousel, Slide } from 'vue-carousel'
   .allfollowers {
     margin: 0;
     padding-top: 0;
-    padding-right: 26px;
+    padding-right: 0;
+    padding-left: 70px;
+
   }
   .allfollower {
     margin: 0;

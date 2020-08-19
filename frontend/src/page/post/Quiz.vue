@@ -61,7 +61,9 @@
 
     </div>
         <div class="outter">
-           <img src="../../assets/img/banner_quiz.png"> 
+           <a href="https://www.ssafy.com/ksp/jsp/swp/swpMain.jsp">
+               <img src="../../assets/img/banner_quiz.png"> 
+           </a>
       </div>
 </div>
 </template>

@@ -1,25 +1,28 @@
 <template>
   <div class="container">
     <span v-if="this.$route.params.lang == 'java'">
-      <h1 style="margin: 20px;">📔 Java 📔</h1>
+      <h1 style="margin: 20px;">📙 Java 📙</h1>
     </span>
     <span v-if="this.$route.params.lang == 'cpp'">
-      <h1 style="margin: 20px;">📔 C++ 📔</h1>
+      <h1 style="margin: 20px;">📘 C++ 📘</h1>
     </span>
     <span v-if="this.$route.params.lang == 'c'">
-      <h1 style="margin: 20px;">📔 C언어 📔</h1>
+      <h1 style="margin: 20px;">📕 C언어 📕</h1>
     </span>
     <span v-if="this.$route.params.lang == 'python'">
-      <h1 style="margin: 20px;">📔 Python 📔</h1>
+      <h1 style="margin: 20px;">📗  Python 📗</h1>
     </span>
     <span v-if="this.$route.params.lang == 'all'">
-      <h1 style="margin: 20px;">📔 All 📔</h1>
+      <h1 style="margin: 20px;">📓 All 📓</h1>
     </span>
     <span v-if="this.$route.params.lang == 'others'">
       <h1 style="margin: 20px;">📔 Others 📔</h1>
     </span>
     <div>
       <v-row>
+
+        <img @click="goAsk" class="askbtn" style="width: 120px; height: 50px;" src="../../assets/img/askgray.png" alt="">
+
         <v-col class="mainlang">
         </v-col>
         <v-col class="sort" cols="3" style="height:50px;">
@@ -29,6 +32,15 @@
           <v-btn v-show="this.sorting_type==1" color="success" text @click="two(lang,keyword)">답글순</v-btn>
         </v-col>
       </v-row>
+    </div>
+    <div style="margin-top:20px">
+      <span v-if="this.data.length == 0 & this.$route.params.keyword == null">
+        <h2>게시물이 존재하지 않습니다.</h2>
+        <h2>첫번째 게시글을 작성해 보세요.</h2>
+      </span>
+      <span v-else-if="this.data.length == 0 & this.$route.params.keyword != null">
+        <h2>검색 결과가 없습니다.</h2>
+      </span>
     </div>
     <template>
     <div class="que" v-for="item in paginatedData" :key="item.id"  >
@@ -40,7 +52,7 @@
           </div>
       </div>
       <div class="summary">
-        <div class="title" style="text-align:left"><a class="tt" @click="detail(item.queNo,item.lang)">Q: {{item.title}}</a></div>
+        <div class="title-detail" style="text-align:left"><a class="tt title-detail" @click="detail(item.queNo,item.lang)">Q: {{item.title}}</a></div>
         <div class="text">
           {{txt(item.contents)}}
         </div>
@@ -50,7 +62,8 @@
           <a class="post-tag" @click="moveTagList('/taglist/', item.tag3)" v-if="item.tag3!=''">{{item.tag3}}</a>
           </div>
         <div class="others">
-          <a @click="userdetail(item.userNo)" class="writer">{{item.name}}</a>
+          <span class="writerlabel">작성자</span>
+          <a @click="userdetail(item.userNo)" class="writer nickname-in-detail">{{item.name}}</a>
           <span class="date">{{item.createDate}}</span>
           </div>
       </div>
@@ -105,10 +118,6 @@ import axios from 'axios'
           this.data = response.data.data.list
           this.lang = lang;
           this.keyword = keyword;
-          if(this.data.length == 0){
-            swal('', '게시글이 존재하지 않습니다.\n첫번째 질문을 작성해 보세요.', 'warning')
-            this.$router.push('/askquestion')
-          }
         })
       },
       detail(queNo,lang) {
@@ -155,7 +164,16 @@ import axios from 'axios'
           tem = tem + ' ...  '
         }
         return tem
+      },
+      goAsk() {
+        if(this.$store.state.islogin) {
+          this.$router.push('/askquestion')
+        }
+        else{
+          this.$router.push('/login')
+        }
       }
+      
     },
     created() {
       this.getlist(this.$route.params.lang,this.$route.params.keyword)
@@ -222,7 +240,7 @@ import axios from 'axios'
   .like{
     padding: 7px 0 5px;
     border-radius: 3px;
-    background-color: #F0EECE;
+    background-color: #FEDFE6;
   }
   .summary{
     overflow-x:auto;
@@ -256,8 +274,9 @@ import axios from 'axios'
     float: left;
   }
   .post-tag{
-    font-size: 12px;
+    font-size: 15px;
     color: cadetblue;
+    font-family: 'CookieRun-Regular';
     background-color: rgb(211, 247, 247);
     border-color: transparent;
     display: inline-block;
@@ -311,7 +330,7 @@ import axios from 'axios'
   .text{
     text-align:left; 
     min-height:50px; 
-    margin-top:10px; 
+    margin-top:5px; 
     margin-bottom:10px
   }
   /* .pagination {
@@ -330,6 +349,45 @@ import axios from 'axios'
     bottom:0;
     width: 190px;
     top: 200px
-           /* padding: 150px 50px 0 0 */
+
     }
+
+.writerlabel {
+  font-size: 0.9rem;
+}
+
+    .nickname-in-detail {
+        font-family: 'CookieRun-Regular';
+        color:rgb(105, 0, 202);
+        font-size: 1.1rem;
+    }
+
+    .nickname-in-detail:hover {
+        color: rgb(64, 0, 123);
+    }
+
+  .title-detail {
+    font-family: 'CookieRun-Regular';
+    color:rgb(105, 0, 202);
+    font-size: 25px;   
+    margin: 0;
+    padding: 0;
+  }
+
+  .title-detail:hover {
+      color: rgb(64, 0, 123);
+  }
+
+  .question-btn {
+    position: absolute;
+    display: block;
+    top: 31%;
+    right: 14%;
+    width: 25%;
+    z-index: 100;
+  }
+
+  .askbtn {
+    cursor: pointer;
+  }
 </style>
