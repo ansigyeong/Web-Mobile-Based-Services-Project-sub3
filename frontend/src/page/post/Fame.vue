@@ -1,18 +1,15 @@
 <template>
   <div class="container">
-    <h1 style="margin: 20px;">👑 명예의 전당 👑</h1>
-    <!-- <span v-if="$store.state.islogin">
-                    
-      <router-link to="/record" style="color:rgb(76, 75, 71);">내 기록</router-link>
-    </span> -->
+    <h1>👑 명예의 전당 👑</h1>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <div class="mt-5">
-      <div class="row">
+      <div class="row" style="justify-content:center;">
         <div v-for="(item,index) in items" :key="index">
           <div class="card" :class="'mark'+index" >
             <img class="card-img-top" :src="require('../../assets/img/lv'+level(item.grade)+'.png')"/>
             <div class="card-body">
-                        <span v-if="index==0">
+          <span v-if="index==0">
             <img src="../../assets/img/silver.png" style="height:60px" alt="">
           </span>
           <span v-else-if="index==1">
@@ -36,7 +33,7 @@
                     </li>
                     <li>
                       {{item.rpLike}}
-                      <span>좋아요 수</span>
+                      <span>좋아요</span>
                     </li>
                   </ul>
                 </div>
@@ -110,9 +107,6 @@
 </script>
 <style scoped>
                     
-  .container {
-    margin-left: 250px;
-  }
   @font-face {
     font-family: 'CookieRun-Regular';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
@@ -164,20 +158,20 @@
   }
   .mark0 {
     border: 2px solid #c0c0c0;
-    width: 290px;
+    width: 250px;
     margin-top: 50px;
     margin-right: 16px;
     box-shadow: 5px 5px 5px 5px gray;
   }
   .mark1 {
     border: 2px solid #ffb52e;
-    width: 397px;
+    width: 320px;
     margin-right: 16px;
     box-shadow: 5px 5px 5px 5px gray;
   }
   .mark2 {
     border: 2px solid #c0c0c0;
-    width: 290px;
+    width: 250px;
     margin-top: 50px;
     box-shadow: 5px 5px 5px 5px gray;
   }
@@ -188,4 +182,72 @@
   .touch {
     cursor: pointer;
   }
+
+ @media screen and (max-width: 1400px){
+  .mark0 {
+    border: 2px solid #c0c0c0;
+    width: 200px;
+    margin-top: 50px;
+    margin-right: 16px;
+    box-shadow: 5px 5px 5px 5px gray;
+  }
+  .mark1 {
+    border: 2px solid #ffb52e;
+    width: 273px;
+    margin-right: 16px;
+    box-shadow: 5px 5px 5px 5px gray;
+  }
+  .mark2 {
+    border: 2px solid #c0c0c0;
+    width: 200px;
+    margin-top: 50px;
+    box-shadow: 5px 5px 5px 5px gray;
+  }
+ }
+
+  @media screen and (max-width: 1050px){
+  .mark0 {
+    border: 2px solid #c0c0c0;
+    width: 150px;
+    margin-top: 50px;
+    margin-right: 16px;
+    box-shadow: 5px 5px 5px 5px gray;
+  }
+  .mark1 {
+    border: 2px solid #ffb52e;
+    width: 205px;
+    margin-right: 16px;
+    box-shadow: 5px 5px 5px 5px gray;
+  }
+  .mark2 {
+    border: 2px solid #c0c0c0;
+    width: 150px;
+    margin-top: 50px;
+    box-shadow: 5px 5px 5px 5px gray;
+  }
+  .data li[data-v-609f3b5b] {
+    width: 32%;
+    text-align: center;
+    display: inline-block;
+    font-size: 0.8rem;
+    font-family: "Lato";
+    border-right: solid 1px #bdc3c7;
+}
+ }
+
+   @media screen and (max-width: 1050px){
+
+  .data li[data-v-609f3b5b] {
+    width: 20%;
+    text-align: center;
+    display: inline-block;
+    font-size: 0.8rem;
+    font-family: "Lato";
+    border-right: solid 1px #bdc3c7;
+}
+.h3, h3 {
+    font-size: 1rem;
+}
+   
+   }
 </style>

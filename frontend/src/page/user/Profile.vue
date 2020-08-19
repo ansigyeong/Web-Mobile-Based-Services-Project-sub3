@@ -5,8 +5,8 @@
     <h1 v-else style="margin: 20px;">👩 {{username}}님 정보 👨</h1>
 
     <span v-if="this.iskakao">
-      <div class="row" style="border:yellow double 7px; width:800px; height:330px; margin-left:50px; margin-top:40px">
-        <div class="col-1"><img src="../../assets/img/kacircle.png" style="width:50px; "></div>
+      <div class="row boxing" style="border:yellow double 7px;">
+        <div class="col-1"><img src="../../assets/img/kacircle.png" class="imgdeco"></div>
         <div class="col-3">
           <img class="userprofile" :src="link">
         </div>
@@ -18,7 +18,7 @@
     </span>
 
     <span v-else>
-      <div class="row" style="border:black double 7px; width:800px; height:330px; margin-left:50px">
+      <div class="row boxing" style="border:black double 7px;">
         <div class="col-1"><img src="../../assets/img/favicon.png" style="width:50px; "></div>
         <div class="col-3">
           <img class="userprofile" :src="link">
@@ -36,7 +36,7 @@
         <b-button @click="updateuser(userNo.userNo)" class="dd"  variant="primary" style="margin:7px 0 0 7px">정보 수정</b-button>
     </div>
     </span>
-    <span v-else>    
+    <span v-if="!this.flag & this.$store.state.islogin">    
         <b-button v-if = "this.followflag" @click="follow"  class="dd"  variant="primary">팔로우</b-button>
         <b-button v-else @click="followdelete"  class="dd" variant="primary">팔로우 취소</b-button>
     </span>
@@ -311,25 +311,6 @@ import { Carousel, Slide } from 'vue-carousel'
       }
     },
 
-    // deleteuser() {
-    //   if (confirm("정말로 회원탈퇴를 하시겠습니까?"))
-    //   {
-    //       axios.delete(this.$store.state.base_url +'/account/delete',{     
-    //       params: {
-    //       }, 
-    //       headers : {
-    //           'ACCESS-TOKEN' : this.$store.state.token
-    //       }   
-    //   })
-    //   .then((response) => {
-    //       swal('', '회원탈퇴 처리 되었습니다.', 'success')
-    //       this.$cookies.remove('auth-token')
-    //       this.$store.commit('checkToken',this.$cookies.get('auth-token'))
-    //       this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
-    //       this.$router.push('/')
-    //   })
-    //   }
-    // },
       updateuser(userNo) {  
         if (this.iskakao){
           this.$router.push('/updateuser/'+userNo+'/kakao')
@@ -443,5 +424,67 @@ import { Carousel, Slide } from 'vue-carousel'
   .mr-1:hover{
     color:rgb(51, 54, 185);
   }
+  .boxing{
+  width:800px; 
+  height:330px; 
+  margin-left:50px; 
+  margin-top:40px;
+  margin-bottom: 20px;
+  }
+
+  .imgdeco{
+  width:50px;
+  }
+
+.userprofile {
+
+    width: 300px;
+    height: 300px;
+}
  
+ @media screen and (max-width: 1260px){
+   .boxing{
+    width:700px; 
+    height:330px; 
+    margin-left:0px; 
+    margin-top:40px;
+    margin-bottom: 20px;
+   }
+ }
+
+ @media screen and (max-width: 960px){
+   .boxing{
+    width:600px; 
+    height:330px; 
+    margin-left:0px; 
+    margin-top:40px;
+    margin-bottom: 20px;
+   }
+
+.userprofile {
+
+    width: 250px;
+    height: 250px;
+
+ }
+
+
+ }
+
+  @media screen and (max-width: 870px){
+   .boxing{
+    width:500px; 
+    height:330px; 
+    margin-left:0px; 
+    margin-top:40px;
+    margin-bottom: 20px;
+   }
+
+.userprofile {
+
+    width: 200px;
+    height: 200px;
+
+  }
+ }
 </style>

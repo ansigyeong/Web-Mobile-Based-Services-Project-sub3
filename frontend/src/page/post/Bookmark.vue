@@ -71,7 +71,7 @@
       </div>
       <div class="outter">
           <router-link to="/quiz">
-            <img src="../../assets/img/quiz.png"> 
+            <img src="../../assets/img/quiz.png" class="imgre"> 
           </router-link>    
       </div>
 
@@ -399,15 +399,17 @@ import axios from 'axios'
     padding-top: 20px;
   }
 
-
   .outter{
     position: fixed;
     right:50px;
     bottom:0;
-    width: 230px;
     top: 250px;
-           /* padding: 150px 50px 0 0 */
   }
+
+  .imgre{
+    width: 230px;
+  }
+
   .mainlang{
     margin-left: 25%;
   }
@@ -463,5 +465,30 @@ import axios from 'axios'
 
   .title-detail:hover {
       color: rgb(64, 0, 123);
+  }
+  @media screen and (max-width: 1300px){
+  .imgre{
+    width: 170px;
+    }
+  }
+
+  @media screen and (max-width: 1000px){
+  .imgre{
+    width: 120px;
+    }
+    .langbtn {
+      cursor: pointer;
+      height: 45px;
+    }
+  }
+
+  @media screen and (max-width: 770px){
+    .outter{
+      display: none;
+    }
+    .langbtn {
+      cursor: pointer;
+      height: 30px;
+    }
   }
 </style>

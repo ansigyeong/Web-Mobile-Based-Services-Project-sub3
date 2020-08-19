@@ -33,15 +33,18 @@
         </v-col>
       </v-row>
     </div>
-    <div style="margin-top:20px">
-      <span v-if="this.data.length == 0 & this.$route.params.keyword == null">
-        <h2>게시물이 존재하지 않습니다.</h2>
-        <h2>첫번째 게시글을 작성해 보세요.</h2>
-      </span>
-      <span v-else-if="this.data.length == 0 & this.$route.params.keyword != null">
-        <h2>검색 결과가 없습니다.</h2>
-      </span>
-    </div>
+
+    <span v-if="this.data != null">
+      <div style="margin-top:20px">
+        <span v-if="this.data.length == 0 & this.$route.params.keyword == null">
+          <h2>게시물이 존재하지 않습니다.</h2>
+          <h2>첫번째 게시글을 작성해 보세요.</h2>
+        </span>
+        <span v-else-if="this.data.length == 0 & this.$route.params.keyword != null">
+          <h2>검색 결과가 없습니다.</h2>
+        </span>
+      </div>
+    </span>
     <template>
     <div class="que" v-for="item in paginatedData" :key="item.id"  >
       <div class="stats">
@@ -49,7 +52,7 @@
         <div class="like">
           <strong>{{item.rpCnt}}</strong>
           <span>개</span>
-          </div>
+        </div>
       </div>
       <div class="summary">
         <div class="title-detail" style="text-align:left"><a class="tt title-detail" @click="detail(item.queNo,item.lang)">Q: {{item.title}}</a></div>
@@ -65,9 +68,10 @@
           <span class="writerlabel">작성자</span>
           <a @click="userdetail(item.userNo)" class="writer nickname-in-detail">{{item.name}}</a>
           <span class="date">{{item.createDate}}</span>
-          </div>
+        </div>
       </div>
     </div>
+
     <div class="outter">
   <a href="https://redmonk.com/sogrady/2020/02/28/language-rankings-1-20/?utm_source=rss&utm_medium=rss&utm_campaign=language-rankings-1-20" target="_blank">
            <img src="../../assets/img/redmonk.png"> 
@@ -93,7 +97,7 @@ import axios from 'axios'
       return {
         pageNum: 0,
         type: 0,
-        data: [],
+        data: null,
         sorting_type: 0,
         lang: this.$route.params.lang,
         keyword: this.$route.params.keyword
@@ -349,7 +353,6 @@ import axios from 'axios'
     bottom:0;
     width: 190px;
     top: 200px
-
     }
 
 .writerlabel {
@@ -389,5 +392,31 @@ import axios from 'axios'
 
   .askbtn {
     cursor: pointer;
+  }
+
+  @media screen and (max-width: 1300px){
+    .outter{
+    position: fixed;
+    right:50px;
+    bottom:0;
+    width: 150px;
+    top: 200px
+    }
+  }
+
+  @media screen and (max-width: 1000px){
+    .outter{
+    position: fixed;
+    right:50px;
+    bottom:0;
+    width: 100px;
+    top: 200px
+    }
+  }
+
+  @media screen and (max-width: 770px){
+    .outter{
+      display: none;
+    }
   }
 </style>
