@@ -134,18 +134,33 @@ import Editor from '@tinymce/tinymce-vue'
             thirdTag : tT
           }
         }
-        axios.post(this.$store.state.base_url + '/question', body, config)
-        .then((response) => {
-          swal('', '글이 성공적으로 작성 되었습니다.', 'success')
-          this.$router.push('/list/'+this.lang)
-        })
-        .catch((error) => {
-            swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
-            this.$cookies.remove('auth-token')
-            this.$store.commit('checkToken',this.$cookies.get('auth-token'))
-            this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
-            this.$router.push('/login')
-        })
+        console.log(this.noblank(this.title))
+        if (this.noblank(this.title) == '' | this.title == null){
+          swal('', '제목을 입력해 주세요.', 'warning')
+        }
+        else if (this.noblank(this.contents) == '' | this.contents == null){
+          swal('', '내용을 입력해 주세요.', 'warning')
+        }
+        else if (this.lang == ''| this.lang == null){
+          swal('', '언어를 선택해 주세요.', 'warning')
+        }
+        else {
+          axios.post(this.$store.state.base_url + '/question', body, config)
+          .then((response) => {
+            swal('', '글이 성공적으로 작성 되었습니다.', 'success')
+            this.$router.push('/list/'+this.lang)
+          })
+          .catch((error) => {
+              swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
+              this.$cookies.remove('auth-token')
+              this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+              this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+              this.$router.push('/login')
+          })
+        }
+      },
+      noblank(contents){
+        return contents.replace(/(\s*)/g, "").replace(/&nbsp;/g, "")
       }
     },
     computed: {

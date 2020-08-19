@@ -5,34 +5,32 @@
         <div style="display:flex; justify-content:space-between">
             <h2>{{this.items.title}}</h2>
         </div>
-        <div style="display:flex; justify-content:space-between">
-            <h7>작성 시간: {{this.items.createDate}}</h7>
-            <span v-if="$store.state.islogin"> 
-            <div>
-                <span v-if="this.flag">
-                <img  src='../../assets/img/nostar.png' class="land" width="40px"  @click="selectquestion">
-                </span>
-                <span v-else>
-                <img src='../../assets/img/star.png' class="land" width="40px" @click="selectdelete">
-                </span>
-                <span v-if="this.isme">
-                <a class="land" @click="deletequestion">글 삭제</a>
-                <a class="land" @click="updatequestion(user.email)">글 수정</a>
-                </span>
-            </div>
-            </span>   
-            <span v-else>
-                <div style="width=175px; height=40px"></div>
-            </span>
+        <div style="display:flex;">
+            <h7 style="margin-top: 9px;">작성 시간: {{this.items.createDate}}</h7>
+                <span v-if="$store.state.islogin"> 
+                    <div>
+                        <span v-if="this.flag">
+                        <img  src='../../assets/img/nostar.png' class="land" width="40px"  @click="selectquestion">
+                        </span>
+                        <span v-else>
+                        <img src='../../assets/img/star.png' class="land" width="40px" @click="selectdelete">
+                        </span>
+                        <span v-if="this.isme">
+                        <a class="land only-for-me-msg" @click="deletequestion">글 삭제</a>
+                        <a class="land only-for-me-msg" @click="updatequestion(user.email)">글 수정</a>
+                        </span>
+                    </div>
+                </span>   
         </div>
       </div>
+
         <hr style="margin-top:10px">
         <b-media>
           <template v-slot:aside>
             <div class="userlanding">
                 <img :src="getimage(user.grade)" width="100px" height="100px" alt="">
                 <p style="margin-top:5px; margin-bottom:3px">
-                    <a @click="userdetail(user.userNo)" style="color: blueviolet">{{user.name}}</a>
+                    <a @click="userdetail(user.userNo)" class="nickname-in-detail">{{user.name}}</a>
                 </p>
             </div>
           </template>
@@ -54,13 +52,19 @@
         <b-media right-align>
         <div>
             <div style="float:left;">
+
+            <span v-if="$store.state.islogin">
                 <span v-if="item.exist=='좋아요'">
-                    <img src="../../assets/img/blackheart.png"  @click="replylike(item.rpNo,idx)" class="heart">
+                    <img src="../../assets/img/heart.png"  @click="replylike(item.rpNo,idx)" class="heart">
                 </span>
                 <span v-else-if="item.exist=='좋아요취소'">
-                    <img src="../../assets/img/redheart.png" @click="replylike(item.rpNo,idx)" class="heart">
+                    <img src="../../assets/img/pinkht.png" @click="replylike(item.rpNo,idx)" class="heart">
                 </span>
-                <p style="margin-top:15px">{{item.rpLike}}</p>
+            </span>
+            <span v-else>
+                <img src="../../assets/img/grayheart.png" class="heart">
+            </span>
+                <p style="margin-top:5px">{{item.rpLike}}</p>
             </div>
             <div class="bording" style="margin-left:50px" >
                 <div style="height:10px"></div>
@@ -73,7 +77,7 @@
                 <div class="userlanding">
                     <img :src="getimage(item.grade)" width="100px" height="100px" alt="">
                     <p style="margin-top:5px; margin-bottom:3px">
-                        <a @click="userdetail(item.userNo)" style="color: blueviolet">{{item.name}}</a>
+                        <a @click="userdetail(item.userNo)" class="nickname-in-detail">{{item.name}}</a>
                     </p>
                 </div>
                 <p style="margin-bottom:3px"> 
@@ -95,7 +99,7 @@
             <div style="text-align:center">
                 <editor api-key="vem3wnp12tvfllgyuf92uzd6e04f9ddz4ke9mzv8uh71ctgq" :init="{
                     height: 300,
-                    width: 750,
+                    width: 800,
                     menubar: ['file edit view insert format tools'],
                     plugins: [
                         'advlist autolink lists link image charmap print preview anchor',
@@ -109,10 +113,10 @@
                     }" v-model="replycontents" />
             </div>
             </div>
-            <b-button @click="writereply">답변 등록</b-button>
+            <b-button class="dd" @click="writereply">답변 등록</b-button>
     </b-container>
     </span>
-<i class="fas fa-heart"></i>
+
   </div>
 </template>
 
@@ -261,34 +265,37 @@ import jwt_decode from 'jwt-decode'
                     contents: this.replycontents
                 }
 
-                if (this.replycontents == null | this.replycontents == '')
+                if (this.replycontents == null | this.noblank(this.replycontents) == '')
                 {
-                    
+                    swal('', '내용을 입력하세요.', 'warning')
                 }
-                axios.post(this.$store.state.base_url +'/reply', body, config)
-                .then((response) => {
-                    axios.get(this.$store.state.base_url +'/question/detail',{     
-                        params: {
-                            queNo: this.queNo,
-                            type: 0
-                        },
-                        headers : {
-                            "ACCESS-TOKEN": this.$store.state.token
-                        }
+                else
+                {
+                    axios.post(this.$store.state.base_url +'/reply', body, config)
+                    .then((response) => {
+                        axios.get(this.$store.state.base_url +'/question/detail',{     
+                            params: {
+                                queNo: this.queNo,
+                                type: 0
+                            },
+                            headers : {
+                                "ACCESS-TOKEN": this.$store.state.token
+                            }
+                        })
+                        .then((response) =>{ 
+                            this.replyitems = response.data.data.rpList
+                            this.replycontents = ''
+                            swal('', '댓글이 등록 되었습니다.', 'success')
+                        })
                     })
-                    .then((response) =>{ 
-                        this.replyitems = response.data.data.rpList
-                        this.replycontents = ''
-                        swal('', '댓글이 등록 되었습니다.', 'success')
+                    .catch((error) => {
+                        swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
+                        this.$cookies.remove('auth-token')
+                        this.$store.commit('checkToken',this.$cookies.get('auth-token'))
+                        this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
+                        this.$router.push('/login')
                     })
-                })
-                .catch((error) => {
-                    swal('', '세션 만료.\n다시 로그인 해주세요.', 'warning')
-                    this.$cookies.remove('auth-token')
-                    this.$store.commit('checkToken',this.$cookies.get('auth-token'))
-                    this.$store.commit('checklogin',this.$cookies.isKey('auth-token'))
-                    this.$router.push('/login')
-                })
+                }
             },
             replydelete(rpNo) {
                 axios.delete(this.$store.state.base_url +'/reply',{
@@ -465,17 +472,29 @@ import jwt_decode from 'jwt-decode'
             moveTagList(path, tag){
                 this.$router.push(path+tag);
             },
+            noblank(contents){
+                return contents.replace(/(\s*)/g, "").replace("&nbsp;", "")
+            },
     },
     }
 </script>
 
 <style scoped>
             @font-face {
-    font-family: 'CookieRun-Regular';
+    font-family: 'CookieRun-Regular' !important;
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/CookieRun-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-}
+}   
+    .nickname-in-detail {
+        font-family: 'CookieRun-Regular';
+        color:rgb(105, 0, 202);
+        font-size: 1.2rem;
+    }
+
+    .nickname-in-detail:hover {
+        color: rgb(64, 0, 123);
+    }
 
   * {
       font-family: 'CookieRun-Regular';
@@ -521,7 +540,8 @@ import jwt_decode from 'jwt-decode'
 }
 
 .post-tag{
-    font-size: 12px;
+    font-size: 15px;
+    font-family: 'CookieRun-Regular';
     color: cadetblue;
     background-color: rgb(211, 247, 247);
     border-color: transparent;
@@ -538,9 +558,35 @@ import jwt_decode from 'jwt-decode'
 }
 
 .heart{
-    width: 40px;
-    height: 40px;
-    margin-top: 55px;
+    width: 30px;
+    height: 30px;
+    margin-top: 0;
+    margin-left: 0px;
 }
 
+
+  .dd{
+      margin-top: 15px;
+    color: rgb(11, 13, 15);
+    border: rgb(11, 13, 15);
+    background-color: rgb(140, 180, 231);
+  }
+
+  .for-star {
+    position: absolute;
+    display: block;
+    top: 21%;
+    left: 37.3%;
+    /* width: 25%; */
+    z-index: 100;
+  }
+
+.only-for-me-msg {
+    font-family: 'CookieRun-Regular';
+    color: rgb(91, 91, 91);
+}
+
+.only-for-me-msg:hover {
+    color:rgb(59, 59, 59)
+}
 </style>

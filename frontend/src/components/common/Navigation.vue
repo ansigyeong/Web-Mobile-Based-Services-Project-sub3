@@ -2,13 +2,13 @@
     <div class="sidenav">
     <ul class="menu">
       <li ><router-link to="/fame" style="font-family: 'NEXON Lv2 Gothic Bold'" >명예의 전당</router-link> </li> 
-      <li style="font-family: 'NEXON Lv2 Gothic Bold'" id="que">Qusetion
+      <li style="font-family: 'NEXON Lv2 Gothic Bold'" id="que">질문목록
           <ul class="langs">
             <li v-for="item in items" :key="item"><a style="font-family: 'NEXON Lv2 Gothic Bold'" @click="moveList('/list/', item,'')">{{item}}</a> </li>
           </ul>
       </li>
       <template v-if="this.$store.state.islogin">
-      <li><router-link to="/askquestion" style="font-family: 'NEXON Lv2 Gothic Bold'">질문</router-link> </li> 
+      <li><router-link to="/askquestion" style="font-family: 'NEXON Lv2 Gothic Bold'">질문하기</router-link> </li> 
       <li><router-link to="/notice" style="font-family: 'NEXON Lv2 Gothic Bold'">공지사항</router-link> </li>       
       <li><router-link to="/bookmark" style="font-family: 'NEXON Lv2 Gothic Bold'">찜목록</router-link> </li> 
       <li><router-link to="/record" style="font-family: 'NEXON Lv2 Gothic Bold'">내기록</router-link></li>

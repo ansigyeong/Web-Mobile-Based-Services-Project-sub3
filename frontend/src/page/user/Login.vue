@@ -8,8 +8,8 @@
 				<img src="../../assets/img/hello_logo.png" style="width: 200px; height: 110px; padding-bottom: 30px;" alt="">
 				<!-- <h2 style="font-size: 21pt;">로그인</h2> -->
 				<form>
-					<input v-model="email" id="email" type="text" @keyup.enter="login" placeholder="이메일을 입력해주세요"/>
-					<input v-model="pw" id="pw" type="password" @keyup.enter="login" placeholder="영문, 숫자 혼용 8자 이상"/>
+					<input v-model="email" id="email" type="text" @keyup.enter="login" style="font-family: 'NEXON Lv2 Gothic Light';" placeholder="이메일을 입력해주세요"/>
+					<input v-model="pw" id="pw" type="password" @keyup.enter="login" style="font-family: 'NEXON Lv2 Gothic Light';" placeholder="영문, 숫자 혼용 8자 이상"/>
 				</form>
 				<button @click="login" style="font-family: 'NEXON Lv2 Gothic Bold';">로그인</button>
 			</div>
@@ -128,6 +128,14 @@
 <style scoped>
 
 	@font-face {
+		font-family: 'NEXON Lv2 Gothic Light';
+		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Light.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+	}
+            
+
+	@font-face {
         font-family: 'NEXON Lv2 Gothic Bold';
         src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff') format('woff');
         font-weight: normal;
@@ -215,7 +223,9 @@
 	}
 
 	.form-module button:hover {
-		background: #178ab4;
+		opacity: 0.8;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+		transition: 0.1s ease;
 	}
 
 	.form-module .cta {
@@ -261,13 +271,15 @@
 
 	button.social-signin:hover,
 	button.social-signin:focus {
+		opacity: 0.8;
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-		transition: 0.2s ease;
+		transition: 0.1s ease;
 	}
 
 	button.social-signin:active {
+		opacity: 1;
 		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-		transition: 0.2s ease;
+		transition: 0.1s ease;
 	}
 
 	button.social-signin {
