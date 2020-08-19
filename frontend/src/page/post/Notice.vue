@@ -64,7 +64,6 @@ import axios from 'axios'
             this.info = response.data.data.user.role;
           })
         .catch((error) => {
-          console.log(error)
         })
       },
       detail(noticeNo) {

@@ -91,7 +91,6 @@
                 else {
                     body.role = 'ROLE_KAKAO'
                 }
-                console.log(body)
                 axios.put(this.$store.state.base_url +'/account/update',body, config)
                 .then((response) => {
                     swal('', '회원정보가 성공적으로 수정되었습니다.', 'success')
@@ -99,7 +98,6 @@
                 })
                 .catch((error) => {
                     swal('', '이전 비밀번호가 일치하지 않습니다.', 'warning')
-                    console.log(error)
                     this.priorpw = ''
                 })
             },

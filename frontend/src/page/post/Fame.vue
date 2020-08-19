@@ -72,7 +72,6 @@
           }
         })
         .catch((error) => {
-          console.log(error)
         })
       },
       level(grade){

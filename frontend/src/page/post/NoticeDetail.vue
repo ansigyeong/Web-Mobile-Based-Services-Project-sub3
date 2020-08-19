@@ -97,7 +97,6 @@ import axios from 'axios'
                     this.createDate = response.data.data.notice.createDate
                 })
                 .catch((error) => {
-                    console.log(error)
                 })
             },
             deletenotice() {

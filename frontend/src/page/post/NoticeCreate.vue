@@ -71,7 +71,6 @@ import Editor from '@tinymce/tinymce-vue'
           this.$router.push('/notice')
         })
         .catch((error) => {
-          console.log(error)
         })
       }
     },
