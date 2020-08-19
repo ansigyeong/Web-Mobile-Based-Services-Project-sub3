@@ -75,8 +75,9 @@
                         Kakao.API.request({
                             url: '/v2/user/me',
                             success: function(res) {
-                                 axios
-                                .get( 'http://3.34.42.229:8080/kakao', {
+								 axios
+								 
+                                .get( this.$store.state.base_url +'/kakao', {
                                     params: {
                                         name: res.kakao_account.profile.nickname,
                                         email: res.kakao_account.email
