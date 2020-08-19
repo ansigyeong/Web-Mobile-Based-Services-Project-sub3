@@ -76,7 +76,7 @@
                             url: '/v2/user/me',
                             success: function(res) {
                                  axios
-                                .get( 'http://localhost/kakao', {
+                                .get( 'http://3.34.42.229:8080/kakao', {
                                     params: {
                                         name: res.kakao_account.profile.nickname,
                                         email: res.kakao_account.email
