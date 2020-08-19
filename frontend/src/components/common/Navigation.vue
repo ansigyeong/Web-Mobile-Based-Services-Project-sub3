@@ -1,5 +1,5 @@
 <template>
-    <div class="sidenav">
+  <div class="sidena">
     <ul class="menu">
       <li ><router-link to="/fame" style="font-family: 'NEXON Lv2 Gothic Bold'" >명예의 전당</router-link> </li> 
       <li style="font-family: 'NEXON Lv2 Gothic Bold'" id="que">질문목록
@@ -15,9 +15,8 @@
       </template>
       <li><router-link to="/quiz" style="font-family: 'NEXON Lv2 Gothic Bold'">오늘의 퀴즈</router-link></li>
 
-    </ul>
-       
-    </div>
+    </ul>   
+  </div>
  
 </template>
 
@@ -62,7 +61,7 @@
     list-style-type: none;
     margin: 0;
     padding: 0 0 0 40px;
-    width: 200px;
+    width: 150px;
     /* background-color: ; */
     text-align: left;
       border-right:  thin solid rgb(220, 231, 235);
@@ -84,20 +83,11 @@ li a:hover {
     /* background-color: rgb(220, 231, 235); */
     color: lightgray;
 }
-.sidenav{
+.sidena{
   width: 200px;
   position: fixed;
-  /* border-right:  thin solid rgb(220, 231, 235); */
-  /* z-index: 1; */
-  /* top: 20px; */
-  /* left: 10px; *
-  /* background: rgb(224, 216, 216); */
-  /* overflow-x: hidden; */
-  padding: 140px 70px;
+  padding: 140px 10px ;
   height: 100%;
-  /* background-color: #D0EEFF; */
-  
- 
 }
 #que {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -114,24 +104,6 @@ li a:hover {
 .lang:hover{
   color: lightgray;
 }
-/* .sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #3d4042;
-  display: block;
-  font-family: 'Alegreya';font-size: 22px;
-  font-family: 'Arimo';font-size: 22px;
-  font-family: 'Basic';font-size: 18px;
-}
-
-.sidenav a:hover {
-  color: #6894b8;
-  
-  background-color: rgb(220, 231, 235);
-  color: white;
-
-} */
 
  
 </style>
