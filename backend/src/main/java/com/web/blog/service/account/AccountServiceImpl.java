@@ -53,6 +53,7 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
         System.out.println("비번: " + user.getPw());
         System.out.println("임의의 eamil 인증키: " + user.getAuthKey());
         try {
+            System.out.println("111");
             accountDao.insertAccount(user);
         } catch (Exception e) {
             throw new UserAlreadyExistException("회원가입 되어있는 email주소 입니다.");
@@ -60,11 +61,12 @@ public class AccountServiceImpl implements UserDetailsService, AccountService {
         MailHandler sendMail;
         // mail전송
         try {
+            System.out.println("222");
             sendMail = new MailHandler(mailSender);
             sendMail.setSubject("[Hello Code_Sea 회원가입 이메일 인증]");
             sendMail.setText(
                     new StringBuffer().append("<h1>email 인증<h1>").append("<p>아래 링크를 클릭하시면 eamil 인증이 완료 됩니다.<p>")
-                            .append("<a href='http://localhost/account/eamilConfirm?").append("&email=")
+                            .append("<a href='http://3.34.42.229:8080/account/eamilConfirm?").append("&email=")
                             .append(user.getEmail()).append("&authKey=").append(user.getAuthKey())
                             .append("' target='_blenk'>email 인증 확인</a>").toString());
             sendMail.setFrom("qoreksql456@gamil.com", "addmin");

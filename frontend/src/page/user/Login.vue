@@ -53,7 +53,6 @@
                     }
                 })
                 .then((response) => {
-                    console.log(response)
                     if (response.data.status) {
                         this.$cookies.set('auth-token', response.data.data["ACCESS-TOKEN"])
                         swal('', '로그인 되었습니다.', 'success')
